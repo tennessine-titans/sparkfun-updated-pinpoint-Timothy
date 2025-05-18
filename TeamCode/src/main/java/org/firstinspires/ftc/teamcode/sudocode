@@ -1,0 +1,149 @@
+import needed libraries
+
+//MecanumDrive contains values for feedforward parameters (kS, kV, kA) &
+// profile parameters (Velocity, Acceleration, Heading gain, Lateral)
+// pinpoint drive extends the mecanum drive
+// These will be used so import the Pinpoint drive class in this code
+
+//Import TwoDeadWheelLocalizer
+//Information for Localization
+
+//Start code for Tele-op:
+    //Gamepad1 (driver)
+    // left stick for driving forward and backward
+    if (gamepad1.left_stick_y<0){ //Up is forward
+
+    }
+     if (gamepad1.left_stick_y>0){ //Down is backward
+
+        }
+    if (gamepad1.left_stick_x<0){ //Move left
+
+        }
+         if (gamepad1.left_stick_x>0){ //Move right
+
+                }
+    //Right stick for turn
+    if (gamepad1.right_stick_x<0){ // turn counter clockwise
+
+        }
+        if (gamepad1.right_stick_x>0){ // turn clockwise
+
+                }
+
+   //define servos in hardware map:
+    Servo intakeWheel = hardwareMap.get(Servo.class, deviceName: "intakeWheel")
+    Servo intakePosition = hardwareMap.get(Servo.class, deviceName: "intakePosition")
+
+    // D-pad down - Intake down
+         if (gamepad1.dpad_down){
+                           intakePosition.setposition (Value)
+                           intakeWheel.setposition (Value)
+
+
+                        }
+    // d-pad up - Intake up
+    if (gamepad1.dpad_up){
+               intakePosition.setposition (Value)
+               intakeWheel.setposition (Value)
+
+
+                            }
+
+    //Gamepad2 (operator)
+         //define servos in hardware map:
+         Servo Lextendo = hardwareMap.get(Servo.class, deviceName: "Lextendo")
+         Servo Rextendo = hardwareMap.get(Servo.class, deviceName: "Rextendo")
+         Servo leftShoulder = hardwareMap.get(Servo.class, deviceName: "leftShoulder")
+         Servo rightShoulder = hardwareMap.get(Servo.class, deviceName: "rightShoulder")
+         Servo leftElbow = hardwareMap.get(Servo.class, deviceName: "leftElbow")
+         Servo rightElbow = hardwareMap.get(Servo.class, deviceName: "rightElbow")
+         Servo claw = hardwareMap.get(Servo.class, deviceName: "claw")
+
+
+
+
+    // D-pad left -  extendo out
+        if (gamepad2.dpad_left){
+           Lextendo.setposition (Value)
+           Rextendo.setposition (Value)
+
+        }
+    // D-pad right -  extendo in
+         elsif (gamepad2.dpad_right){
+               Lextendo.setposition (Value)
+               Rextendo.setposition (Value)
+
+            }
+    // D-pad up - Lifts up (Ready to drop in basket)
+        elsif (gamepad2.dpad_up){
+                   leftShoulder.setposition (Value)
+                   rightShoulder.setposition (Value)
+                   leftElbow.setposition (Value)
+                   rightElbow.setposition (Value)
+
+                }
+    // D-pad down - Lifts down
+     if (gamepad2.dpad_down){
+                       leftShoulder.setposition (Value)
+                       rightShoulder.setposition (Value)
+                       leftElbow.setposition (Value)
+                       rightElbow.setposition (Value)
+
+                    }
+    // Triangle - tranfer
+     if (gamepad2.triangle){
+            leftShoulder.setposition (Value)
+            rightShoulder.setposition (Value)
+                           leftElbow.setposition (Value)
+                           rightElbow.setposition (Value)
+                           Lextendo.setposition (Value)
+                           Rextendo.setposition (Value)
+                           intakePosition.setposition (Value)
+                           intakeWheel.setposition (Value)
+                           claw.setposition(Value)
+                        }
+    // Circle - Hang Specimen
+    if (gamepad2.circle){
+                leftShoulder.setposition (Value)
+                rightShoulder.setposition (Value)
+                               leftElbow.setposition (Value)
+                               rightElbow.setposition (Value)
+
+                               claw.setposition(Value)
+                            }
+    // Cross - Grab specimen off the wall
+    if (gamepad2.cross){
+                leftShoulder.setposition (Value)
+                rightShoulder.setposition (Value)
+                               leftElbow.setposition (Value)
+                               rightElbow.setposition (Value)
+
+                               claw.setposition(Value)
+                            }
+    // Square - Intake reverse
+     if (gamepad2.square){
+              intakeWheel.setposition (Value)
+
+                             }
+    // Right bumper - Close claw
+      if (gamepad2.bumper_right){
+          claw.setposition (Value)
+
+                         }
+    // Left bumper - Open claw
+     if (gamepad2.bumper_left){
+              claw.setposition (Value)
+
+                             }
+    // Right Stick - Move extendo
+    if (gamepad1.right_stick_y>0){ //  down is in
+
+
+        }
+        if (gamepad1.right_stick_y<0){ // Up is out
+
+
+                }
+
+
