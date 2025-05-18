@@ -35,10 +35,10 @@ import needed libraries
     Servo intakeWheel = hardwareMap.get(Servo.class, deviceName: "intakeWheel")
     Servo intakePosition = hardwareMap.get(Servo.class, deviceName: "intakePosition")
 
-    // D-pad down - Intake down
+    // Right bumper - Intake down
          if (gamepad1.dpad_down){
-                           intakePosition.setposition (Value)
-                           intakeWheel.setposition (Value)
+                           intakePosition.setposition (0)
+                           intakeWheel.setpower (1)
 
 
                         }
@@ -65,14 +65,17 @@ import needed libraries
 
     // D-pad left -  extendo out
         if (gamepad2.dpad_left){
-           Lextendo.setposition (Value)
-           Rextendo.setposition (Value)
+           Lextendo.setposition (0.87)
+           Rextendo.setposition (0.72)
 
         }
     // D-pad right -  extendo in
          elsif (gamepad2.dpad_right){
-               Lextendo.setposition (Value)
-               Rextendo.setposition (Value)
+               intakePosition.setposition (1)
+               intakeWheel.setpower (1)
+               .waitSeconds = 1
+               Lextendo.setposition (0.1)
+               Rextendo.setposition (0)
 
             }
     // D-pad up - Lifts up (Ready to drop in basket)
