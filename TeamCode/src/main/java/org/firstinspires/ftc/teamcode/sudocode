@@ -8,6 +8,13 @@ import needed libraries
 //Import TwoDeadWheelLocalizer
 //Information for Localization
 
+// To pick up from intake
+    //shoulderPosition = 0.504
+    //elbowPosistion = .141
+// To place in bucket
+    //shoulderPosition = .687
+    //elbowPosition = .831
+
 //Start code for Tele-op:
     //Gamepad1 (driver)
     // left stick for driving forward and backward
