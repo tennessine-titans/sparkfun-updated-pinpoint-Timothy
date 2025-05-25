@@ -15,6 +15,7 @@ import needed libraries
     //shoulderPosition = .687
     //elbowPosition = .831
 // Lift PID parameters p = 0.01 d = 0.0004 f =0.06 i =0.013
+// lift max position 1600
 
 //Start code for Tele-op:
     //Gamepad1 (driver)
