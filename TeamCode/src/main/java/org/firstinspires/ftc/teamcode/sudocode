@@ -9,11 +9,12 @@ import needed libraries
 //Information for Localization
 
 // To pick up from intake
-    //shoulderPosition = 0.504
+    //shoulderPosition = 0.498
     //elbowPosistion = .141
 // To place in bucket
     //shoulderPosition = .687
     //elbowPosition = .831
+// Lift PID parameters p = 0.01 d = 0.0004 f =0.06 i =0.013
 
 //Start code for Tele-op:
     //Gamepad1 (driver)
@@ -138,12 +139,12 @@ import needed libraries
                              }
     // Right bumper - Close claw
       if (gamepad2.bumper_right){
-          claw.setposition (Value)
+          claw.setposition (.498)
 
                          }
     // Left bumper - Open claw
      if (gamepad2.bumper_left){
-              claw.setposition (Value)
+              claw.setposition (.372)
 
                              }
     // Right Stick - Move extendo
