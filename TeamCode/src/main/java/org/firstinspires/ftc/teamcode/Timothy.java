@@ -72,17 +72,7 @@ public abstract class Timothy extends LinearOpMode {
  */
 }
 
-@TeleOp(name = "test")
-public class LinearTeleop extends Timothy{
-    @Override
-    public void runOpMode() throws InterruptedException{
-        intLextendo();
-        while(opModeIsActive()){
-            Lextendo.setPosition(leftExtendoOut);
-            Rextendo.setPosition(rightExtendoOut);
-        }
-    }
-}
+
 
 
 
