@@ -62,8 +62,8 @@ import needed libraries
                         }
     // d-pad up - Intake up
     if (gamepad1.dpad_up){
-               intakePosition.setposition (Value)
-               intakeWheel.setposition (Value)
+               intakePosition.setposition (1)
+               intakeWheel.setposition (1)
 
 
                             }
