@@ -10,6 +10,7 @@ import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -18,26 +19,69 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import com.acmerobotics.roadrunner.Action;
-
-public class Timothy {
+@Config
+public abstract class Timothy extends LinearOpMode {
     // Variables and actions used to set and run Timothys servo postions and motor positions.
     //Set default values;
-    protected double intakeDown = 0;// to pick up sample
-    protected double intakeUp = 1; // postiton when extendo is retracted
+    protected float intakeDown = 0;// to pick up sample
+    protected float intakeUp = 1; // postiton when extendo is retracted
     protected double leftExtendoOut = 0.87;
     protected double rightExtendoOut = 0.72;
     // Define as servos
-    //private Servo Lextendo;
-    //private Servo Rextendo;
-    Servo Lextendo = HardwareMap.get(Servo.class,  "Lextendo");
-    Servo Rextendo = HardwareMap.get(Servo.class,  "Rextendo");
-    public void extendoOut(){
-        Lextendo.setposition (leftExtendoOut);
-        Rextendo.setposition (rightExtendoOut);
+    public Servo Lextendo;
+    public Servo Rextendo;
+    public void intLextendo(){
+        Lextendo = hardwareMap.get(Servo.class, "Lextendo");
+
+
     }
-        public void main() {
+    public void intRextendo(){
+        Rextendo = hardwareMap.get(Servo.class, "Rextendo");
+
+
+    }
+
+
+/*
+    public void main() {
         extendoOut();
+    }
+
+    public class Lextendo {
+        private Servo lExtendo;
+
+        public Lextendo(HardwareMap hardwareMap) {
+            lExtendo = hardwareMap.get(Servo.class, "Lextendo");
+            Lextendo.setPosition(leftExtendoOut);
         }
+    }
+    public class Rextendo {
+        private Servo rExtendo;
+
+        public Rextendo(HardwareMap hardwareMap) {
+            rExtendo = hardwareMap.get(Servo.class, "Rextendo");
+
+        }
+    }
+    public void extendoOut() {
+
+        Rextendo.setPosition(rightExtendoOut);
+
+    }
+
+ */
+}
+
+@TeleOp(name = "test")
+public class LinearTeleop extends Timothy{
+    @Override
+    public void runOpMode() throws InterruptedException{
+        intLextendo();
+        while(opModeIsActive()){
+            Lextendo.setPosition(leftExtendoOut);
+            Rextendo.setPosition(rightExtendoOut);
+        }
+    }
 }
 
 
