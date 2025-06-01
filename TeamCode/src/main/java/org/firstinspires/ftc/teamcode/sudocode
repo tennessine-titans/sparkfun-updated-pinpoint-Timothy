@@ -9,11 +9,20 @@ import needed libraries
 //Information for Localization
 
 // To pick up from intake
-    //shoulderPosition = 0.498
-    //elbowPosistion = .141
+    //shoulderPosition = 0.5
+    //elbowPosistion = .25
 // To place in bucket
-    //shoulderPosition = .687
-    //elbowPosition = .831
+    //shoulderPosition = .64
+    //elbowPosition = 1
+// Claw closed = .728
+//Claw open = .328
+// To grab off wall
+    //shoulderPosisiton = .5
+    //elbowPosition = 0
+//To hang
+    // SP = .5
+    //EP = .5
+    // Lifts up 1st
 // Lift PID parameters p = 0.01 d = 0.0004 f =0.06 i =0.013
 // lift max position 1600
 
