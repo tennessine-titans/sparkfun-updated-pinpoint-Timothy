@@ -9,12 +9,16 @@ public class LinearTeleop extends Timothy{
         super.waitForStart();
     }
 
-    @Override
     public void runOpMode() throws InterruptedException{
+        waitForStart();
         intLextendo();
+        intRextendo();
         while(opModeIsActive()){
             Lextendo.setPosition(leftExtendoOut);
             Rextendo.setPosition(rightExtendoOut);
+            telemetry.addData("lExtendo",leftExtendoOut);
+            telemetry.addData("rExtendo",rightExtendoOut);
+            telemetry.update();
         }
     }
 }
