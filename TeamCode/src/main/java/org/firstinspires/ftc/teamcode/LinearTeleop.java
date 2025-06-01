@@ -16,8 +16,10 @@ public class LinearTeleop extends Timothy{
         while(opModeIsActive()){
             Lextendo.setPosition(leftExtendoOut);
             Rextendo.setPosition(rightExtendoOut);
-            telemetry.addData("lExtendo",leftExtendoOut);
-            telemetry.addData("rExtendo",rightExtendoOut);
+            double le = Lextendo.getPosition();
+            double re = Rextendo.getPosition();
+            telemetry.addData("lExtendo",le);
+            telemetry.addData("rExtendo",re);
             telemetry.update();
         }
     }
