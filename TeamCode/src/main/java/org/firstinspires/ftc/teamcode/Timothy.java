@@ -32,13 +32,11 @@ public abstract class Timothy extends LinearOpMode {
     public Servo Rextendo;
     public void intLextendo(){
         Lextendo = hardwareMap.get(Servo.class, "Lextendo");
-
-
+        Lextendo.setDirection(Servo.Direction.REVERSE);
     }
+
     public void intRextendo(){
         Rextendo = hardwareMap.get(Servo.class, "Rextendo");
-
-
     }
 
 

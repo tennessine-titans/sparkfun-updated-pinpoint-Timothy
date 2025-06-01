@@ -5,6 +5,11 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 @TeleOp(name = "test")
 public class LinearTeleop extends Timothy{
     @Override
+    public void waitForStart() {
+        super.waitForStart();
+    }
+
+    @Override
     public void runOpMode() throws InterruptedException{
         intLextendo();
         while(opModeIsActive()){
