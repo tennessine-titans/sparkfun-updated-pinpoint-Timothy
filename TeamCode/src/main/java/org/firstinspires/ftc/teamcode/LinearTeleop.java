@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
+import android.graphics.Color;
 
 
 @TeleOp(name = "test")
@@ -24,7 +25,15 @@ public class LinearTeleop extends Timothy{
         intlift1();
         intlift2();
         intclaw();
+        intintakeSensor();
+        intclawSensor();
+        int red = intakeSensor.red();
+        int blue = intakeSensor.blue();
+        int green = intakeSensor.green();
         while(opModeIsActive()){
+            boolean isRed = red > 100 && red > blue && red > green;
+            boolean isYellow = red > 100 && green > 100 && blue < 80;
+            boolean isBlue = blue > 100 && blue > red && blue > green;
             // D-pad left -  extendo out
             if (gamepad2.dpad_left){
                 Lextendo.setPosition(leftExtendoOut);
@@ -110,11 +119,22 @@ public class LinearTeleop extends Timothy{
              if (gamepad1.right_bumper){
                 intakePosition.setPosition (intakeDown);
                 intakeWheel.setPower (intakeWheelforward);
+                 if (isRed || isYellow) {
+                     intakeWheel.setPower(0); // Stop
+                 } else if (isBlue) {
+                     intakeWheel.setPower(-1); // Reverse
+                 } else {
+                     intakeWheel.setPower(1); // Forward
+                 }
             }
             else if (gamepad1.left_bumper) {
                  intakePosition.setPosition(intakeUp);
                  intakeWheel.setPower(intakeWheeloff);
              }
+            telemetry.addData("Red", red);
+            telemetry.addData("Green", green);
+            telemetry.addData("Blue", blue);
+            telemetry.update();
             /*
             Lextendo.setPosition(leftExtendoOut);
             Rextendo.setPosition(rightExtendoOut);

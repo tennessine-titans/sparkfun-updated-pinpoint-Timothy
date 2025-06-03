@@ -12,6 +12,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -71,6 +72,8 @@ public abstract class Timothy extends LinearOpMode {
     public Servo claw;
     public DcMotor lift1;
     public DcMotor lift2;
+    public ColorSensor intakeSensor;
+    public ColorSensor clawSensor;
     public void intLextendo(){
         Lextendo = hardwareMap.get(Servo.class, "Lextendo");
     }
@@ -103,6 +106,12 @@ public abstract class Timothy extends LinearOpMode {
     }
     public void intlift2(){
         lift2 = hardwareMap.get(DcMotor.class, "lift2");
+    }
+    public void intintakeSensor(){
+        intakeSensor = hardwareMap.get(ColorSensor.class, "intakeSensor");
+    }
+    public void intclawSensor(){
+        clawSensor = hardwareMap.get(ColorSensor.class, "clawSensor");
     }
 
 
