@@ -22,16 +22,23 @@ public class MeepMeepTesting {
                 .setConstraints(45, 60, Math.toRadians(180), Math.toRadians(180), 15)
                         .build();
                 myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-9, 64, 3*Math.PI/2))
-                        .strafeToLinearHeading(new Vector2d(-7,30),3*Math.PI/2)
-                        .setTangent(3*Math.PI/4)
+                        // go to submersible
+                        .strafeToLinearHeading(new Vector2d(-3,30),3*Math.PI/2)
+                        // drvie to first sample
+                        .setTangent(5*Math.PI/8)
                         .splineToConstantHeading(new Vector2d(-30, 40),Math.PI)
                         .splineToConstantHeading(new Vector2d(-38, 14),Math.PI)
-                        .splineToConstantHeading(new Vector2d(-45, 58),Math.PI)
-                        .splineToConstantHeading(new Vector2d(-48, 14),Math.PI)
-                        .splineToConstantHeading(new Vector2d(-55, 58),Math.PI)
-                        .splineToConstantHeading(new Vector2d(-58, 14),Math.PI)
-                        .splineToConstantHeading(new Vector2d(-60, 16),Math.PI/2)
-                        .splineToConstantHeading(new Vector2d(-55, 58),0)
+                        //push sample to wall
+                        .splineToConstantHeading(new Vector2d(-45, 48),Math.PI)
+                        // go behind second sample
+                        .splineToConstantHeading(new Vector2d(-50, 14),Math.PI)
+                        //push sample to wall
+                        .splineToConstantHeading(new Vector2d(-55, 48),Math.PI)
+                        //go behind third sample
+                        .splineToConstantHeading(new Vector2d(-56, 14),Math.PI)
+                        .splineToConstantHeading(new Vector2d(-62, 14),Math.PI/2)
+                        .splineToConstantHeading(new Vector2d(-55, 48),0)
+                        .splineToConstantHeading(new Vector2d(-40, 60),Math.PI/2)
                         .build());
 
         Image img = null;
