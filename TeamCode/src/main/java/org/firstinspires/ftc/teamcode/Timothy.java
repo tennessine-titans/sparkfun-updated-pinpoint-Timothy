@@ -28,11 +28,11 @@ public abstract class Timothy extends LinearOpMode {
     protected double intakeWheelforward = 1;
     protected double intakeWheelbackward = -1;
     protected double intakeWheeloff = 0;
-    protected double leftExtendoOut = 0.87;
-    protected double rightExtendoOut = 0.72;
+    protected double leftExtendoOut = 0.59;
+    protected double rightExtendoOut = 0.59;
     // Define as servos
-    protected double leftExtendoIn = 0.1;
-    protected double rightExtendoIn= 0;
+    protected double leftExtendoIn = 0.09;
+    protected double rightExtendoIn= .09;
     protected double rightShoulderintake = 0.5;
     protected double rightElbowintake = 0.25;
     protected double leftShoulderintake = 0.5;
@@ -73,7 +73,6 @@ public abstract class Timothy extends LinearOpMode {
     public DcMotor lift2;
     public void intLextendo(){
         Lextendo = hardwareMap.get(Servo.class, "Lextendo");
-        Lextendo.setDirection(Servo.Direction.REVERSE);
     }
     public void intRextendo(){
         Rextendo = hardwareMap.get(Servo.class, "Rextendo");
