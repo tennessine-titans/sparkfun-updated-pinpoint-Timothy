@@ -59,6 +59,7 @@ public class LinearTeleop extends Timothy{
                 rightElbow.setPosition(rightElbowintake);
                 leftElbow.setPosition(leftElbowintake);
                 //PID lifts down go here
+                lift1.setTargetPosition(10);
             }
             // Get in position to hang specimen
             else if (gamepad2.cross){
