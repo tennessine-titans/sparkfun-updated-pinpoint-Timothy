@@ -8,6 +8,7 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
+import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -59,7 +60,7 @@ public abstract class Timothy extends LinearOpMode {
     protected double leftElbowextraBump = .183;
     protected double rightElbowextraBump =.183;
 
-
+    public int target = 0;
     //Define servos and motors
     public Servo Lextendo;
     public Servo Rextendo;
@@ -114,6 +115,116 @@ public abstract class Timothy extends LinearOpMode {
         clawSensor = hardwareMap.get(ColorSensor.class, "clawSensor");
     }
 
+    //PIDF Controller Class for the lifts only need to change target value for controller to drive lift motors.
+    public class Lift {
+        private DcMotorEx lift1;
+        private DcMotorEx lift2;
+
+
+        public Lift(HardwareMap hardwareMap) {
+            lift1 = hardwareMap.get(DcMotorEx.class, "lift1");
+            lift2 = hardwareMap.get(DcMotorEx.class, "lift2");
+            lift1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            lift2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            //  ToDO Set Motor Direction if Necessary
+            lift1.setDirection(DcMotorSimple.Direction.FORWARD);
+            lift2.setDirection(DcMotorSimple.Direction.REVERSE);
+            lift1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            lift2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            lift1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            lift2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        }
+
+        public class PIDF_Lift_Controller implements Action {
+            private boolean initialized = false;
+            public double p = 0.01, i = 0, d = 0.00001, f = -0.05;
+            //public int target = 0;
+
+            private PIDController controller;
+
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                if (!initialized) {
+                    controller = new PIDController(p, i, d);
+                    controller.setPID(p, i, d);
+                    int lift1_pos = lift1.getCurrentPosition();
+                    int lift2_pos = lift2.getCurrentPosition();
+                    int lift_avg = (lift1_pos + lift2_pos) / 2;
+                    double pid = controller.calculate(lift_avg, target);
+                    double power = pid + f;
+                    lift1.setPower(power);
+                    lift2.setPower(power);
+                    telemetry.addData("lift_avg", lift_avg);
+                    telemetry.addData("target", target);
+                    telemetry.update();
+                }
+                return true;
+            }
+        }
+
+        public Action pidf_Lift_Controller() {
+            return new PIDF_Lift_Controller();
+        }
+        public class LiftUp_PIDF implements Action {
+            private boolean initialized = false;
+
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                if (!initialized) {
+                    target=1400;
+                    initialized = true;
+                }
+
+                double pos = lift1.getCurrentPosition();
+                packet.put("liftpos",pos);
+
+                // ToDo determine how many ticks represents lift up (left + right)
+                if (pos> target-50) {
+                    telemetry.addData("Position ",pos);
+                    telemetry.update();
+                    return true;
+                } else {
+
+                    return false;
+                }
+            }
+        }
+        public Action liftUp_PIDF() {
+            return new LiftUp_PIDF();
+        }
+
+
+        public class LiftDown_PIDF implements Action {
+            private boolean initialized = false;
+
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                if (!initialized) {
+                    target=10;
+                    initialized = true;
+                }
+
+                double pos = lift1.getCurrentPosition();
+                packet.put("liftpos",pos);
+
+                // ToDo determine how many ticks represents lift up (left + right)
+                if (pos> target+50) {
+                    telemetry.addData("Position ",pos);
+                    telemetry.update();
+                    return true;
+                } else {
+
+                    return false;
+                }
+            }
+        }
+        public Action liftDown_PIDF() {
+            return new LiftDown_PIDF();
+        }
+
+
+    }
 
 
 
