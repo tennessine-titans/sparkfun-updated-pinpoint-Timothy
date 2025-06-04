@@ -127,8 +127,8 @@ public abstract class Timothy extends LinearOpMode {
             lift1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             lift2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             //  ToDO Set Motor Direction if Necessary
-            lift1.setDirection(DcMotorSimple.Direction.FORWARD);
-            lift2.setDirection(DcMotorSimple.Direction.REVERSE);
+            lift1.setDirection(DcMotorSimple.Direction.REVERSE);
+            lift2.setDirection(DcMotorSimple.Direction.FORWARD);
             lift1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             lift2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             lift1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
