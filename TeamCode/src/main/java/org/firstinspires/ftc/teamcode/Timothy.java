@@ -19,14 +19,17 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-
+import com.arcrobotics.ftclib.controller.PIDController;
 import com.acmerobotics.roadrunner.Action;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+
 @Config
 public abstract class Timothy extends LinearOpMode {
     // Variables and actions used to set and run Timothys servo postions and motor positions.
     //Set default values;
-    protected float intakeDown = 0;// to pick up sample
-    protected float intakeUp = 1; // postiton when extendo is retracted
+    protected double intakeDown = .58;// to pick up sample
+    protected double intakeUp = .26; // postiton when extendo is retracted
     protected double intakeWheelforward = 1;
     protected double intakeWheelbackward = -1;
     protected double intakeWheeloff = 0;
@@ -53,12 +56,19 @@ public abstract class Timothy extends LinearOpMode {
     protected double rightShoulderWall = .41;
     protected double leftExtendohalf = .36;
     protected double rightExtendohalf = .36;
-    protected double rightShoulderhangSpecimen = .675;
-    protected double leftShoulderhangSpecimen = .675;
-    protected double leftElbowhangSpecimen = .158;
-    protected double rightElbowhangSpecimen = .158;
+    protected double rightShoulderhangSpecimen = .75;
+    protected double leftShoulderhangSpecimen = .75;
+    protected double leftElbowhangSpecimen = .25;
+    protected double rightElbowhangSpecimen = .25;
     protected double leftElbowextraBump = .183;
     protected double rightElbowextraBump =.183;
+    protected double rightShoulderoutOftheWay =.55;
+    protected double leftShoulderoutOftheWay =.55;
+    protected double p = 0.01;
+    protected double i = 0.013;
+    protected double d = 0.0004;
+    protected double f = 0.06;
+
 
     public int target = 0;
     //Define servos and motors
@@ -73,8 +83,8 @@ public abstract class Timothy extends LinearOpMode {
     public Servo claw;
     public DcMotor lift1;
     public DcMotor lift2;
-    public ColorSensor intakeSensor;
-    public ColorSensor clawSensor;
+    //public ColorSensor intakeSensor;
+    //public ColorSensor clawSensor;
     public void intLextendo(){
         Lextendo = hardwareMap.get(Servo.class, "Lextendo");
     }
@@ -104,18 +114,30 @@ public abstract class Timothy extends LinearOpMode {
     }
     public void intlift1(){
         lift1 = hardwareMap.get(DcMotor.class, "lift1");
+        lift1.setDirection(DcMotorSimple.Direction.REVERSE);
+        lift1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lift1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        lift1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
     }
     public void intlift2(){
         lift2 = hardwareMap.get(DcMotor.class, "lift2");
+        lift2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lift2.setDirection(DcMotorSimple.Direction.FORWARD);
+        lift2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        lift2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
     }
-    public void intintakeSensor(){
-        intakeSensor = hardwareMap.get(ColorSensor.class, "intakeSensor");
-    }
-    public void intclawSensor(){
-        clawSensor = hardwareMap.get(ColorSensor.class, "clawSensor");
-    }
+    //public void intintakeSensor() {
+        //intakeSensor = hardwareMap.get(ColorSensor.class, "intakeSensor");
+
+        //public void intclawSensor() {
+           // clawSensor = hardwareMap.get(ColorSensor.class, "clawSensor");
+
 
     //PIDF Controller Class for the lifts only need to change target value for controller to drive lift motors.
+   /*
     public class Lift {
         private DcMotorEx lift1;
         private DcMotorEx lift2;
@@ -253,10 +275,12 @@ public abstract class Timothy extends LinearOpMode {
 
         Rextendo.setPosition(rightExtendoOut);
 
+ */
+
     }
 
- */
-}
+
+
 
 
 
