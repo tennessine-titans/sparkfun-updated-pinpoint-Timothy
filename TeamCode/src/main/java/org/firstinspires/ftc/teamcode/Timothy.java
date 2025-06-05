@@ -23,7 +23,6 @@ import com.arcrobotics.ftclib.controller.PIDController;
 import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-
 @Config
 public abstract class Timothy extends LinearOpMode {
     // Variables and actions used to set and run Timothys servo postions and motor positions.
@@ -68,8 +67,6 @@ public abstract class Timothy extends LinearOpMode {
     protected double i = 0.013;
     protected double d = 0.0004;
     protected double f = 0.06;
-
-
     public int target = 0;
     //Define servos and motors
     public Servo Lextendo;
@@ -118,7 +115,6 @@ public abstract class Timothy extends LinearOpMode {
         lift1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         lift1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
     }
     public void intlift2(){
         lift2 = hardwareMap.get(DcMotor.class, "lift2");
@@ -126,23 +122,15 @@ public abstract class Timothy extends LinearOpMode {
         lift2.setDirection(DcMotorSimple.Direction.FORWARD);
         lift2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         lift2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-
     }
     //public void intintakeSensor() {
         //intakeSensor = hardwareMap.get(ColorSensor.class, "intakeSensor");
-
         //public void intclawSensor() {
            // clawSensor = hardwareMap.get(ColorSensor.class, "clawSensor");
-
-
     //PIDF Controller Class for the lifts only need to change target value for controller to drive lift motors.
-   /*
     public class Lift {
         private DcMotorEx lift1;
         private DcMotorEx lift2;
-
-
         public Lift(HardwareMap hardwareMap) {
             lift1 = hardwareMap.get(DcMotorEx.class, "lift1");
             lift2 = hardwareMap.get(DcMotorEx.class, "lift2");
@@ -157,7 +145,6 @@ public abstract class Timothy extends LinearOpMode {
             lift2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         }
-
         public class PIDF_Lift_Controller implements Action {
             private boolean initialized = false;
             public double p = 0.01, i = 0, d = 0.00001, f = -0.05;
@@ -184,7 +171,6 @@ public abstract class Timothy extends LinearOpMode {
                 return true;
             }
         }
-
         public Action pidf_Lift_Controller() {
             return new PIDF_Lift_Controller();
         }
@@ -215,11 +201,8 @@ public abstract class Timothy extends LinearOpMode {
         public Action liftUp_PIDF() {
             return new LiftUp_PIDF();
         }
-
-
         public class LiftDown_PIDF implements Action {
             private boolean initialized = false;
-
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
                 if (!initialized) {
@@ -240,21 +223,309 @@ public abstract class Timothy extends LinearOpMode {
                     return false;
                 }
             }
+
         }
         public Action liftDown_PIDF() {
             return new LiftDown_PIDF();
         }
+        public class LiftHangSample_PIDF implements Action {
+            private boolean initialized = false;
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                if (!initialized) {
+                    target=450;
+                    initialized = true;
+                }
 
+                double pos = lift1.getCurrentPosition();
+                packet.put("liftpos",pos);
 
+                // ToDo determine how many ticks represents lift up (left + right)
+                if (pos> target+50) {
+                    telemetry.addData("Position ",pos);
+                    telemetry.update();
+                    return true;
+                } else {
+
+                    return false;
+                }
+            }
+
+        }
+        public Action liftHangSample_PIDF() {
+            return new LiftHangSample_PIDF();
+        }
+        public class LiftExtraBump_PIDF implements Action {
+            private boolean initialized = false;
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                if (!initialized) {
+                    target=950;
+                    initialized = true;
+                }
+
+                double pos = lift1.getCurrentPosition();
+                packet.put("liftpos",pos);
+
+                // ToDo determine how many ticks represents lift up (left + right)
+                if (pos> target+50) {
+                    telemetry.addData("Position ",pos);
+                    telemetry.update();
+                    return true;
+                } else {
+
+                    return false;
+                }
+            }
+
+        }
+        public Action liftExtraBump_PIDF() {
+            return new LiftExtraBump_PIDF();
+        }
+        public class LiftWall_PIDF implements Action {
+            private boolean initialized = false;
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                if (!initialized) {
+                    target=450;
+                    initialized = true;
+                }
+
+                double pos = lift1.getCurrentPosition();
+                packet.put("liftpos",pos);
+
+                // ToDo determine how many ticks represents lift up (left + right)
+                if (pos> target+50) {
+                    telemetry.addData("Position ",pos);
+                    telemetry.update();
+                    return true;
+                } else {
+
+                    return false;
+                }
+            }
+
+        }
+        public Action lifWall_PIDF() {
+            return new LiftWall_PIDF();
+        }
     }
-
-
-
-/*
+    public class OpenClaw implements Action {
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            claw.setPosition(clawOpen);
+            return false;
+        }
+    }
+    public Action openClaw() {
+        return new OpenClaw();
+    }
+    public class CloseClaw implements Action {
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            claw.setPosition(clawClosed);
+            return false;
+        }
+    }
+    public Action closeClaw() {
+        return new CloseClaw();
+    }
+    public class Intakeup implements Action {
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            intakePosition.setPosition(intakeUp);
+            return false;
+        }
+    }
+    public Action intakeup() {
+        return new Intakeup();
+    }
+    public class Intakedown implements Action {
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            intakePosition.setPosition(intakeDown);
+            return false;
+        }
+    }
+    public Action intakedown() {
+        return new Intakedown();
+    }
+    public class ExtendoOut implements Action {
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            Lextendo.setPosition(leftExtendoOut);
+            Rextendo.setPosition(rightExtendoOut);
+            return false;
+        }
+    }
+    public Action extednoOut() {
+        return new ExtendoOut();
+    }
+    public class ExtendoIn implements Action {
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            Lextendo.setPosition(leftExtendoIn);
+            Rextendo.setPosition(rightExtendoIn);
+            return false;
+        }
+    }
+    public Action extednoIn() {
+        return new ExtendoIn();
+    }
+    public class ExtendoHalf implements Action {
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            Lextendo.setPosition(leftExtendohalf);
+            Rextendo.setPosition(rightExtendohalf);
+            return false;
+        }
+    }
+    public Action extednoHalf() {
+        return new ExtendoHalf();
+    }
+    public class Shoulderwall implements Action {
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            leftShoulder.setPosition(leftShoulderWall);
+            rightShoulder.setPosition(rightShoulderWall);
+            return false;
+        }
+    }
+    public Action shoulderWall() {
+        return new Shoulderwall();
+    }
+    public class Shoulderbasket implements Action {
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            leftShoulder.setPosition(leftShoulderbasket);
+            rightShoulder.setPosition(rightShoulderbasket);
+            return false;
+        }
+    }
+    public Action shoulderbasket() {
+        return new Shoulderbasket();
+    }
+    public class Shoulderintake implements Action {
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            leftShoulder.setPosition(leftShoulderintake);
+            rightShoulder.setPosition(rightShoulderintake);
+            return false;
+        }
+    }
+    public Action shoulderintake() {
+        return new Shoulderintake();
+    }
+    public class Shouldertransition implements Action {
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            leftShoulder.setPosition(leftShoulderspecimenTransition);
+            rightShoulder.setPosition(rightShoulderspecimenTransition);
+            return false;
+        }
+    }
+    public Action shouldertransition() {
+        return new Shouldertransition();
+    }
+    public class ShoulderoutOftheWay implements Action {
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            leftShoulder.setPosition(leftShoulderoutOftheWay);
+            rightShoulder.setPosition(rightShoulderoutOftheWay);
+            return false;
+        }
+    }
+    public Action shoulderoutOftheWay() {
+        return new ShoulderoutOftheWay();
+    }
+    public class ShoulderHangSpecimen implements Action {
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            leftShoulder.setPosition(leftShoulderhangSpecimen);
+            rightShoulder.setPosition(rightShoulderhangSpecimen);
+            return false;
+        }
+    }
+    public Action shoulderHangSpecimen() {
+        return new ShoulderHangSpecimen();
+    }
+    public class ElbowWall implements Action {
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            leftElbow.setPosition(leftElbowWall);
+            rightElbow.setPosition(rightElbowWall);
+            return false;
+        }
+    }
+    public Action elbowWall() {
+        return new ElbowWall();
+    }
+    public class ElbowBasket implements Action {
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            leftElbow.setPosition(leftElbowbasket);
+            rightElbow.setPosition(rightElbowbasket);
+            return false;
+        }
+    }
+    public Action elbowBasket() {
+        return new ElbowBasket();
+    }
+    public class ElbowIntake implements Action {
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            leftElbow.setPosition(leftElbowintake);
+            rightElbow.setPosition(rightElbowintake);
+            return false;
+        }
+    }
+    public Action elbowIntake() {
+        return new ElbowIntake();
+    }
+    public class ElbowHang implements Action {
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            leftElbow.setPosition(leftElbowhangSpecimen);
+            rightElbow.setPosition(rightElbowhangSpecimen);
+            return false;
+        }
+    }
+    public Action elbowHang() {
+        return new ElbowHang();
+    }
+    public class WheelFoward implements Action {
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            intakeWheel.setPower(intakeWheelforward);
+            return false;
+        }
+    }
+    public Action wheelFoward() {
+        return new WheelFoward();
+    }
+    public class WheelBackward implements Action {
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            intakeWheel.setPower(intakeWheelbackward);
+            return false;
+        }
+    }
+    public Action wheelBackward() {
+        return new WheelBackward();
+    }
+    public class WheelOff implements Action {
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            intakeWheel.setPower(intakeWheeloff);
+            return false;
+        }
+    }
+    public Action wheelOff() {
+        return new WheelOff();
+    }
     public void main() {
         extendoOut();
     }
-
     public class Lextendo {
         private Servo lExtendo;
 
@@ -265,26 +536,11 @@ public abstract class Timothy extends LinearOpMode {
     }
     public class Rextendo {
         private Servo rExtendo;
-
         public Rextendo(HardwareMap hardwareMap) {
             rExtendo = hardwareMap.get(Servo.class, "Rextendo");
-
         }
     }
     public void extendoOut() {
-
         Rextendo.setPosition(rightExtendoOut);
-
- */
-
     }
-
-
-
-
-
-
-
-
-
-
+    }

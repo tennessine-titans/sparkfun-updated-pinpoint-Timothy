@@ -1,4 +1,4 @@
-/*package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode;
 
 //package org.firstinspires.ftc.teamcode.teleops;
 
@@ -77,4 +77,3 @@ public class Test_Auto_2 extends Timothy {
     }
 }
 
- */
