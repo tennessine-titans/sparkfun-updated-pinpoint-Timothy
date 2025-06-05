@@ -38,11 +38,26 @@ public class MeepMeepTesting {
                         .splineToConstantHeading(new Vector2d(-56, 14),Math.PI)
                         .splineToConstantHeading(new Vector2d(-62, 14),Math.PI/2)
                         .splineToConstantHeading(new Vector2d(-55, 48),0)
+                        //Pick up second sample off the wall
                         .splineToConstantHeading(new Vector2d(-40, 60),Math.PI/2)
+                        //Hang second specimen
+                        .strafeToLinearHeading(new Vector2d(-3,30),3*Math.PI/2)
+                        // Get third specimen off the wall
+                        .strafeToLinearHeading(new Vector2d(-40, 60),3*Math.PI/2)
+                        //hang third specimen
+                        .strafeToLinearHeading(new Vector2d(-3,30),3*Math.PI/2)
+                        // Get fourth specimen off the wall
+                        .strafeToLinearHeading(new Vector2d(-40, 60),3*Math.PI/2)
+                        //hang fourth specimen
+                        .strafeToLinearHeading(new Vector2d(-3,30),3*Math.PI/2)
+                        // Get fifth specimen off the wall
+                        .strafeToLinearHeading(new Vector2d(-40, 60),3*Math.PI/2)
+                        //hang fifth specimen
+                        .strafeToLinearHeading(new Vector2d(-3,30),3*Math.PI/2)
                         .build());
 
         Image img = null;
-        try { img = ImageIO.read(new File("C:\\Users\\FTC21457\\Pictures\\field-2024-juice-dark.png")); }
+        try { img = ImageIO.read(new File("C:\\Users\\FLL\\FTC21457\\Pictures\\field-2024-juice-dark.png")); }
         catch(IOException e) {}
 
         meepMeep.setBackground(img)
