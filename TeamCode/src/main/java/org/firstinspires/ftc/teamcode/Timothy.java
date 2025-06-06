@@ -3,26 +3,15 @@ import androidx.annotation.NonNull;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
-import com.acmerobotics.roadrunner.ParallelAction;
-import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.SequentialAction;
-import com.acmerobotics.roadrunner.Vector2d;
-import com.acmerobotics.roadrunner.ftc.Actions;
 import com.arcrobotics.ftclib.controller.PIDController;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.arcrobotics.ftclib.controller.PIDController;
-import com.acmerobotics.roadrunner.Action;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
+
 @Config
 public abstract class Timothy extends LinearOpMode {
     // Variables and actions used to set and run Timothys servo postions and motor positions.
@@ -37,28 +26,28 @@ public abstract class Timothy extends LinearOpMode {
     // Define as servos
     protected double leftExtendoIn = 0.09;
     protected double rightExtendoIn= .09;
-    protected double rightShoulderintake = 0.5;
-    protected double rightElbowintake = 0.25;
-    protected double leftShoulderintake = 0.5;
-    protected double leftElbowintake = 0.25;
-    protected double rightShoulderbasket = 0.66;
-    protected double leftShoulderbasket = 0.66;
-    protected double rightElbowbasket = .94;
-    protected double leftElbowbasket = .94;
-    protected double clawClosed = .728;
-    protected double clawOpen = .328;
-    protected double leftShoulderspecimenTransition = .6;
-    protected double rightShoulderspecimenTransition = .6;
-    protected double leftElbowWall = .005;
-    protected double rightElbowWall = .005;
-    protected double leftShoulderWall = .41;
-    protected double rightShoulderWall = .41;
+    protected double rightShoulderintake = 0.46;
+    protected double rightElbowintake = 0.31;
+    protected double leftShoulderintake = 0.46;
+    protected double leftElbowintake = 0.31;
+    protected double rightShoulderbasket = 0.7;
+    protected double leftShoulderbasket = 0.7;
+    protected double rightElbowbasket = .89;
+    protected double leftElbowbasket = .89;
+    protected double clawClosed = .528;
+    protected double clawOpen = .348;
+    protected double leftShoulderspecimenTransition = .5;
+    protected double rightShoulderspecimenTransition = .5;
+    protected float leftElbowWall = 0;
+    protected float rightElbowWall = 0;
+    protected double leftShoulderWall = .38;
+    protected double rightShoulderWall = .38;
     protected double leftExtendohalf = .36;
     protected double rightExtendohalf = .36;
-    protected double rightShoulderhangSpecimen = .75;
-    protected double leftShoulderhangSpecimen = .75;
-    protected double leftElbowhangSpecimen = .25;
-    protected double rightElbowhangSpecimen = .25;
+    protected double rightShoulderhangSpecimen = .69;
+    protected double leftShoulderhangSpecimen = .69;
+    protected double leftElbowhangSpecimen = .35;
+    protected double rightElbowhangSpecimen = .35;
     protected double leftElbowextraBump = .183;
     protected double rightElbowextraBump =.183;
     protected double rightShoulderoutOftheWay =.55;
@@ -147,7 +136,7 @@ public abstract class Timothy extends LinearOpMode {
         }
         public class PIDF_Lift_Controller implements Action {
             private boolean initialized = false;
-            public double p = 0.01, i = 0, d = 0.00001, f = -0.05;
+            public double p = 0.01, i = 0.013, d = 0.0005, f = 0.06;
             //public int target = 0;
 
             private PIDController controller;
@@ -180,7 +169,7 @@ public abstract class Timothy extends LinearOpMode {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
                 if (!initialized) {
-                    target=1400;
+                    target=1490;
                     initialized = true;
                 }
 
@@ -233,7 +222,7 @@ public abstract class Timothy extends LinearOpMode {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
                 if (!initialized) {
-                    target=450;
+                    target=350;
                     initialized = true;
                 }
 
@@ -260,7 +249,7 @@ public abstract class Timothy extends LinearOpMode {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
                 if (!initialized) {
-                    target=950;
+                    target=1000;
                     initialized = true;
                 }
 
@@ -287,7 +276,7 @@ public abstract class Timothy extends LinearOpMode {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
                 if (!initialized) {
-                    target=450;
+                    target=10;
                     initialized = true;
                 }
 
@@ -306,231 +295,307 @@ public abstract class Timothy extends LinearOpMode {
             }
 
         }
-        public Action lifWall_PIDF() {
+        public Action liftWall_PIDF() {
             return new LiftWall_PIDF();
         }
     }
-    public class OpenClaw implements Action {
-        @Override
-        public boolean run(@NonNull TelemetryPacket packet) {
-            claw.setPosition(clawOpen);
-            return false;
+    public class Claw {
+        private Servo claw;
+        public Claw() {
+            claw = hardwareMap.get(Servo.class, "claw");
+        }
+        public class OpenClaw implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                claw.setPosition(clawOpen);
+                return false;
+            }
+        }
+
+        public Action openClaw() {
+            return new OpenClaw();
+        }
+
+        public class CloseClaw implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                claw.setPosition(clawClosed);
+                return false;
+            }
+        }
+
+        public Action closeClaw() {
+            return new CloseClaw();
         }
     }
-    public Action openClaw() {
-        return new OpenClaw();
-    }
-    public class CloseClaw implements Action {
-        @Override
-        public boolean run(@NonNull TelemetryPacket packet) {
-            claw.setPosition(clawClosed);
-            return false;
+    public class Intake {
+        private Servo intakePosition;
+        public Intake() {
+            intakePosition = hardwareMap.get(Servo.class, "intakePosition");
+        }
+        public class Intakeup implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                intakePosition.setPosition(intakeUp);
+                return false;
+            }
+        }
+
+        public Action intakeup() {
+            return new Intakeup();
+        }
+
+        public class Intakedown implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                intakePosition.setPosition(intakeDown);
+                return false;
+            }
+        }
+
+        public Action intakedown() {
+            return new Intakedown();
         }
     }
-    public Action closeClaw() {
-        return new CloseClaw();
-    }
-    public class Intakeup implements Action {
-        @Override
-        public boolean run(@NonNull TelemetryPacket packet) {
-            intakePosition.setPosition(intakeUp);
-            return false;
+    public class Extendo {
+        private Servo Lextendo;
+        private Servo Rextendo;
+        public Extendo() {
+            Lextendo = hardwareMap.get(Servo.class, "Lextendo");
+            Rextendo = hardwareMap.get(Servo.class, "Rextendo");
+        }
+        public class ExtendoOut implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                Lextendo.setPosition(leftExtendoOut);
+                Rextendo.setPosition(rightExtendoOut);
+                return false;
+            }
+        }
+
+        public Action extendoOut() {
+            return new ExtendoOut();
+        }
+
+        public class ExtendoIn implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                Lextendo.setPosition(leftExtendoIn);
+                Rextendo.setPosition(rightExtendoIn);
+                return false;
+            }
+        }
+
+        public Action extednoIn() {
+            return new ExtendoIn();
+        }
+
+        public class ExtendoHalf implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                Lextendo.setPosition(leftExtendohalf);
+                Rextendo.setPosition(rightExtendohalf);
+                return false;
+            }
+        }
+
+        public Action extednoHalf() {
+            return new ExtendoHalf();
         }
     }
-    public Action intakeup() {
-        return new Intakeup();
-    }
-    public class Intakedown implements Action {
-        @Override
-        public boolean run(@NonNull TelemetryPacket packet) {
-            intakePosition.setPosition(intakeDown);
-            return false;
+    public class Shoulder {
+        private Servo leftShoulder;
+        private Servo rightShoulder;
+        public Shoulder() {
+            leftShoulder = hardwareMap.get(Servo.class, "leftShoulder");
+            rightShoulder = hardwareMap.get(Servo.class, "rightShoulder");
+        }
+        public class Shoulderwall implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                leftShoulder.setPosition(leftShoulderWall);
+                rightShoulder.setPosition(rightShoulderWall);
+                return false;
+            }
+        }
+
+        public Action shoulderWall() {
+            return new Shoulderwall();
+        }
+
+        public class Shoulderbasket implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                leftShoulder.setPosition(leftShoulderbasket);
+                rightShoulder.setPosition(rightShoulderbasket);
+                return false;
+            }
+        }
+
+        public Action shoulderbasket() {
+            return new Shoulderbasket();
+        }
+
+        public class Shoulderintake implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                leftShoulder.setPosition(leftShoulderintake);
+                rightShoulder.setPosition(rightShoulderintake);
+                return false;
+            }
+        }
+
+        public Action shoulderintake() {
+            return new Shoulderintake();
+        }
+
+        public class Shouldertransition implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                leftShoulder.setPosition(leftShoulderspecimenTransition);
+                rightShoulder.setPosition(rightShoulderspecimenTransition);
+                return false;
+            }
+        }
+
+        public Action shouldertransition() {
+            return new Shouldertransition();
+        }
+
+        public class ShoulderoutOftheWay implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                leftShoulder.setPosition(leftShoulderoutOftheWay);
+                rightShoulder.setPosition(rightShoulderoutOftheWay);
+                return false;
+            }
+        }
+
+        public Action shoulderoutOftheWay() {
+            return new ShoulderoutOftheWay();
+        }
+
+        public class ShoulderHangSpecimen implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                leftShoulder.setPosition(leftShoulderhangSpecimen);
+                rightShoulder.setPosition(rightShoulderhangSpecimen);
+                return false;
+            }
+        }
+
+        public Action shoulderHangSpecimen() {
+            return new ShoulderHangSpecimen();
         }
     }
-    public Action intakedown() {
-        return new Intakedown();
-    }
-    public class ExtendoOut implements Action {
-        @Override
-        public boolean run(@NonNull TelemetryPacket packet) {
-            Lextendo.setPosition(leftExtendoOut);
-            Rextendo.setPosition(rightExtendoOut);
-            return false;
+    public class Elbow {
+        private Servo leftElbow;
+        private Servo rightElbow;
+        public Elbow() {
+            leftElbow = hardwareMap.get(Servo.class, "leftElbow");
+            rightElbow = hardwareMap.get(Servo.class, "rightElbow");
+        }
+        public class ElbowWall implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                leftElbow.setPosition(leftElbowWall);
+                rightElbow.setPosition(rightElbowWall);
+                return false;
+            }
+        }
+
+        public Action elbowWall() {
+            return new ElbowWall();
+        }
+
+        public class ElbowBasket implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                leftElbow.setPosition(leftElbowbasket);
+                rightElbow.setPosition(rightElbowbasket);
+                return false;
+            }
+        }
+
+        public Action elbowBasket() {
+            return new ElbowBasket();
+        }
+
+        public class ElbowIntake implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                leftElbow.setPosition(leftElbowintake);
+                rightElbow.setPosition(rightElbowintake);
+                return false;
+            }
+        }
+
+        public Action elbowIntake() {
+            return new ElbowIntake();
+        }
+
+        public class ElbowHang implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                leftElbow.setPosition(leftElbowhangSpecimen);
+                rightElbow.setPosition(rightElbowhangSpecimen);
+                return false;
+            }
+        }
+
+        public Action elbowHang() {
+            return new ElbowHang();
         }
     }
-    public Action extednoOut() {
-        return new ExtendoOut();
-    }
-    public class ExtendoIn implements Action {
-        @Override
-        public boolean run(@NonNull TelemetryPacket packet) {
-            Lextendo.setPosition(leftExtendoIn);
-            Rextendo.setPosition(rightExtendoIn);
-            return false;
+    public class Wheel {
+        private CRServo wheel;
+        public Wheel() {
+            wheel = hardwareMap.get(CRServo.class, "intakeWheel");
         }
-    }
-    public Action extednoIn() {
-        return new ExtendoIn();
-    }
-    public class ExtendoHalf implements Action {
-        @Override
-        public boolean run(@NonNull TelemetryPacket packet) {
-            Lextendo.setPosition(leftExtendohalf);
-            Rextendo.setPosition(rightExtendohalf);
-            return false;
+        public class WheelFoward implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                intakeWheel.setPower(intakeWheelforward);
+                return false;
+            }
         }
-    }
-    public Action extednoHalf() {
-        return new ExtendoHalf();
-    }
-    public class Shoulderwall implements Action {
-        @Override
-        public boolean run(@NonNull TelemetryPacket packet) {
-            leftShoulder.setPosition(leftShoulderWall);
-            rightShoulder.setPosition(rightShoulderWall);
-            return false;
+
+        public Action wheelFoward() {
+            return new WheelFoward();
         }
-    }
-    public Action shoulderWall() {
-        return new Shoulderwall();
-    }
-    public class Shoulderbasket implements Action {
-        @Override
-        public boolean run(@NonNull TelemetryPacket packet) {
-            leftShoulder.setPosition(leftShoulderbasket);
-            rightShoulder.setPosition(rightShoulderbasket);
-            return false;
+
+        public class WheelBackward implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                intakeWheel.setPower(intakeWheelbackward);
+                return false;
+            }
         }
-    }
-    public Action shoulderbasket() {
-        return new Shoulderbasket();
-    }
-    public class Shoulderintake implements Action {
-        @Override
-        public boolean run(@NonNull TelemetryPacket packet) {
-            leftShoulder.setPosition(leftShoulderintake);
-            rightShoulder.setPosition(rightShoulderintake);
-            return false;
+
+        public Action wheelBackward() {
+            return new WheelBackward();
         }
-    }
-    public Action shoulderintake() {
-        return new Shoulderintake();
-    }
-    public class Shouldertransition implements Action {
-        @Override
-        public boolean run(@NonNull TelemetryPacket packet) {
-            leftShoulder.setPosition(leftShoulderspecimenTransition);
-            rightShoulder.setPosition(rightShoulderspecimenTransition);
-            return false;
+
+        public class WheelOff implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                intakeWheel.setPower(intakeWheeloff);
+                return false;
+            }
         }
-    }
-    public Action shouldertransition() {
-        return new Shouldertransition();
-    }
-    public class ShoulderoutOftheWay implements Action {
-        @Override
-        public boolean run(@NonNull TelemetryPacket packet) {
-            leftShoulder.setPosition(leftShoulderoutOftheWay);
-            rightShoulder.setPosition(rightShoulderoutOftheWay);
-            return false;
+
+        public Action wheelOff() {
+            return new WheelOff();
         }
-    }
-    public Action shoulderoutOftheWay() {
-        return new ShoulderoutOftheWay();
-    }
-    public class ShoulderHangSpecimen implements Action {
-        @Override
-        public boolean run(@NonNull TelemetryPacket packet) {
-            leftShoulder.setPosition(leftShoulderhangSpecimen);
-            rightShoulder.setPosition(rightShoulderhangSpecimen);
-            return false;
-        }
-    }
-    public Action shoulderHangSpecimen() {
-        return new ShoulderHangSpecimen();
-    }
-    public class ElbowWall implements Action {
-        @Override
-        public boolean run(@NonNull TelemetryPacket packet) {
-            leftElbow.setPosition(leftElbowWall);
-            rightElbow.setPosition(rightElbowWall);
-            return false;
-        }
-    }
-    public Action elbowWall() {
-        return new ElbowWall();
-    }
-    public class ElbowBasket implements Action {
-        @Override
-        public boolean run(@NonNull TelemetryPacket packet) {
-            leftElbow.setPosition(leftElbowbasket);
-            rightElbow.setPosition(rightElbowbasket);
-            return false;
-        }
-    }
-    public Action elbowBasket() {
-        return new ElbowBasket();
-    }
-    public class ElbowIntake implements Action {
-        @Override
-        public boolean run(@NonNull TelemetryPacket packet) {
-            leftElbow.setPosition(leftElbowintake);
-            rightElbow.setPosition(rightElbowintake);
-            return false;
-        }
-    }
-    public Action elbowIntake() {
-        return new ElbowIntake();
-    }
-    public class ElbowHang implements Action {
-        @Override
-        public boolean run(@NonNull TelemetryPacket packet) {
-            leftElbow.setPosition(leftElbowhangSpecimen);
-            rightElbow.setPosition(rightElbowhangSpecimen);
-            return false;
-        }
-    }
-    public Action elbowHang() {
-        return new ElbowHang();
-    }
-    public class WheelFoward implements Action {
-        @Override
-        public boolean run(@NonNull TelemetryPacket packet) {
-            intakeWheel.setPower(intakeWheelforward);
-            return false;
-        }
-    }
-    public Action wheelFoward() {
-        return new WheelFoward();
-    }
-    public class WheelBackward implements Action {
-        @Override
-        public boolean run(@NonNull TelemetryPacket packet) {
-            intakeWheel.setPower(intakeWheelbackward);
-            return false;
-        }
-    }
-    public Action wheelBackward() {
-        return new WheelBackward();
-    }
-    public class WheelOff implements Action {
-        @Override
-        public boolean run(@NonNull TelemetryPacket packet) {
-            intakeWheel.setPower(intakeWheeloff);
-            return false;
-        }
-    }
-    public Action wheelOff() {
-        return new WheelOff();
     }
     public void main() {
         extendoOut();
     }
     public class Lextendo {
-        private Servo lExtendo;
+        private Servo lextendo;
 
         public Lextendo(HardwareMap hardwareMap) {
-            lExtendo = hardwareMap.get(Servo.class, "Lextendo");
+            lextendo = hardwareMap.get(Servo.class, "Lextendo");
             Lextendo.setPosition(leftExtendoOut);
         }
     }
