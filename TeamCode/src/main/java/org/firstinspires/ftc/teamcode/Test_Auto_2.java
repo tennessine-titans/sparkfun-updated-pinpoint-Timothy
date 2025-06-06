@@ -34,6 +34,7 @@ public class Test_Auto_2 extends Timothy {
         Pose2d initialPose = new Pose2d(-9, 63, 3*Math.PI/2);
         PinpointDrive drive = new PinpointDrive(hardwareMap, initialPose);
         Lift lift = new Lift(hardwareMap);
+
         Action TrajectoryAction11 = drive.actionBuilder(drive.pose)
                 // go to submersible
                 .strafeToLinearHeading(new Vector2d(-3,30),3*Math.PI/2)
@@ -86,6 +87,8 @@ public class Test_Auto_2 extends Timothy {
                 //hang fifth specimen
                 .strafeToLinearHeading(new Vector2d(-3,30),3*Math.PI/2)
                 .build();
+
+
         int startPosition = 1;
         telemetry.addData("Starting Position", startPosition);
         telemetry.addData("Position X", drive.pose.position.x);
@@ -104,8 +107,9 @@ public class Test_Auto_2 extends Timothy {
                                     shoulderHangSpecimen(),
                                     elbowHang(),
                                     TrajectoryAction11
-                            )
-                    )
+                            ),
+                            openClaw()
+                        )
                 )
         );
     }

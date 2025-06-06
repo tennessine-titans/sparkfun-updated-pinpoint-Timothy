@@ -188,7 +188,7 @@ public abstract class Timothy extends LinearOpMode {
                 packet.put("liftpos",pos);
 
                 // ToDo determine how many ticks represents lift up (left + right)
-                if (pos> target-50) {
+                if (pos> target-10) {
                     telemetry.addData("Position ",pos);
                     telemetry.update();
                     return true;
@@ -214,7 +214,7 @@ public abstract class Timothy extends LinearOpMode {
                 packet.put("liftpos",pos);
 
                 // ToDo determine how many ticks represents lift up (left + right)
-                if (pos> target+50) {
+                if (pos< target+10) {
                     telemetry.addData("Position ",pos);
                     telemetry.update();
                     return true;
@@ -241,7 +241,7 @@ public abstract class Timothy extends LinearOpMode {
                 packet.put("liftpos",pos);
 
                 // ToDo determine how many ticks represents lift up (left + right)
-                if (pos> target+50) {
+                if (pos> target-10 && pos< target+10) {
                     telemetry.addData("Position ",pos);
                     telemetry.update();
                     return true;
@@ -268,7 +268,7 @@ public abstract class Timothy extends LinearOpMode {
                 packet.put("liftpos",pos);
 
                 // ToDo determine how many ticks represents lift up (left + right)
-                if (pos> target+50) {
+                if (pos> target-10 && pos< target +10) {
                     telemetry.addData("Position ",pos);
                     telemetry.update();
                     return true;
@@ -295,7 +295,7 @@ public abstract class Timothy extends LinearOpMode {
                 packet.put("liftpos",pos);
 
                 // ToDo determine how many ticks represents lift up (left + right)
-                if (pos> target+50) {
+                if (pos> target-10 && pos < target +10) {
                     telemetry.addData("Position ",pos);
                     telemetry.update();
                     return true;
