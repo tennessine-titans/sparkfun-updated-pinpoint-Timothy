@@ -19,9 +19,15 @@ public class MeepMeepTesting {
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(45, 60, Math.toRadians(180), Math.toRadians(180), 15)
+                .setConstraints(60, 50, Math.toRadians(180), Math.toRadians(180), 15)
                         .build();
-                myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-9, 64, 3*Math.PI/2))
+                //myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-9, 64, 3*Math.PI/2))
+                myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-3, 30, 3*Math.PI/2))
+                        .setTangent(3*Math.PI/4)
+                        .splineToConstantHeading(new Vector2d(-40, 60),Math.PI/2)
+                        .setTangent(7*Math.PI/4)
+                        .strafeToLinearHeading(new Vector2d(-3,30),3*Math.PI/2)
+                        /*
                         // go to submersible
                         .strafeToLinearHeading(new Vector2d(-3,30),3*Math.PI/2)
                         // drvie to first sample
@@ -54,7 +60,11 @@ public class MeepMeepTesting {
                         .strafeToLinearHeading(new Vector2d(-40, 60),3*Math.PI/2)
                         //hang fifth specimen
                         .strafeToLinearHeading(new Vector2d(-3,30),3*Math.PI/2)
+                        */
                         .build());
+
+
+
 
         Image img = null;
         try { img = ImageIO.read(new File("C:\\Users\\FTC21457\\Pictures\\field-2024-juice-dark.png")); }
