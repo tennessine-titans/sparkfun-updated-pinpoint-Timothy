@@ -593,7 +593,7 @@ public abstract class Timothy extends LinearOpMode {
             return new WheelOff();
         }
     }
-    public void main() {
+    /*public void main() {
         extendoOut();
     }
     public class Lextendo {
@@ -613,4 +613,72 @@ public abstract class Timothy extends LinearOpMode {
     public void extendoOut() {
         Rextendo.setPosition(rightExtendoOut);
     }
+
+     */
+
+
+    /*//    Active intake function?
+    public class Active_Intake {
+        private Servo Lextendo;
+        private Servo Rextendo;
+        private CRServo Wheel;
+        private Servo intakePosition;
+
+        public Active_Intake() {
+            Lextendo = hardwareMap.get(Servo.class, "Lextendo");
+            Rextendo = hardwareMap.get(Servo.class, "Rextendo");
+            Wheel = hardwareMap.get(CRServo.class, "wheel");
+            intakePosition = hardwareMap.get(Servo.class, "intakePosition");
+        }
+
+        public class Active_IntakeOn implements Action {
+
+            private boolean initialized = false;
+            private double newLExtendoPosition = leftExtendohalf;
+            private double newRExtendoPosition = rightExtendohalf;
+
+
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                if (!initialized) {
+                    Lextendo.setPosition(leftExtendoOut);
+                    Rextendo.setPosition(rightExtendoOut);
+
+                    if {//color sensor sees no color
+                        intakePosition.setPosition(intakeDown);
+                        Wheel.setPower(intakeWheelforward);
+                        newLExtendoPosition = newLExtendoPosition + 0.01;
+                        newRExtendoPosition = newRExtendoPosition + 0.01;
+
+                        return true;
+                    }
+                        else if {// sees wrong color
+                        Wheel.setPower(intakeWheelbackward);
+                        // need to add a wait to allow sample to get out of the chute
+                        return true;
+                    }
+                        else if {// sees correct color
+                        intakePosition.setPosition(intakeUp);
+                        Wheel.setPower(intakeWheeloff);
+                        Lextendo.setPosition(leftExtendoIn);
+                        Rextendo.setPosition(rightExtendoIn);
+                        return false;
+                    }
+                        else if newLExtendoPosition = leftExtendoOut {
+                        intakePosition.setPosition(intakeUp);
+                        Wheel.setPower(intakeWheeloff);
+                        Lextendo.setPosition(leftExtendoIn);
+                        Rextendo.setPosition(rightExtendoIn);
+                    return false;
+                }
+
+
+                }
+                return false;
+
+            }
+        }
     }
+
+     */
+}
