@@ -6,6 +6,7 @@ import com.acmerobotics.roadrunner.Action;
 import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -14,7 +15,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 @Config
 public abstract class Timothy extends LinearOpMode {
-    // Variables and actions used to set and run Timothys servo postions and motor positions.
+    // Variables and actions used to set and run Timothys servo positions and motor positions.
     //Set default values;
     protected double intakeDown = .58;// to pick up sample
     protected double intakeUp = .26; // postiton when extendo is retracted
@@ -69,6 +70,7 @@ public abstract class Timothy extends LinearOpMode {
     public Servo claw;
     public DcMotor lift1;
     public DcMotor lift2;
+
     //public ColorSensor intakeSensor;
     //public ColorSensor clawSensor;
     public void intLextendo(){
@@ -112,8 +114,11 @@ public abstract class Timothy extends LinearOpMode {
         lift2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         lift2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
+
     //public void intintakeSensor() {
-        //intakeSensor = hardwareMap.get(ColorSensor.class, "intakeSensor");
+
+    //    intakeSensor = hardwareMap.get(ColorSensor.class, "intakeSensor");
+    //}
         //public void intclawSensor() {
            // clawSensor = hardwareMap.get(ColorSensor.class, "clawSensor");
     //PIDF Controller Class for the lifts only need to change target value for controller to drive lift motors.
@@ -202,7 +207,7 @@ public abstract class Timothy extends LinearOpMode {
                 double pos = lift1.getCurrentPosition();
                 packet.put("liftpos",pos);
 
-                // ToDo determine how many ticks represents lift up (left + right)
+                // ToDo determine how many ticks represents lift down (left + right)
                 if (pos< target+10) {
                     telemetry.addData("Position ",pos);
                     telemetry.update();

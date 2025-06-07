@@ -45,7 +45,8 @@ public class Test_Auto_2 extends Timothy {
                 // go to submersible
                 .strafeToLinearHeading(new Vector2d(-3,29),3*Math.PI/2)
                 .build();
-        Action TrajectoryAction12 = drive.actionBuilder(drive.pose)
+        Action TrajectoryAction12 = drive.actionBuilder(new Pose2d(-3,29,3*Math.PI/2))
+        //Action TrajectoryAction12 = drive.actionBuilder(drive.pose)
                 // drvie to first sample
                 .setTangent(5*Math.PI/8)
                 .splineToConstantHeading(new Vector2d(-38, 40),Math.PI)
@@ -168,6 +169,7 @@ public class Test_Auto_2 extends Timothy {
                 new ParallelAction(
                         lift.pidf_Lift_Controller(),
                         new SequentialAction(
+                                    //Drive to Submersible and hang first sample
                             new ParallelAction(
                                     TrajectoryAction11,
                                     new SequentialAction(
@@ -181,6 +183,7 @@ public class Test_Auto_2 extends Timothy {
                             claw.openClaw(),
                                 WaitAction25,
                                 new ParallelAction(
+                                        //Push all the samples to the human player area and set the arms to pick off the wall
                                         TrajectoryAction12,
                                         new SequentialAction(
                                                 shoulder.shouldertransition(),
@@ -195,7 +198,7 @@ public class Test_Auto_2 extends Timothy {
                                         )
 
                                 ),
-
+                                //grab 2nd sample off the wall and drive to the submersible
                                 claw.closeClaw(),
                                 WaitAction52,
                                 lift.liftHangSample_PIDF(),
@@ -207,12 +210,12 @@ public class Test_Auto_2 extends Timothy {
                                         elbow.elbowHang()
                                         )
                                 ),
-
+                                //Hang Sample 2
                                 lift.liftExtraBump_PIDF(),
                                 WaitAction54,
                                 claw.openClaw(),
                                 WaitAction29,
-
+                                //Drive to wall to pick sample 3
                                 new ParallelAction(
                                         TrajectoryAction15,
                                         new SequentialAction(
@@ -223,7 +226,8 @@ public class Test_Auto_2 extends Timothy {
                                                 lift.liftWall_PIDF()
                                         )
                                 ),
-                               claw.closeClaw(),
+                                //Grab 3rd sample from the wall
+                                claw.closeClaw(),
                                 WaitAction222
                                /*
                                lift.liftHangSample_PIDF(),
