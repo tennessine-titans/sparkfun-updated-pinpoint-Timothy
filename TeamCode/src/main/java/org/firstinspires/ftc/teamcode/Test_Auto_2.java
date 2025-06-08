@@ -63,35 +63,36 @@ public class Test_Auto_2 extends Timothy {
                 .splineToConstantHeading(new Vector2d(-66, 48),Math.PI/2)
                 .splineToConstantHeading(new Vector2d(-36, 63),Math.PI/2)
                 .build();
-        Action TrajectoryAction13 = drive.actionBuilder(drive.pose)
+        Action TrajectoryAction13 = drive.actionBuilder(new Pose2d(-36,63,3*Math.PI/2))
                 //Pick up second sample off the wall
                 .splineToConstantHeading(new Vector2d(-40, 60),Math.PI/2)
                 .build();
-        Action TrajectoryAction14 = drive.actionBuilder(drive.pose)
+        Action TrajectoryAction14 = drive.actionBuilder(new Pose2d(-36,63,3*Math.PI/2))
                 //Hang second specimen
                 .strafeToLinearHeading(new Vector2d(-2,31),3*Math.PI/2)
                 .build();
-        Action TrajectoryAction15 = drive.actionBuilder(drive.pose)
+        Action TrajectoryAction15 = drive.actionBuilder(new Pose2d(-2,31,3*Math.PI/2))
                 // Get third specimen off the wall
-                .splineToConstantHeading(new Vector2d(-40, 60),Math.PI/2)
+                .setTangent(7*Math.PI/4)
+                .strafeToLinearHeading(new Vector2d(-3,30),3*Math.PI/2)
                 .build();
-        Action TrajectoryAction16 = drive.actionBuilder(drive.pose)
+        Action TrajectoryAction16 = drive.actionBuilder(new Pose2d(-40,60,3*Math.PI/2))
                 //hang third specimen
                 .strafeToLinearHeading(new Vector2d(-3,31),3*Math.PI/2)
                 .build();
-        Action TrajectoryAction17 = drive.actionBuilder(drive.pose)
+        Action TrajectoryAction17 = drive.actionBuilder(new Pose2d(-3,31,3*Math.PI/2))
                 // Get fourth specimen off the wall
                 .strafeToLinearHeading(new Vector2d(-40, 60),3*Math.PI/2)
                 .build();
-        Action TrajectoryAction18 = drive.actionBuilder(drive.pose)
+        Action TrajectoryAction18 = drive.actionBuilder(new Pose2d(-40,60,3*Math.PI/2))
                 //hang fourth specimen
                 .strafeToLinearHeading(new Vector2d(-3,31),3*Math.PI/2)
                 .build();
-        Action TrajectoryAction19 = drive.actionBuilder(drive.pose)
+        Action TrajectoryAction19 = drive.actionBuilder(new Pose2d(-3,31,3*Math.PI/2))
                 // Get fifth specimen off the wall
                 .strafeToLinearHeading(new Vector2d(-40, 60),3*Math.PI/2)
                 .build();
-        Action TrajectoryAction20 = drive.actionBuilder(drive.pose)
+        Action TrajectoryAction20 = drive.actionBuilder(new Pose2d(-40,60,3*Math.PI/2))
                 //hang fifth specimen
                 .strafeToLinearHeading(new Vector2d(-3,34),3*Math.PI/2)
                 .build();

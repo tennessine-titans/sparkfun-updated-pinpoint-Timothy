@@ -13,12 +13,12 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 
 @TeleOp(name = "test")
-public class LinearTeleop extends Timothy{
+public class LinearTeleop extends Timothy {
 
 
     @Override
     public void runOpMode() {
-       // waitForStart();
+        // waitForStart();
         intLextendo();
         intRextendo();
         intintakePosition();
@@ -50,15 +50,16 @@ public class LinearTeleop extends Timothy{
         lift1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         lift2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+
         waitForStart();
 
-        while(opModeIsActive()){
+        while (opModeIsActive()) {
             lift1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             lift2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             lift1.setPower(.5);
             lift2.setPower(.5);
             // D-pad left -  extendo out
-            if (gamepad2.dpad_left){
+            if (gamepad2.dpad_left) {
                 claw.setPosition(clawOpen);
                 leftShoulder.setPosition(leftShoulderoutOftheWay);
                 rightShoulder.setPosition(rightShoulderoutOftheWay);
@@ -67,17 +68,17 @@ public class LinearTeleop extends Timothy{
                 Rextendo.setPosition(rightExtendoOut);
             }
             // D-pad right -  extendo in
-            else if (gamepad2.dpad_right){
+            else if (gamepad2.dpad_right) {
                 claw.setPosition(clawOpen);
                 leftShoulder.setPosition(leftShoulderoutOftheWay);
                 rightShoulder.setPosition(rightShoulderoutOftheWay);
-                intakePosition.setPosition (intakeUp);
+                intakePosition.setPosition(intakeUp);
                 sleep(100);
-                Lextendo.setPosition (leftExtendoIn);
-                Rextendo.setPosition (rightExtendoIn);
+                Lextendo.setPosition(leftExtendoIn);
+                Rextendo.setPosition(rightExtendoIn);
             }
             // Transfer to human player
-            else if (gamepad2.dpad_up){
+            else if (gamepad2.dpad_up) {
                 intakePosition.setPosition(intakeUp);
                 rightShoulder.setPosition(rightShoulderoutOftheWay);
                 leftShoulder.setPosition(leftShoulderoutOftheWay);
@@ -100,7 +101,7 @@ public class LinearTeleop extends Timothy{
                 lift2.setTargetPosition(10);
             }
             // Arms down to pick up out intake
-            else if (gamepad2.dpad_down){
+            else if (gamepad2.dpad_down) {
                 claw.setPosition(clawOpen);
                 rightShoulder.setPosition(rightShoulderintake);
                 leftShoulder.setPosition(leftShoulderintake);
@@ -110,7 +111,7 @@ public class LinearTeleop extends Timothy{
                 lift2.setTargetPosition(10);
             }
             // Get in position to hang specimen
-            else if (gamepad2.cross){
+            else if (gamepad2.cross) {
                 lift1.setTargetPosition(650);
                 claw.setPosition(clawClosed);
                 rightShoulder.setPosition(rightShoulderspecimenTransition);
@@ -122,21 +123,20 @@ public class LinearTeleop extends Timothy{
                 rightShoulder.setPosition(rightShoulderhangSpecimen);
                 leftShoulder.setPosition(leftShoulderhangSpecimen);
 
-            }
-            else if (gamepad2.square){
+            } else if (gamepad2.square) {
                 claw.setPosition(clawClosed);
                 lift1.setTargetPosition(950);
                 lift2.setTargetPosition(950);
             }
             // Tansfer sample from intake to claw and go up to put in bucket
-            else if (gamepad2.triangle){
+            else if (gamepad2.triangle) {
                 rightShoulder.setPosition(rightShoulderoutOftheWay);
                 leftShoulder.setPosition(leftShoulderoutOftheWay);
                 claw.setPosition(clawOpen);
-                intakePosition.setPosition (intakeUp);
+                intakePosition.setPosition(intakeUp);
                 sleep(100);
-                Lextendo.setPosition (leftExtendoIn);
-                Rextendo.setPosition (rightExtendoIn);
+                Lextendo.setPosition(leftExtendoIn);
+                Rextendo.setPosition(rightExtendoIn);
                 sleep(1);
                 leftElbow.setPosition(leftElbowintake);
                 rightElbow.setPosition(rightElbowintake);
@@ -148,14 +148,14 @@ public class LinearTeleop extends Timothy{
                 claw.setPosition(clawClosed);
                 lift1.setTargetPosition(1500);
                 lift2.setTargetPosition(1500);
-                leftShoulder.setPosition (leftShoulderbasket);
+                leftShoulder.setPosition(leftShoulderbasket);
                 rightShoulder.setPosition(rightShoulderbasket);
                 sleep(100);
                 leftElbow.setPosition(leftElbowbasket);
                 rightElbow.setPosition(rightElbowbasket);
             }
             // Go to position to pick up specimen off wall
-            else if (gamepad2.circle){
+            else if (gamepad2.circle) {
                 leftShoulder.setPosition(leftShoulderspecimenTransition);
                 rightShoulder.setPosition(rightShoulderspecimenTransition);
                 sleep(100);
@@ -168,17 +168,17 @@ public class LinearTeleop extends Timothy{
                 lift2.setTargetPosition(10);
             }
             //open claw
-            else if (gamepad2.right_bumper){
+            else if (gamepad2.right_bumper) {
                 claw.setPosition(clawOpen);
             }
             //closed claw
-            else if (gamepad2.left_bumper){
+            else if (gamepad2.left_bumper) {
                 claw.setPosition(clawClosed);
             }
             // Right bumper - Intake down
-             if (gamepad1.right_bumper){
-                intakePosition.setPosition (intakeDown);
-                intakeWheel.setPower (intakeWheelforward);
+            if (gamepad1.right_bumper) {
+                intakePosition.setPosition(intakeDown);
+                intakeWheel.setPower(intakeWheelforward);
                 /* if (isRed || isYellow) {
                      intakeWheel.setPower(0); // Stop
                  } else if (isBlue) {
@@ -188,14 +188,41 @@ public class LinearTeleop extends Timothy{
                  }
 
                  */
+            } else if (gamepad1.left_bumper) {
+                intakePosition.setPosition(intakeUp);
+                intakeWheel.setPower(intakeWheeloff);
             }
-            else if (gamepad1.left_bumper) {
-                 intakePosition.setPosition(intakeUp);
-                 intakeWheel.setPower(intakeWheeloff);
-             }
-            telemetry.addData("lift1",lift1.getCurrentPosition());
-            telemetry.addData("lift2",lift2.getCurrentPosition());
-            telemetry.update();
+            while (opModeIsActive()) {
+                double max;
+
+                // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
+                double axial = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
+                double lateral = gamepad1.left_stick_x;
+                double yaw = gamepad1.right_stick_x;
+
+                // Combine the joystick requests for each axis-motion to determine each wheel's power.
+                // Set up a variable for each drive wheel to save the power level for telemetry.
+                double leftFrontPower = axial + lateral + yaw;
+                double rightFrontPower = axial - lateral - yaw;
+                double leftBackPower = axial - lateral + yaw;
+                double rightBackPower = axial + lateral - yaw;
+
+                // Normalize the values so no wheel power exceeds 100%
+                // This ensures that the robot maintains the desired motion.
+                max = Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower));
+                max = Math.max(max, Math.abs(leftBackPower));
+                max = Math.max(max, Math.abs(rightBackPower));
+
+                if (max > 1.0) {
+                    leftFrontPower /= max;
+                    rightFrontPower /= max;
+                    leftBackPower /= max;
+                    rightBackPower /= max;
+                }
+
+                telemetry.addData("lift1", lift1.getCurrentPosition());
+                telemetry.addData("lift2", lift2.getCurrentPosition());
+                telemetry.update();
 
             /*
             telemetry.addData("Red", red);
@@ -212,8 +239,9 @@ public class LinearTeleop extends Timothy{
             telemetry.update();
 
              */
+            }
+
+
         }
-
-
     }
 }
