@@ -49,12 +49,13 @@ public class Test_Auto_2 extends Timothy {
         //Action TrajectoryAction12 = drive.actionBuilder(drive.pose)
                 // drvie to first sample
                 .setTangent(5*Math.PI/8)
-                .splineToConstantHeading(new Vector2d(-36, 40),Math.PI)
-                .splineToConstantHeading(new Vector2d(-36, 14),Math.PI)
+                .splineToConstantHeading(new Vector2d(-34, 40),Math.PI)
+                //.splineToConstantHeading(new Vector2d(-36, 40),Math.PI)
+                .splineToConstantHeading(new Vector2d(-40, 14),Math.PI)
                 //push sample to wall
                 .splineToConstantHeading(new Vector2d(-45, 48),Math.PI)
                 // go behind second sample
-                .splineToConstantHeading(new Vector2d(-51, 14),Math.PI)
+                .splineToConstantHeading(new Vector2d(-53, 14),Math.PI)
                 //push sample to wall
                 .splineToConstantHeading(new Vector2d(-57, 48),Math.PI)
                 //go behind third sample
@@ -65,7 +66,7 @@ public class Test_Auto_2 extends Timothy {
                 .build();
         Action TrajectoryAction14 = drive.actionBuilder(new Pose2d(-36,63,3*Math.PI/2))
                 //Hang second specimen
-                .strafeToLinearHeading(new Vector2d(-2,31),3*Math.PI/2)
+                .strafeToLinearHeading(new Vector2d(-2,32),3*Math.PI/2)
                 .build();
         Action TrajectoryAction15 = drive.actionBuilder(new Pose2d(-2,31,3*Math.PI/2))
                 // Get third specimen off the wall
@@ -183,6 +184,7 @@ public class Test_Auto_2 extends Timothy {
                                         //Push all the samples to the human player area and set the arms to pick off the wall
                                         TrajectoryAction12,
                                         new SequentialAction(
+                                                WaitAction54,
                                                 shoulder.shouldertransition(),
                                                 claw.closeClaw(),
                                                 WaitAction26,
@@ -225,9 +227,10 @@ public class Test_Auto_2 extends Timothy {
                                 ),
                                 //Grab 3rd sample from the wall
                                 claw.closeClaw(),
-                                WaitAction222
-                               /*
+                                WaitAction222,
+
                                lift.liftHangSample_PIDF(),
+                                WaitAction223,
                                 new ParallelAction(
                                         TrajectoryAction15,
                                         new SequentialAction(
@@ -238,7 +241,8 @@ public class Test_Auto_2 extends Timothy {
                                 ),
                                 lift.liftExtraBump_PIDF(),
                                 claw.openClaw(),
-                                WaitAction25,
+                                WaitAction25
+                                /*
                                 new ParallelAction(
                                         TrajectoryAction16,
                                         new ParallelAction(
