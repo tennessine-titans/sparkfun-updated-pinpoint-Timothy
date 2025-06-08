@@ -66,7 +66,7 @@ public class Test_Auto_2 extends Timothy {
                 .build();
         Action TrajectoryAction14 = drive.actionBuilder(new Pose2d(-36,63,3*Math.PI/2))
                 //Hang second specimen
-                .strafeToLinearHeading(new Vector2d(-1,32),3*Math.PI/2)
+                .strafeToLinearHeading(new Vector2d(-4,31),3*Math.PI/2)
                 .build();
         Action TrajectoryAction15 = drive.actionBuilder(new Pose2d(-2,31,3*Math.PI/2))
                 // Get third specimen off the wall
@@ -75,7 +75,7 @@ public class Test_Auto_2 extends Timothy {
                 .build();
         Action TrajectoryAction16 = drive.actionBuilder(drive.pose)
                 //hang third specimen
-                .strafeToLinearHeading(new Vector2d(0,30),3*Math.PI/2)
+                .strafeToLinearHeading(new Vector2d(-5,30),3*Math.PI/2)
                 .build();
         Action TrajectoryAction17 = drive.actionBuilder(drive.pose)
                 // Get fourth specimen off the wall
@@ -83,7 +83,7 @@ public class Test_Auto_2 extends Timothy {
                 .build();
         Action TrajectoryAction18 = drive.actionBuilder(drive.pose)
                 //hang fourth specimen
-                .strafeToLinearHeading(new Vector2d(-3,31),3*Math.PI/2)
+                .strafeToLinearHeading(new Vector2d(-6,31),3*Math.PI/2)
                 .build();
         Action TrajectoryAction19 = drive.actionBuilder(drive.pose)
                 // Get fifth specimen off the wall
@@ -91,7 +91,7 @@ public class Test_Auto_2 extends Timothy {
                 .build();
         Action TrajectoryAction20 = drive.actionBuilder(drive.pose)
                 //hang fifth specimen
-                .strafeToLinearHeading(new Vector2d(-3,34),3*Math.PI/2)
+                .strafeToLinearHeading(new Vector2d(-7,34),3*Math.PI/2)
                 .build();
         Action WaitAction1 = drive.actionBuilder(drive.pose)
                 .waitSeconds(.1)
@@ -140,6 +140,12 @@ public class Test_Auto_2 extends Timothy {
         Action WaitAction224 = drive.actionBuilder(drive.pose)
                 .waitSeconds(.25)
                 .build();
+        Action WaitAction225 = drive.actionBuilder(drive.pose)
+                .waitSeconds(.25)
+                .build();
+        Action WaitAction226 = drive.actionBuilder(drive.pose)
+                .waitSeconds(.25)
+                .build();
         Action WaitAction52 = drive.actionBuilder(drive.pose)
                 .waitSeconds(.50)
                 .build();
@@ -150,6 +156,9 @@ public class Test_Auto_2 extends Timothy {
                 .waitSeconds(.50)
                 .build();
         Action WaitAction55 = drive.actionBuilder(drive.pose)
+                .waitSeconds(.50)
+                .build();
+        Action WaitAction56 = drive.actionBuilder(drive.pose)
                 .waitSeconds(.50)
                 .build();
         Action WaitAction70= drive.actionBuilder(drive.pose)
@@ -254,7 +263,7 @@ public class Test_Auto_2 extends Timothy {
                             lift.liftExtraBump_PIDF(),
                             WaitAction71,
                             claw.openClaw(),
-                            WaitAction25,
+                            WaitAction56,
                             new ParallelAction(
                                 TrajectoryAction17,
                                 new SequentialAction(
@@ -267,7 +276,7 @@ public class Test_Auto_2 extends Timothy {
                             ),
                                 //grab 4th
                             claw.closeClaw(),
-                            WaitAction52,
+                            WaitAction55,
                             lift.liftHangSample_PIDF(),
                             new ParallelAction(
                                 TrajectoryAction18,
@@ -279,33 +288,31 @@ public class Test_Auto_2 extends Timothy {
                             lift.liftExtraBump_PIDF(),
                             WaitAction72,
                             claw.openClaw(),
-                            WaitAction25
-                                /*
-                                new ParallelAction(
-                                        TrajectoryAction18,
-                                        new SequentialAction(
-                                                shoulder.shouldertransition(),
-                                                elbow.elbowWall(),
-                                                shoulder.shoulderWall(),
-                                                WaitAction25,
-                                                lift.liftWall_PIDF()
-                                        )
-                                ),
-                                claw.closeClaw(),
-                                WaitAction25,
-                                lift.liftHangSample_PIDF(),
-                                new ParallelAction(
-                                        TrajectoryAction19,
-                                        new SequentialAction(
-                                                shoulder.shoulderHangSpecimen(),
-                                                elbow.elbowHang()
-                                        )
-                                ),
-                                lift.liftExtraBump_PIDF(),
-                                claw.openClaw(),
-                                WaitAction25,
-                                TrajectoryAction20
-                                */
+                            WaitAction224,
+                            new ParallelAction(
+                                TrajectoryAction18,
+                                new SequentialAction(
+                                    shoulder.shouldertransition(),
+                                    elbow.elbowWall(),
+                                    shoulder.shoulderWall(),
+                                    WaitAction225,
+                                    lift.liftWall_PIDF()
+                                )
+                            ),
+                            claw.closeClaw(),
+                            WaitAction226,
+                            lift.liftHangSample_PIDF(),
+                            new ParallelAction(
+                                TrajectoryAction19,
+                                new SequentialAction(
+                                    shoulder.shoulderHangSpecimen(),
+                                    elbow.elbowHang()
+                                )
+                            ),
+                            lift.liftExtraBump_PIDF(),
+                            claw.openClaw(),
+                            WaitAction25,
+                            TrajectoryAction20
                         )
                 )
         );
