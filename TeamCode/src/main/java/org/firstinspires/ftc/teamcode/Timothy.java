@@ -70,10 +70,6 @@ public abstract class Timothy extends LinearOpMode {
     public Servo claw;
     public DcMotor lift1;
     public DcMotor lift2;
-    private DcMotor leftFrontDrive = null;
-    private DcMotor leftBackDrive = null;
-    private DcMotor rightFrontDrive = null;
-    private DcMotor rightBackDrive = null;
 
     //public ColorSensor intakeSensor;
     //public ColorSensor clawSensor;
@@ -118,14 +114,6 @@ public abstract class Timothy extends LinearOpMode {
         lift2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         lift2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
-    public void drive (){
-        leftFrontDrive  = hardwareMap.get(DcMotor.class, "leftFront");
-        leftBackDrive  = hardwareMap.get(DcMotor.class, "leftBack");
-        rightFrontDrive = hardwareMap.get(DcMotor.class, "rightFront");
-        rightBackDrive = hardwareMap.get(DcMotor.class, "rightBack");
-
-    }
-
 
     //public void intintakeSensor() {
 
