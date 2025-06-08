@@ -43,7 +43,7 @@ public class Test_Auto_2 extends Timothy {
 
         Action TrajectoryAction11 = drive.actionBuilder(drive.pose)
                 // go to submersible
-                .strafeToLinearHeading(new Vector2d(-3,29),3*Math.PI/2)
+                .strafeToLinearHeading(new Vector2d(6,29),3*Math.PI/2)
                 .build();
         Action TrajectoryAction12 = drive.actionBuilder(new Pose2d(-3,29,3*Math.PI/2))
         //Action TrajectoryAction12 = drive.actionBuilder(drive.pose)
@@ -66,34 +66,36 @@ public class Test_Auto_2 extends Timothy {
                 .build();
         Action TrajectoryAction14 = drive.actionBuilder(new Pose2d(-36,63,3*Math.PI/2))
                 //Hang second specimen
-                .strafeToLinearHeading(new Vector2d(-4,31),3*Math.PI/2)
+                .strafeToLinearHeading(new Vector2d(4,31),3*Math.PI/2)
                 .build();
         Action TrajectoryAction15 = drive.actionBuilder(new Pose2d(-2,31,3*Math.PI/2))
                 // Get third specimen off the wall
                 .setTangent(3 * Math.PI / 4)
                 .splineToConstantHeading(new Vector2d(-36, 64),Math.PI/2)
                 .build();
-        Action TrajectoryAction16 = drive.actionBuilder(drive.pose)
+        Action TrajectoryAction16 = drive.actionBuilder(new Pose2d(-36,64,3*Math.PI/2))
                 //hang third specimen
-                .strafeToLinearHeading(new Vector2d(-5,30),3*Math.PI/2)
+                .strafeToLinearHeading(new Vector2d(2,30),3*Math.PI/2)
                 .build();
-        Action TrajectoryAction17 = drive.actionBuilder(drive.pose)
+        Action TrajectoryAction17 = drive.actionBuilder(new Pose2d(-5,30,3*Math.PI/2))
                 // Get fourth specimen off the wall
-                .strafeToLinearHeading(new Vector2d(-36, 64),3*Math.PI/2)
+                .setTangent(3 * Math.PI / 4)
+                .splineToConstantHeading(new Vector2d(-36, 64),Math.PI/2)
                 .build();
-        Action TrajectoryAction18 = drive.actionBuilder(drive.pose)
+        Action TrajectoryAction18 = drive.actionBuilder(new Pose2d(-36,64,3*Math.PI/2))
                 //hang fourth specimen
-                .strafeToLinearHeading(new Vector2d(-6,31),3*Math.PI/2)
+                .strafeToLinearHeading(new Vector2d(0,31),3*Math.PI/2)
                 .build();
-        Action TrajectoryAction19 = drive.actionBuilder(drive.pose)
+        Action TrajectoryAction19 = drive.actionBuilder(new Pose2d(-6,31,3*Math.PI/2))
                 // Get fifth specimen off the wall
-                .strafeToLinearHeading(new Vector2d(-40, 60),3*Math.PI/2)
+                .setTangent(3 * Math.PI / 4)
+                .splineToConstantHeading(new Vector2d(-36, 64),Math.PI/2)
                 .build();
-        Action TrajectoryAction20 = drive.actionBuilder(drive.pose)
+        Action TrajectoryAction20 = drive.actionBuilder(new Pose2d(-36,31,3*Math.PI/2))
                 //hang fifth specimen
-                .strafeToLinearHeading(new Vector2d(-7,34),3*Math.PI/2)
+                .strafeToLinearHeading(new Vector2d(-2,34),3*Math.PI/2)
                 .build();
-        Action WaitAction1 = drive.actionBuilder(drive.pose)
+        Action WaitAction1 = drive.actionBuilder(new Pose2d(-7,34,3*Math.PI/2))
                 .waitSeconds(.1)
                 .build();
 
@@ -159,6 +161,12 @@ public class Test_Auto_2 extends Timothy {
                 .waitSeconds(.50)
                 .build();
         Action WaitAction56 = drive.actionBuilder(drive.pose)
+                .waitSeconds(.50)
+                .build();
+        Action WaitAction57 = drive.actionBuilder(drive.pose)
+                .waitSeconds(.50)
+                .build();
+        Action WaitAction58 = drive.actionBuilder(drive.pose)
                 .waitSeconds(.50)
                 .build();
         Action WaitAction70= drive.actionBuilder(drive.pose)
@@ -276,8 +284,9 @@ public class Test_Auto_2 extends Timothy {
                             ),
                                 //grab 4th
                             claw.closeClaw(),
-                            WaitAction55,
+                            WaitAction57,
                             lift.liftHangSample_PIDF(),
+                            WaitAction58,
                             new ParallelAction(
                                 TrajectoryAction18,
                                 new SequentialAction(
@@ -290,7 +299,7 @@ public class Test_Auto_2 extends Timothy {
                             claw.openClaw(),
                             WaitAction224,
                             new ParallelAction(
-                                TrajectoryAction18,
+                                TrajectoryAction19,
                                 new SequentialAction(
                                     shoulder.shouldertransition(),
                                     elbow.elbowWall(),
@@ -303,7 +312,7 @@ public class Test_Auto_2 extends Timothy {
                             WaitAction226,
                             lift.liftHangSample_PIDF(),
                             new ParallelAction(
-                                TrajectoryAction19,
+                                TrajectoryAction20,
                                 new SequentialAction(
                                     shoulder.shoulderHangSpecimen(),
                                     elbow.elbowHang()
