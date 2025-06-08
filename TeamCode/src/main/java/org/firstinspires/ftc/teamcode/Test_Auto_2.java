@@ -49,8 +49,8 @@ public class Test_Auto_2 extends Timothy {
         //Action TrajectoryAction12 = drive.actionBuilder(drive.pose)
                 // drvie to first sample
                 .setTangent(5*Math.PI/8)
-                .splineToConstantHeading(new Vector2d(-38, 40),Math.PI)
-                .splineToConstantHeading(new Vector2d(-38, 14),Math.PI)
+                .splineToConstantHeading(new Vector2d(-36, 40),Math.PI)
+                .splineToConstantHeading(new Vector2d(-36, 14),Math.PI)
                 //push sample to wall
                 .splineToConstantHeading(new Vector2d(-45, 48),Math.PI)
                 // go behind second sample
@@ -69,6 +69,7 @@ public class Test_Auto_2 extends Timothy {
                 .build();
         Action TrajectoryAction15 = drive.actionBuilder(new Pose2d(-2,31,3*Math.PI/2))
                 // Get third specimen off the wall
+                .setTangent(3 * Math.PI / 4)
                 .splineToConstantHeading(new Vector2d(-36, 63),Math.PI/2)
                 .build();
         Action TrajectoryAction16 = drive.actionBuilder(drive.pose)
