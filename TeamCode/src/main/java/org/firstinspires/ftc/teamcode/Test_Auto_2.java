@@ -71,11 +71,11 @@ public class Test_Auto_2 extends Timothy {
         Action TrajectoryAction15 = drive.actionBuilder(new Pose2d(-2,31,3*Math.PI/2))
                 // Get third specimen off the wall
                 .setTangent(3 * Math.PI / 4)
-                .splineToConstantHeading(new Vector2d(-36, 63),Math.PI/2)
+                .splineToConstantHeading(new Vector2d(-36, 64),Math.PI/2)
                 .build();
         Action TrajectoryAction16 = drive.actionBuilder(drive.pose)
                 //hang third specimen
-                .strafeToLinearHeading(new Vector2d(-3,31),3*Math.PI/2)
+                .strafeToLinearHeading(new Vector2d(-3,32),3*Math.PI/2)
                 .build();
         Action TrajectoryAction17 = drive.actionBuilder(drive.pose)
                 // Get fourth specimen off the wall
@@ -146,6 +146,9 @@ public class Test_Auto_2 extends Timothy {
         Action WaitAction54 = drive.actionBuilder(drive.pose)
                 .waitSeconds(.50)
                 .build();
+        Action WaitAction70= drive.actionBuilder(drive.pose)
+                .waitSeconds(.75)
+                .build();
 
 
         int startPosition = 1;
@@ -167,81 +170,78 @@ public class Test_Auto_2 extends Timothy {
                 new ParallelAction(
                         lift.pidf_Lift_Controller(),
                         new SequentialAction(
-                                    //Drive to Submersible and hang first sample
+                            //Drive to Submersible and hang first sample
                             new ParallelAction(
                                     TrajectoryAction11,
                                     new SequentialAction(
-                                    lift.liftHangSample_PIDF(),
+                                        lift.liftHangSample_PIDF(),
+                                        shoulder.shoulderHangSpecimen(),
+                                        elbow.elbowHang()
+                                    )
+                            ),
+                            lift.liftExtraBump_PIDF(),
+                            WaitAction51,
+                            claw.openClaw(),
+                            WaitAction25,
+                            new ParallelAction(
+                                        //Push all the samples to the human player area and set the arms to pick off the wall
+                                 TrajectoryAction12,
+                                 new SequentialAction(
+                                      WaitAction54,
+                                      shoulder.shouldertransition(),
+                                      claw.closeClaw(),
+                                      WaitAction26,
+                                      elbow.elbowWall(),
+                                      WaitAction27,
+                                      shoulder.shoulderWall(),
+                                      WaitAction28,
+                                      claw.openClaw(),
+                                      lift.liftWall_PIDF()
+                                 )
+                            ),
+                                //grab 2nd sample off the wall and drive to the submersible
+                            claw.closeClaw(),
+                            WaitAction52,
+                            lift.liftHangSample_PIDF(),
+                            WaitAction53,
+                            new ParallelAction(
+                                TrajectoryAction14,
+                                new SequentialAction(
                                     shoulder.shoulderHangSpecimen(),
                                     elbow.elbowHang()
                                     )
                             ),
-                            lift.liftExtraBump_PIDF(),
-                                WaitAction51,
-                            claw.openClaw(),
-                                WaitAction25,
-                                new ParallelAction(
-                                        //Push all the samples to the human player area and set the arms to pick off the wall
-                                        TrajectoryAction12,
-                                        new SequentialAction(
-                                                WaitAction54,
-                                                shoulder.shouldertransition(),
-                                                claw.closeClaw(),
-                                                WaitAction26,
-                                                elbow.elbowWall(),
-                                                WaitAction27,
-                                                shoulder.shoulderWall(),
-                                                WaitAction28,
-                                                claw.openClaw(),
-                                                lift.liftWall_PIDF()
-                                        )
-
-                                ),
-                                //grab 2nd sample off the wall and drive to the submersible
-                                claw.closeClaw(),
-                                WaitAction52,
-                                lift.liftHangSample_PIDF(),
-                                WaitAction53,
-                                new ParallelAction(
-                                        TrajectoryAction14,
-                                        new SequentialAction(
-                                        shoulder.shoulderHangSpecimen(),
-                                        elbow.elbowHang()
-                                        )
-                                ),
                                 //Hang Sample 2
-                                lift.liftExtraBump_PIDF(),
-                                WaitAction54,
-                                claw.openClaw(),
-                                WaitAction29,
+                            lift.liftExtraBump_PIDF(),
+                            WaitAction70,
+                            claw.openClaw(),
+                            WaitAction29,
                                 //Drive to wall to pick sample 3
-                                new ParallelAction(
-                                        TrajectoryAction15,
-                                        new SequentialAction(
-                                                shoulder.shouldertransition(),
-                                                elbow.elbowWall(),
-                                                shoulder.shoulderWall(),
-                                                WaitAction221,
-                                                lift.liftWall_PIDF()
-                                        )
-                                ),
+                            new ParallelAction(
+                                TrajectoryAction15,
+                                new SequentialAction(
+                                    shoulder.shouldertransition(),
+                                    elbow.elbowWall(),
+                                    shoulder.shoulderWall(),
+                                    WaitAction221,
+                                    lift.liftWall_PIDF()
+                                )
+                            ),
                                 //Grab 3rd sample from the wall
-                                claw.closeClaw(),
-                                WaitAction222,
-
-                               lift.liftHangSample_PIDF(),
-                                WaitAction223,
-                                new ParallelAction(
-                                        TrajectoryAction15,
-                                        new SequentialAction(
-                                                shoulder.shoulderHangSpecimen(),
-                                                elbow.elbowHang()
-                                        )
-
-                                ),
-                                lift.liftExtraBump_PIDF(),
-                                claw.openClaw(),
-                                WaitAction25
+                            claw.closeClaw(),
+                            WaitAction222,
+                            lift.liftHangSample_PIDF(),
+                            WaitAction223,
+                            new ParallelAction(
+                                TrajectoryAction16,
+                                new SequentialAction(
+                                    shoulder.shoulderHangSpecimen(),
+                                    elbow.elbowHang()
+                                )
+                            ),
+                            lift.liftExtraBump_PIDF(),
+                            claw.openClaw(),
+                            WaitAction25
                                 /*
                                 new ParallelAction(
                                         TrajectoryAction16,
