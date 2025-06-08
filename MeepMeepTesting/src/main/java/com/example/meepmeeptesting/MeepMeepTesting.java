@@ -23,8 +23,8 @@ public class MeepMeepTesting {
                         .build();
                 //myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-9, 64, 3*Math.PI/2))
                 myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-3, 30, 3*Math.PI/2))
-                        .setTangent(3*Math.PI/4)
-                        .splineToConstantHeading(new Vector2d(-40, 60),Math.PI/2)
+                        .setTangent(3 * Math.PI / 4)
+                        .splineToConstantHeading(new Vector2d(-40, 60), Math.PI / 2)
                         .setTangent(7*Math.PI/4)
                         .strafeToLinearHeading(new Vector2d(-3,30),3*Math.PI/2)
                         /*
