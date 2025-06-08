@@ -192,7 +192,7 @@ public class LinearTeleop extends Timothy {
                 intakePosition.setPosition(intakeUp);
                 intakeWheel.setPower(intakeWheeloff);
             }
-            while (opModeIsActive()) {
+            /*while (opModeIsActive()) {
                 double max;
 
                 // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
@@ -224,6 +224,8 @@ public class LinearTeleop extends Timothy {
                 telemetry.addData("lift2", lift2.getCurrentPosition());
                 telemetry.update();
 
+             */
+
             /*
             telemetry.addData("Red", red);
             telemetry.addData("Green", green);
@@ -244,4 +246,4 @@ public class LinearTeleop extends Timothy {
 
         }
     }
-}
+

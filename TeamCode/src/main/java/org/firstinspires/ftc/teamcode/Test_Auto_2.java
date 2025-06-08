@@ -49,8 +49,8 @@ public class Test_Auto_2 extends Timothy {
         //Action TrajectoryAction12 = drive.actionBuilder(drive.pose)
                 // drvie to first sample
                 .setTangent(5*Math.PI/8)
-                .splineToConstantHeading(new Vector2d(-38, 40),Math.PI)
-                .splineToConstantHeading(new Vector2d(-38, 14),Math.PI)
+                .splineToConstantHeading(new Vector2d(-36, 40),Math.PI)
+                .splineToConstantHeading(new Vector2d(-36, 14),Math.PI)
                 //push sample to wall
                 .splineToConstantHeading(new Vector2d(-45, 48),Math.PI)
                 // go behind second sample
@@ -63,18 +63,14 @@ public class Test_Auto_2 extends Timothy {
                 .splineToConstantHeading(new Vector2d(-66, 48),Math.PI/2)
                 .splineToConstantHeading(new Vector2d(-36, 63),Math.PI/2)
                 .build();
-        Action TrajectoryAction13 = drive.actionBuilder(new Pose2d(-36,63,3*Math.PI/2))
-                //Pick up second sample off the wall
-                .splineToConstantHeading(new Vector2d(-40, 60),Math.PI/2)
-                .build();
         Action TrajectoryAction14 = drive.actionBuilder(new Pose2d(-36,63,3*Math.PI/2))
                 //Hang second specimen
-                .strafeToLinearHeading(new Vector2d(-2,31),3*Math.PI/2)
+                .strafeToLinearHeading(new Vector2d(-36,63),3*Math.PI/2)
                 .build();
         Action TrajectoryAction15 = drive.actionBuilder(new Pose2d(-2,31,3*Math.PI/2))
                 // Get third specimen off the wall
-                .setTangent(7*Math.PI/4)
-                .strafeToLinearHeading(new Vector2d(-3,30),3*Math.PI/2)
+                .setTangent(3*Math.PI/4)
+                .splineToConstantHeading(new Vector2d(-40, 60),Math.PI/2)
                 .build();
         Action TrajectoryAction16 = drive.actionBuilder(new Pose2d(-40,60,3*Math.PI/2))
                 //hang third specimen
@@ -149,6 +145,9 @@ public class Test_Auto_2 extends Timothy {
         Action WaitAction54 = drive.actionBuilder(drive.pose)
                 .waitSeconds(.50)
                 .build();
+        Action WaitAction55 = drive.actionBuilder(drive.pose)
+                .waitSeconds(.50)
+                .build();
 
 
         int startPosition = 1;
@@ -173,6 +172,7 @@ public class Test_Auto_2 extends Timothy {
                                     //Drive to Submersible and hang first sample
                             new ParallelAction(
                                     TrajectoryAction11,
+                                    WaitAction55,
                                     new SequentialAction(
                                     lift.liftHangSample_PIDF(),
                                     shoulder.shoulderHangSpecimen(),
