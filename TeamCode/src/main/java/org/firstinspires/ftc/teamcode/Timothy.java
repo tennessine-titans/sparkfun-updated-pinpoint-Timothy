@@ -12,6 +12,8 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
+
 
 @Config
 public abstract class Timothy extends LinearOpMode {
@@ -608,6 +610,45 @@ public abstract class Timothy extends LinearOpMode {
             return new WheelOff();
         }
     }
+
+    public class BatteryVoltage {
+        VoltageSensor batteryVoltage;
+
+        public BatteryVoltage(HardwareMap hardwareMap) {
+            batteryVoltage = hardwareMap.get(VoltageSensor.class, "Control Hub");
+
+
+        }
+
+        public class BatteryMonitor implements Action {
+            private boolean initialized = false;
+
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                if (!initialized) {
+                    double voltage = batteryVoltage.getVoltage();
+                    telemetry.addData("Voltage ", voltage);
+                    if (target < 100 && voltage < 10.5) {
+                        lift1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                        lift2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                        lift1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                        lift2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                    }
+
+                }
+                return true;
+            }
+        }
+
+        public Action batteryMonitor() {
+            return new BatteryMonitor();
+        }
+    }
+
+
+
+
+
     /*public void main() {
         extendoOut();
     }

@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode;
 
 //package org.firstinspires.ftc.teamcode.teleops;
 
+
+
 import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.config.Config;
@@ -38,6 +40,7 @@ public class Test_Auto_2 extends Timothy {
         Wheel wheel = new Wheel();
         Claw claw = new Claw();
         Intake intake = new Intake();
+        BatteryVoltage batteryVoltage= new BatteryVoltage(hardwareMap);
 
         Action TrajectoryAction11 = drive.actionBuilder(drive.pose)
                 // go to submersible
@@ -231,6 +234,7 @@ public class Test_Auto_2 extends Timothy {
         Actions.runBlocking(
                 new ParallelAction(
                         lift.pidf_Lift_Controller(),
+                        batteryVoltage.batteryMonitor(),
                         new SequentialAction(
                             //Drive to Submersible and hang first sample
                             new ParallelAction(
