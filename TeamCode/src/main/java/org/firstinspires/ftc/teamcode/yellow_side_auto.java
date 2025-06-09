@@ -4,11 +4,7 @@ package org.firstinspires.ftc.teamcode;
 
 
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
@@ -16,23 +12,15 @@ import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.arcrobotics.ftclib.controller.PIDController;
-import com.acmerobotics.roadrunner.InstantAction;
+
 @Config
-@Autonomous(name = "Test_Auto_2", group = "Autonomous")
-public class Test_Auto_2 extends Timothy {
+@Autonomous(name = "yellow_side_auto", group = "Autonomous")
+public class yellow_side_auto extends Timothy {
     public int target=0;
 
     @Override
     public void runOpMode() {
-        Pose2d initialPose = new Pose2d(-9, 63, 3*Math.PI/2);
+        Pose2d initialPose = new Pose2d(38, 63, Math.PI);
         PinpointDrive drive = new PinpointDrive(hardwareMap, initialPose);
         Lift lift = new Lift(hardwareMap);
         Extendo extendo= new Extendo();
@@ -44,8 +32,8 @@ public class Test_Auto_2 extends Timothy {
         BatteryVoltage batteryVoltage= new BatteryVoltage(hardwareMap);
 
         Action TrajectoryAction11 = drive.actionBuilder(drive.pose)
-                // go to submersible
-                .strafeToLinearHeading(new Vector2d(5,29),3*Math.PI/2)
+                // go to basket
+                .strafeToLinearHeading(new Vector2d(40,61),5*Math.PI/4)
                 .build();
         Action TrajectoryAction12 = drive.actionBuilder(new Pose2d(-3,29,3*Math.PI/2))
                  // drvie to first sample
@@ -241,147 +229,8 @@ public class Test_Auto_2 extends Timothy {
                         new SequentialAction(
                             //Drive to Submersible and hang first sample
                             new ParallelAction(
-                                    TrajectoryAction11,
-                                    new SequentialAction(
-                                        lift.liftHangSample_PIDF(),
-                                        shoulder.shoulderHangSpecimen(),
-                                        WaitAction10A,// 0.1
-                                        elbow.elbowHang()
-                                    )
-                            ),
-                            lift.liftExtraBump_PIDF(),
-                            //WaitAction5A,  //Might be able to remove  0.5
-                            claw.releaseClaw(),  // changed from claw.openClaw();
-                            WaitAction25A,    // might be able to remove  0.25
-                            new ParallelAction(
-                                        //Push all the samples to the human player area and set the arms to pick off the wall
-                                 TrajectoryAction12,
-                                 new SequentialAction(
-                                      WaitAction5B,  //0.5
-                                      claw.closeClaw(),
-                                      shoulder.shouldertransition(),
-                                      WaitAction25B,  // 0.25
-                                      elbow.elbowWall(),
-                                      WaitAction25C,  // 0.25
-                                      shoulder.shoulderWall(),
-                                      WaitAction25D,  //0.25
-                                      lift.liftWall_PIDF(),
-                                      claw.openClaw()
-                                 )
-                            ),
-                                //grab 2nd sample off the wall and drive to the submersible
-                            claw.closeClaw(),
-                            WaitAction5C,  //0.5
-                            lift.liftHangSample_PIDF(),
-                            //WaitAction5D, // might be able to be removed  0.5
-                            new ParallelAction(
-                                TrajectoryAction14,
-                                new SequentialAction(
-                                    shoulder.shoulderHangSpecimen(),
-                                    WaitAction10B,
-                                    elbow.elbowHang()
-                                    )
-                            ),
-                                //Hang Sample 2
-                            lift.liftExtraBump_PIDF(),
-                            //WaitAction75A,  // might be able to be removed  0.75
-                            claw.releaseClaw(), //changed from claw.openClaw(),
-                                //Drive to wall to pick sample 3
-                            new ParallelAction(
-                                TrajectoryAction15,
-                                new SequentialAction(
-                                    WaitAction25E,  // may be able to move to line 287  0.25
-                                    shoulder.shouldertransition(),
-                                    claw.closeClaw(),
-                                    WaitAction10C,
-                                    elbow.elbowWall(),
-                                    WaitAction10D,
-                                    shoulder.shoulderWall(),
-                                    WaitAction25G,
-                                    lift.liftWall_PIDF(),
-                                    claw.openClaw()
-                                )
-                            ),
-                                //Grab 3rd sample from the wall
-                            claw.closeClaw(),
-                            WaitAction25H, //0.25
-                            lift.liftHangSample_PIDF(),
-                            //WaitAction25I, // may be able to be removed  0.25
-                            new ParallelAction(
-                                TrajectoryAction16,
-                                new SequentialAction(
-                                    shoulder.shoulderHangSpecimen(),
-                                    WaitAction10E,
-                                    elbow.elbowHang()
-                                )
-                            ),
-                            //Hang 3rd
-                            lift.liftExtraBump_PIDF(),
-                            //WaitAction75B, // may be able to be removed 0.75
-                            claw.releaseClaw(),//was claw.openClaw(),
-                            new ParallelAction(
-                                TrajectoryAction17,
-                                new SequentialAction(
-                                    WaitAction5E,  // 0.5  may be able to move to line 319
-                                    shoulder.shouldertransition(),
-                                    claw.closeClaw(),
-                                    WaitAction10F,
-                                    elbow.elbowWall(),
-                                    WaitAction25J,
-                                    shoulder.shoulderWall(),
-                                    WaitAction10K,  //.25
-                                    lift.liftWall_PIDF(),
-                                    claw.openClaw()
-                                )
-                            ),
-                                //grab 4th
-                            claw.closeClaw(),
-                            WaitAction5F,  //0.5
-                            lift.liftHangSample_PIDF(),
-                            //WaitAction5G,  // may be able to be removed 0.5
-                            new ParallelAction(
-                                TrajectoryAction18,
-                                new SequentialAction(
-                                   shoulder.shoulderHangSpecimen(),
-                                   WaitAction10G,
-                                   elbow.elbowHang()
-                                )
-                            ),
-                            lift.liftExtraBump_PIDF(),
-                            //WaitAction75C,  // may be able to be removed  0.75
-                            claw.releaseClaw(),  // was claw.openClaw(),
-                            new ParallelAction(
-                                TrajectoryAction19,
-                                new SequentialAction(
-                                    WaitAction25K,  // may be able to move to line 350
-                                    shoulder.shouldertransition(),
-                                    claw.closeClaw(),
-                                    WaitAction10H,  //0.1
-                                    elbow.elbowWall(),
-                                    WaitAction10I,  //0.1
-                                    shoulder.shoulderWall(),
-                                    WaitAction25L,  //0.25
-                                    lift.liftWall_PIDF(),
-                                    claw.openClaw()
-                                )
-                            ),
-                            claw.closeClaw(),
-                            WaitAction25M,  // 0.25
-                            lift.liftHangSample_PIDF(),
-                            new ParallelAction(
-                                TrajectoryAction20,
-                                new SequentialAction(
-                                    shoulder.shoulderHangSpecimen(),
-                                    WaitAction10J,
-                                    elbow.elbowHang()
-                                )
-                            ),
-                            lift.liftExtraBump_PIDF(),
-                            claw.releaseClaw(),// was .openClaw(),
-                            WaitAction25N, //0.25
-                            new ParallelAction(
-                                TrajectoryAction20,
-                                lift.liftDown_PIDF()
+                                    TrajectoryAction11
+
                             )
                         )
                 )
