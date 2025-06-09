@@ -19,15 +19,32 @@ public class MeepMeepTesting {
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(60, 50, Math.toRadians(180), Math.toRadians(180), 15)
+                .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
                         .build();
-                //myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-9, 64, 3*Math.PI/2))
-                myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-3, 30, 3*Math.PI/2))
-                        .setTangent(3 * Math.PI / 4)
-                        .splineToConstantHeading(new Vector2d(-40, 60), Math.PI / 2)
-                        .setTangent(7*Math.PI/4)
-                        .strafeToLinearHeading(new Vector2d(-3,30),3*Math.PI/2)
-                        /*
+                myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-9, 64, 3*Math.PI/2))
+                //myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-3, 30, 3*Math.PI/2))
+
+                    /*        // go to submersible
+                      .strafeToLinearHeading(new Vector2d(-3,30),3*Math.PI/2)
+                      // drvie to first sample
+                      .setTangent(5*Math.PI/8)
+                      .splineToConstantHeading(new Vector2d(-30, 40),Math.PI)
+                      .splineToConstantHeading(new Vector2d(-38, 14),Math.PI)
+                      //push sample to wall
+                      .splineToConstantHeading(new Vector2d(-45, 48),Math.PI/2)
+                      // go behind second sample
+                      .splineToConstantHeading(new Vector2d(-50, 14),Math.PI)
+                      //push sample to wall
+                      .splineToConstantHeading(new Vector2d(-55, 48),Math.PI/2)
+                      //go behind third sample
+                      .splineToConstantHeading(new Vector2d(-56, 14),Math.PI)
+                      .splineToConstantHeading(new Vector2d(-62, 14),Math.PI/2)
+                      // push thrid sample
+                      .splineToConstantHeading(new Vector2d(-62, 48),Math.PI/2)
+                      .splineToConstantHeading(new Vector2d(-55, 48),0)
+
+ */
+
                         // go to submersible
                         .strafeToLinearHeading(new Vector2d(-3,30),3*Math.PI/2)
                         // drvie to first sample
@@ -43,8 +60,10 @@ public class MeepMeepTesting {
                         //go behind third sample
                         .splineToConstantHeading(new Vector2d(-56, 14),Math.PI)
                         .splineToConstantHeading(new Vector2d(-62, 14),Math.PI/2)
+                        .splineToConstantHeading(new Vector2d(-62, 48),Math.PI/2)
                         .splineToConstantHeading(new Vector2d(-55, 48),0)
-                        //Pick up second sample off the wall
+                        /*
+                                //Pick up second sample off the wall
                         .splineToConstantHeading(new Vector2d(-40, 60),Math.PI/2)
                         //Hang second specimen
                         .strafeToLinearHeading(new Vector2d(-3,30),3*Math.PI/2)
@@ -60,14 +79,15 @@ public class MeepMeepTesting {
                         .strafeToLinearHeading(new Vector2d(-40, 60),3*Math.PI/2)
                         //hang fifth specimen
                         .strafeToLinearHeading(new Vector2d(-3,30),3*Math.PI/2)
-                        */
-                        .build());
+                          */
+                        .build()
+                );
 
 
 
 
         Image img = null;
-        try { img = ImageIO.read(new File("C:\\Users\\FTC21457\\Pictures\\field-2024-juice-dark.png")); }
+        try { img = ImageIO.read(new File("C:\\Users\\FLL\\FTC21457\\Pictures\\field-2024-juice-dark.png")); }
         catch(IOException e) {}
 
         meepMeep.setBackground(img)

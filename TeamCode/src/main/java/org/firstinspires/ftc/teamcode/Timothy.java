@@ -180,11 +180,11 @@ public abstract class Timothy extends LinearOpMode {
 
                 double pos = lift1.getCurrentPosition();
                 packet.put("liftpos",pos);
-
+                telemetry.addData("Position ",pos);
+                telemetry.update();
                 // ToDo determine how many ticks represents lift up (left + right)
-                if (pos< target-10) {
-                    telemetry.addData("Position ",pos);
-                    telemetry.update();
+                if (pos< (target-10)) {
+
                     return true;
                 } else {
 
@@ -206,11 +206,11 @@ public abstract class Timothy extends LinearOpMode {
 
                 double pos = lift1.getCurrentPosition();
                 packet.put("liftpos",pos);
-
+                telemetry.addData("Position ",pos);
+                telemetry.update();
                 // ToDo determine how many ticks represents lift down (left + right)
-                if (pos> target+10) {
-                    telemetry.addData("Position ",pos);
-                    telemetry.update();
+                if (pos> (target+10)) {
+
                     return true;
                 } else {
 
@@ -233,11 +233,11 @@ public abstract class Timothy extends LinearOpMode {
 
                 double pos = lift1.getCurrentPosition();
                 packet.put("liftpos",pos);
-
+                telemetry.addData("Position ",pos);
+                telemetry.update();
                 // ToDo determine how many ticks represents lift up (left + right)
-                if (pos< target-10 && pos> target+10) {
-                    telemetry.addData("Position ",pos);
-                    telemetry.update();
+                if (pos> (target+10) || (pos< target-10)) {
+
                     return true;
                 } else {
 
@@ -260,11 +260,11 @@ public abstract class Timothy extends LinearOpMode {
 
                 double pos = lift1.getCurrentPosition();
                 packet.put("liftpos",pos);
-
+                telemetry.addData("Position ",pos);
+                telemetry.update();
                 // ToDo determine how many ticks represents lift up (left + right)
-                if (pos< target-10 && pos> target +10) {
-                    telemetry.addData("Position ",pos);
-                    telemetry.update();
+                if (pos> (target+10) || pos< (target -10)) {
+
                     return true;
                 } else {
 
@@ -287,11 +287,11 @@ public abstract class Timothy extends LinearOpMode {
 
                 double pos = lift1.getCurrentPosition();
                 packet.put("liftpos",pos);
-
+                telemetry.addData("Position ",pos);
+                telemetry.update();
                 // ToDo determine how many ticks represents lift up (left + right)
-                if (pos< target-10 && pos > target +10) {
-                    telemetry.addData("Position ",pos);
-                    telemetry.update();
+                if (pos> (target+10) || pos < (target -10)) {
+
                     return true;
                 } else {
 
