@@ -36,6 +36,7 @@ public abstract class Timothy extends LinearOpMode {
     protected double rightElbowbasket = .89;
     protected double leftElbowbasket = .89;
     protected double clawClosed = .528;
+    protected double clawRelease = .438;
     protected double clawOpen = .348;
     protected double leftShoulderspecimenTransition = .5;
     protected double rightShoulderspecimenTransition = .5;
@@ -332,6 +333,20 @@ public abstract class Timothy extends LinearOpMode {
         public Action closeClaw() {
             return new CloseClaw();
         }
+
+        public class ReleaseClaw implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                claw.setPosition(clawRelease);
+                return false;
+            }
+        }
+
+        public Action releaseClaw() {
+            return new ReleaseClaw();
+        }
+
+
     }
     public class Intake {
         private Servo intakePosition;

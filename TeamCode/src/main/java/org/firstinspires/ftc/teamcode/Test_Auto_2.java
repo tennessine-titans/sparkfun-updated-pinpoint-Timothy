@@ -29,8 +29,6 @@ public class Test_Auto_2 extends Timothy {
 
     @Override
     public void runOpMode() {
-        //myOTOS = hardwareMap.get(SparkFunOTOS.class, "sensor_otos");
-        //SparkFunOTOS.Pose2D pos = myOTOS.getPosition();
         Pose2d initialPose = new Pose2d(-9, 63, 3*Math.PI/2);
         PinpointDrive drive = new PinpointDrive(hardwareMap, initialPose);
         Lift lift = new Lift(hardwareMap);
@@ -46,8 +44,7 @@ public class Test_Auto_2 extends Timothy {
                 .strafeToLinearHeading(new Vector2d(6,30.5),3*Math.PI/2)
                 .build();
         Action TrajectoryAction12 = drive.actionBuilder(new Pose2d(-3,29,3*Math.PI/2))
-        //Action TrajectoryAction12 = drive.actionBuilder(drive.pose)
-                // drvie to first sample
+                 // drvie to first sample
                 .setTangent(Math.PI/2)
                 //Go away from submersable
                 .splineToConstantHeading(new Vector2d(-34, 40),Math.PI)
@@ -97,87 +94,122 @@ public class Test_Auto_2 extends Timothy {
                 //hang fifth specimen
                 .strafeToLinearHeading(new Vector2d(-2,30.5),3*Math.PI/2)
                 .build();
-        Action WaitAction1 = drive.actionBuilder(new Pose2d(-7,34,3*Math.PI/2))
+        Action WaitAction10A = drive.actionBuilder(drive.pose)
+                .waitSeconds(.1)
+                .build();
+        Action WaitAction10B = drive.actionBuilder(drive.pose)
+                .waitSeconds(.1)
+                .build();
+        Action WaitAction10C = drive.actionBuilder(drive.pose)
+                .waitSeconds(.1)
+                .build();
+        Action WaitAction10D = drive.actionBuilder(drive.pose)
+                .waitSeconds(.1)
+                .build();
+        Action WaitAction10E = drive.actionBuilder(drive.pose)
+                .waitSeconds(.1)
+                .build();
+        Action WaitAction10F = drive.actionBuilder(drive.pose)
+                .waitSeconds(.1)
+                .build();
+        Action WaitAction10G = drive.actionBuilder(drive.pose)
+                .waitSeconds(.1)
+                .build();
+        Action WaitAction10H = drive.actionBuilder(drive.pose)
+                .waitSeconds(.1)
+                .build();
+        Action WaitAction10I = drive.actionBuilder(drive.pose)
+                .waitSeconds(.1)
+                .build();
+        Action WaitAction10J = drive.actionBuilder(drive.pose)
+                .waitSeconds(.1)
+                .build();
+        Action WaitAction10K = drive.actionBuilder(drive.pose)
                 .waitSeconds(.1)
                 .build();
 
-        Action WaitAction5 = drive.actionBuilder(drive.pose)
-                .waitSeconds(.5)
+        Action WaitAction5A = drive.actionBuilder(drive.pose)
+                .waitSeconds(.50)
                 .build();
-        Action WaitAction2221 = drive.actionBuilder(drive.pose)
-                .waitSeconds(.5)
+        Action WaitAction5B = drive.actionBuilder(drive.pose)
+                .waitSeconds(.50)
                 .build();
-        Action WaitAction10 = drive.actionBuilder(drive.pose)
+        Action WaitAction5C = drive.actionBuilder(drive.pose)
+                .waitSeconds(.50)
+                .build();
+        Action WaitAction5D = drive.actionBuilder(drive.pose)
+                .waitSeconds(.50)
+                .build();
+        Action WaitAction5E = drive.actionBuilder(drive.pose)
+                .waitSeconds(.50)
+                .build();
+        Action WaitAction5F = drive.actionBuilder(drive.pose)
+                .waitSeconds(.50)
+                .build();
+        Action WaitAction5G = drive.actionBuilder(drive.pose)
+                .waitSeconds(.50)
+                .build();
+
+        Action WaitAction1A = drive.actionBuilder(drive.pose)
                 .waitSeconds(1)
                 .build();
-        Action WaitAction11 = drive.actionBuilder(drive.pose)
+        Action WaitAction1B = drive.actionBuilder(drive.pose)
                 .waitSeconds(1)
 
                 .build();
         Action WaitAction300 = drive.actionBuilder(drive.pose)
                 .waitSeconds(30)
                 .build();
-        Action WaitAction25 = drive.actionBuilder(drive.pose)
+        Action WaitAction25A = drive.actionBuilder(drive.pose)
                 .waitSeconds(.25)
                 .build();
-        Action WaitAction26 = drive.actionBuilder(drive.pose)
+        Action WaitAction25B = drive.actionBuilder(drive.pose)
                 .waitSeconds(.25)
                 .build();
-        Action WaitAction27 = drive.actionBuilder(drive.pose)
+        Action WaitAction25C = drive.actionBuilder(drive.pose)
                 .waitSeconds(.25)
                 .build();
-        Action WaitAction28 = drive.actionBuilder(drive.pose)
+        Action WaitAction25D = drive.actionBuilder(drive.pose)
                 .waitSeconds(.25)
                 .build();
-        Action WaitAction29 = drive.actionBuilder(drive.pose)
+        Action WaitAction25E = drive.actionBuilder(drive.pose)
                 .waitSeconds(.25)
                 .build();
-        Action WaitAction221 = drive.actionBuilder(drive.pose)
+        Action WaitAction25F = drive.actionBuilder(drive.pose)
                 .waitSeconds(.25)
                 .build();
-        Action WaitAction222 = drive.actionBuilder(drive.pose)
+        Action WaitAction25G = drive.actionBuilder(drive.pose)
                 .waitSeconds(.25)
                 .build();
-        Action WaitAction223 = drive.actionBuilder(drive.pose)
+        Action WaitAction25H = drive.actionBuilder(drive.pose)
                 .waitSeconds(.25)
                 .build();
-        Action WaitAction224 = drive.actionBuilder(drive.pose)
+        Action WaitAction25I = drive.actionBuilder(drive.pose)
                 .waitSeconds(.25)
                 .build();
-        Action WaitAction225 = drive.actionBuilder(drive.pose)
+        Action WaitAction25J = drive.actionBuilder(drive.pose)
                 .waitSeconds(.25)
                 .build();
-        Action WaitAction226 = drive.actionBuilder(drive.pose)
+        Action WaitAction25K = drive.actionBuilder(drive.pose)
                 .waitSeconds(.25)
                 .build();
-        Action WaitAction2222 = drive.actionBuilder(drive.pose)
-                .waitSeconds(.50)
+        Action WaitAction25L = drive.actionBuilder(drive.pose)
+                .waitSeconds(.25)
                 .build();
-        Action WaitAction2223 = drive.actionBuilder(drive.pose)
-                .waitSeconds(.50)
+        Action WaitAction25M = drive.actionBuilder(drive.pose)
+                .waitSeconds(.25)
                 .build();
-        Action WaitAction2224 = drive.actionBuilder(drive.pose)
-                .waitSeconds(.50)
+        Action WaitAction25N = drive.actionBuilder(drive.pose)
+                .waitSeconds(.25)
                 .build();
-        Action WaitAction55 = drive.actionBuilder(drive.pose)
-                .waitSeconds(.50)
-                .build();
-        Action WaitAction56 = drive.actionBuilder(drive.pose)
-                .waitSeconds(.50)
-                .build();
-        Action WaitAction57 = drive.actionBuilder(drive.pose)
-                .waitSeconds(.50)
-                .build();
-        Action WaitAction58 = drive.actionBuilder(drive.pose)
-                .waitSeconds(.50)
-                .build();
-        Action WaitAction70= drive.actionBuilder(drive.pose)
+
+        Action WaitAction75A= drive.actionBuilder(drive.pose)
                 .waitSeconds(.75)
                 .build();
-        Action WaitAction71= drive.actionBuilder(drive.pose)
+        Action WaitAction75B= drive.actionBuilder(drive.pose)
                 .waitSeconds(.75)
                 .build();
-        Action WaitAction72= drive.actionBuilder(drive.pose)
+        Action WaitAction75C= drive.actionBuilder(drive.pose)
                 .waitSeconds(.75)
                 .build();
 
@@ -206,126 +238,144 @@ public class Test_Auto_2 extends Timothy {
                                     new SequentialAction(
                                         lift.liftHangSample_PIDF(),
                                         shoulder.shoulderHangSpecimen(),
+                                        WaitAction10A,// 0.1
                                         elbow.elbowHang()
                                     )
                             ),
                             lift.liftExtraBump_PIDF(),
-                            WaitAction2221,
-                            claw.openClaw(),
-                            WaitAction25,
+                            WaitAction5A,  //Might be able to remove  0.5
+                            claw.releaseClaw(),  // changed from claw.openClaw();
+                            WaitAction25A,    // might be able to remove  0.25
                             new ParallelAction(
                                         //Push all the samples to the human player area and set the arms to pick off the wall
                                  TrajectoryAction12,
                                  new SequentialAction(
-                                      WaitAction2224,
-                                      shoulder.shouldertransition(),
+                                      WaitAction5B,  //0.5
                                       claw.closeClaw(),
-                                      WaitAction26,
+                                      shoulder.shouldertransition(),
+                                      WaitAction25B,  // 0.25
                                       elbow.elbowWall(),
-                                      WaitAction27,
+                                      WaitAction25C,  // 0.25
                                       shoulder.shoulderWall(),
-                                      WaitAction28,
-                                      claw.openClaw(),
-                                      lift.liftWall_PIDF()
+                                      WaitAction25D,  //0.25
+                                      lift.liftWall_PIDF(),
+                                      claw.openClaw()
                                  )
                             ),
                                 //grab 2nd sample off the wall and drive to the submersible
                             claw.closeClaw(),
-                            WaitAction2222,
+                            WaitAction5C,  //0.5
                             lift.liftHangSample_PIDF(),
-                            WaitAction2223,
+                            WaitAction5D, // might be able to be removed  0.5
                             new ParallelAction(
                                 TrajectoryAction14,
                                 new SequentialAction(
                                     shoulder.shoulderHangSpecimen(),
+                                    WaitAction10B,
                                     elbow.elbowHang()
                                     )
                             ),
                                 //Hang Sample 2
                             lift.liftExtraBump_PIDF(),
-                            WaitAction70,
-                            claw.openClaw(),
-                            WaitAction29,
+                            WaitAction75A,  // might be able to be removed  0.75
+                            claw.releaseClaw(), //changed from claw.openClaw(),
+                            WaitAction25E,  // may be able to move to line 287  0.25
                                 //Drive to wall to pick sample 3
                             new ParallelAction(
                                 TrajectoryAction15,
                                 new SequentialAction(
                                     shoulder.shouldertransition(),
+                                    claw.closeClaw(),
+                                    WaitAction10C,
                                     elbow.elbowWall(),
+                                    WaitAction10D,
                                     shoulder.shoulderWall(),
-                                    WaitAction221,
-                                    lift.liftWall_PIDF()
+                                    WaitAction25G,
+                                    lift.liftWall_PIDF(),
+                                    claw.openClaw()
                                 )
                             ),
                                 //Grab 3rd sample from the wall
                             claw.closeClaw(),
-                            WaitAction222,
+                            WaitAction25H, //0.25
                             lift.liftHangSample_PIDF(),
-                            WaitAction223,
+                            WaitAction25I, // may be able to be removed  0.25
                             new ParallelAction(
                                 TrajectoryAction16,
                                 new SequentialAction(
                                     shoulder.shoulderHangSpecimen(),
+                                    WaitAction10E,
                                     elbow.elbowHang()
                                 )
                             ),
                             //Hang 3rd
                             lift.liftExtraBump_PIDF(),
-                            WaitAction71,
-                            claw.openClaw(),
-                            WaitAction56,
+                            WaitAction75B, // may be able to be removed 0.75
+                            claw.releaseClaw(),//was claw.openClaw(),
+                            WaitAction5E,  // 0.5  may be able to move to line 319
                             new ParallelAction(
                                 TrajectoryAction17,
-                                claw.closeClaw(),
                                 new SequentialAction(
                                     shoulder.shouldertransition(),
+                                    claw.closeClaw(),
+                                    WaitAction10F,
                                     elbow.elbowWall(),
+                                    WaitAction25J,
                                     shoulder.shoulderWall(),
-                                    WaitAction25,
-                                    claw.openClaw(),
-                                    lift.liftWall_PIDF()
+                                    WaitAction10K,  //.25
+                                    lift.liftWall_PIDF(),
+                                    claw.openClaw()
                                 )
                             ),
                                 //grab 4th
                             claw.closeClaw(),
-                            WaitAction57,
+                            WaitAction5F,  //0.5
                             lift.liftHangSample_PIDF(),
-                            WaitAction58,
+                            WaitAction5G,  // may be able to be removed 0.5
                             new ParallelAction(
                                 TrajectoryAction18,
                                 new SequentialAction(
                                    shoulder.shoulderHangSpecimen(),
+                                   WaitAction10G,
                                    elbow.elbowHang()
                                 )
                             ),
                             lift.liftExtraBump_PIDF(),
-                            WaitAction72,
-                            claw.openClaw(),
-                            WaitAction224,
+                            WaitAction75C,  // may be able to be removed  0.75
+                            claw.releaseClaw(),  // was claw.openClaw(),
+                            WaitAction25K,  // may be able to move to line 350
                             new ParallelAction(
                                 TrajectoryAction19,
                                 new SequentialAction(
                                     shoulder.shouldertransition(),
+                                    claw.closeClaw(),
+                                    WaitAction10H,  //0.1
                                     elbow.elbowWall(),
+                                    WaitAction10I,  //0.1
                                     shoulder.shoulderWall(),
-                                    WaitAction225,
-                                    lift.liftWall_PIDF()
+                                    WaitAction25L,  //0.25
+                                    lift.liftWall_PIDF(),
+                                    claw.openClaw()
                                 )
                             ),
                             claw.closeClaw(),
-                            WaitAction226,
+                            WaitAction25M,  // 0.25
                             lift.liftHangSample_PIDF(),
                             new ParallelAction(
                                 TrajectoryAction20,
                                 new SequentialAction(
                                     shoulder.shoulderHangSpecimen(),
+                                    WaitAction10J,
                                     elbow.elbowHang()
                                 )
                             ),
                             lift.liftExtraBump_PIDF(),
-                            claw.openClaw(),
-                            WaitAction25,
-                            TrajectoryAction20
+                            claw.releaseClaw(),// was .openClaw(),
+                            WaitAction25N, //0.25
+                            new ParallelAction(
+                                TrajectoryAction20,
+                                lift.liftDown_PIDF()
+                            )
                         )
                 )
         );
