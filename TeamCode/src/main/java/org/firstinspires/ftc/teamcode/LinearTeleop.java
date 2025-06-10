@@ -78,7 +78,7 @@ public class LinearTeleop extends Timothy {
             saturation = hsv[1];
             value = hsv[2];
             if (hue >= 0 && hue < 30 && value > 200 || hue >= 330 && hue <= 360 && value > 200) {
-                intakecolorDetected = "Red";
+                intakecolorDetected =  "Red";
             } else if (hue > 30 && hue < 90 && value > 200) {
                 intakecolorDetected = "Yellow";
             } else if (hue >= 210 && hue < 270 && value > 200) {
@@ -138,10 +138,12 @@ public class LinearTeleop extends Timothy {
                 leftElbow.setPosition(leftElbowintake);
                 lift1.setTargetPosition(10);
                 lift2.setTargetPosition(10);
+                claw.setPosition(clawClosed);
             }
             // Get in position to hang specimen
             else if (gamepad2.cross) {
                 lift1.setTargetPosition(650);
+                lift2.setTargetPosition(650);
                 claw.setPosition(clawClosed);
                 rightShoulder.setPosition(rightShoulderspecimenTransition);
                 leftShoulder.setPosition(leftShoulderspecimenTransition);
@@ -174,7 +176,9 @@ public class LinearTeleop extends Timothy {
                 rightShoulder.setPosition(rightShoulderintake);
                 lift1.setTargetPosition(10);
                 lift2.setTargetPosition(10);
+                sleep(2000);
                 claw.setPosition(clawClosed);
+                sleep(200);
                 lift1.setTargetPosition(1500);
                 lift2.setTargetPosition(1500);
                 leftShoulder.setPosition(leftShoulderbasket);
@@ -207,19 +211,21 @@ public class LinearTeleop extends Timothy {
             // Right bumper - Intake down
             if (gamepad1.right_bumper) {
                 intakePosition.setPosition(intakeDown);
-                intakeWheel.setPower(intakeWheelforward);
-                /* if (isRed || isYellow) {
-                     intakeWheel.setPower(0); // Stop
-                 } else if (isBlue) {
-                     intakeWheel.setPower(-1); // Reverse
-                 } else {
-                     intakeWheel.setPower(1); // Forward
-                 }
+                intakeWheel.setPower(1);
 
-                 */
+
             } else if (gamepad1.left_bumper) {
                 intakePosition.setPosition(intakeUp);
                 intakeWheel.setPower(intakeWheeloff);
+
+
+            }
+            if (intakecolorDetectedvalue == 1) {
+                intakeWheel.setPower(0); // Stop
+            } else if (intakecolorDetectedvalue == 2) {
+                intakeWheel.setPower(0); // stop
+            } else if (intakecolorDetectedvalue == 3) {
+                intakeWheel.setPower(-1); // Reverse
             }
 
 
@@ -262,7 +268,7 @@ public class LinearTeleop extends Timothy {
 
                     telemetry.addData("Front left/right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
                     telemetry.addData("Back left/right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
-                    telemetry.update();
+
                 }
             }
 
