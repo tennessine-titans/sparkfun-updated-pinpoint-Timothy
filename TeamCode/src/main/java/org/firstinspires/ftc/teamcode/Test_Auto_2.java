@@ -38,7 +38,7 @@ public class Test_Auto_2 extends Timothy {
         Extendo extendo= new Extendo();
         Shoulder shoulder = new Shoulder();
         Elbow elbow = new Elbow();
-        Wheel wheel = new Wheel();
+        IntakeWheel intakewheel = new IntakeWheel();
         Claw claw = new Claw();
         Intake intake = new Intake();
         BatteryVoltage batteryVoltage= new BatteryVoltage(hardwareMap);

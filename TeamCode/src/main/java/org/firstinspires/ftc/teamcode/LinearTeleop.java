@@ -1,15 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.acmerobotics.roadrunner.SequentialAction;
-import com.acmerobotics.roadrunner.ftc.Actions;
-import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
+
 import android.graphics.Color;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-
 
 
 @TeleOp(name = "test")
@@ -30,18 +26,18 @@ public class LinearTeleop extends Timothy{
         intlift1();
         intlift2();
         intclaw();
-        //intintakeSensor();
-        //intclawSensor();
-        //int red = intakeSensor.red();
-        //int blue = intakeSensor.blue();
-        //int green = intakeSensor.green();
+        intintake1();
+        intclawSensor();
+        //int red = intake1.red();
+        //int blue = intake1.blue();
+        //int green = intake1.green();
         Lextendo.setPosition(leftExtendoIn);
         Rextendo.setPosition(rightExtendoIn);
         rightShoulder.setPosition(rightShoulderintake);
         leftShoulder.setPosition(leftShoulderintake);
         leftElbow.setPosition(leftElbowintake);
         rightElbow.setPosition(rightElbowintake);
-        claw.setPosition(clawOpen);
+        claw.setPosition(clawClosed);
         intakePosition.setPosition(intakeUp);
         lift1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -50,7 +46,21 @@ public class LinearTeleop extends Timothy{
         lift1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         lift2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+
         waitForStart();
+         abstract class Colorsensor extends LinearOpMode{
+            NormalizedColorSensor intake1;
+            int scaleFactor = 1000;
+            public Colorsensor(NormalizedColorSensor intake1){this.intake1= intake1;}
+            private float[] ColorsensorCheck(){
+                int red = Math.round(intake1.getNormalizedColors().red*255*scaleFactor);
+                int green = Math.round(intake1.getNormalizedColors().green*255*scaleFactor);
+                int blue = Math.round(intake1.getNormalizedColors().blue*255*scaleFactor);
+                float[] hsv = new float[3];
+                Color.RGBToHSV(red, green, blue, hsv);
+                return hsv;
+            }
+        }
 
         while(opModeIsActive()){
             lift1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -195,14 +205,9 @@ public class LinearTeleop extends Timothy{
              }
             telemetry.addData("lift1",lift1.getCurrentPosition());
             telemetry.addData("lift2",lift2.getCurrentPosition());
-            telemetry.update();
-
-            /*
-            telemetry.addData("Red", red);
-            telemetry.addData("Green", green);
-            telemetry.addData("Blue", blue);
-            telemetry.update();
-            /*
+            telemetry.addData("h", h);
+            telemetry.addData("s", s);
+            telemetry.addData("v", v);
             Lextendo.setPosition(leftExtendoOut);
             Rextendo.setPosition(rightExtendoOut);
             double le = Lextendo.getPosition();
@@ -211,7 +216,7 @@ public class LinearTeleop extends Timothy{
             telemetry.addData("rExtendo",re);
             telemetry.update();
 
-             */
+
         }
 
 

@@ -26,36 +26,18 @@ public class yellow_side_auto extends Timothy {
         Extendo extendo= new Extendo();
         Shoulder shoulder = new Shoulder();
         Elbow elbow = new Elbow();
-        Wheel wheel = new Wheel();
+        IntakeWheel intakewheel = new IntakeWheel();
         Claw claw = new Claw();
         Intake intake = new Intake();
         BatteryVoltage batteryVoltage= new BatteryVoltage(hardwareMap);
 
         Action TrajectoryAction11 = drive.actionBuilder(drive.pose)
                 // go to basket
-                .strafeToLinearHeading(new Vector2d(40,61),5*Math.PI/4)
+                .strafeToLinearHeading(new Vector2d(55,58),5*Math.PI/4)
                 .build();
-        Action TrajectoryAction12 = drive.actionBuilder(new Pose2d(-3,29,3*Math.PI/2))
-                 // drvie to first sample
-                .setTangent(Math.PI/2)
-                //Go away from submersable
-                .splineToConstantHeading(new Vector2d(-34, 40),Math.PI)
-                //.splineToConstantHeading(new Vector2d(-36, 40),Math.PI)
-                //To get beind sample
-                .splineToConstantHeading(new Vector2d(-33, 14),Math.PI)
-                //push sample to wall
-                .splineToConstantHeading(new Vector2d(-45, 48),Math.PI)
-                // go behind second sample
-                .splineToConstantHeading(new Vector2d(-53, 14),Math.PI)
-                //push sample to wall
-                .splineToConstantHeading(new Vector2d(-57, 48),Math.PI)
-                //go behind third sample
-                .splineToConstantHeading(new Vector2d(-60, 14),Math.PI)
-                .splineToConstantHeading(new Vector2d(-66, 14),Math.PI/2)
-                .splineToConstantHeading(new Vector2d(-66, 48),Math.PI/2)
-                .splineToConstantHeading(new Vector2d(-36, 48),Math.PI/2)
-                //pick up off wall
-                .splineToConstantHeading(new Vector2d(-36, 62.5),Math.PI/2)
+
+        Action TrajectoryAction12 = drive.actionBuilder(new Pose2d(55,58,5*Math.PI/4))
+                .turnTo(3*Math.PI/2)
                 .build();
         Action TrajectoryAction14 = drive.actionBuilder(new Pose2d(-36,63,3*Math.PI/2))
                 //Hang second specimen
@@ -229,8 +211,22 @@ public class yellow_side_auto extends Timothy {
                         new SequentialAction(
                             //Drive to Submersible and hang first sample
                             new ParallelAction(
-                                    TrajectoryAction11
+                                    TrajectoryAction11,
+                                    lift.liftUp_PIDF(),
+                                    new SequentialAction(
+                                            shoulder.shoulderbasket(),
+                                            elbow.elbowBasket()
+                                    )
+                            ),
+                        claw.openClaw(),
+                            new ParallelAction(
+                                TrajectoryAction12,
+                                new SequentialAction(
+                                    extendo.extendoOut(),
+                                    intake.intakedown(),
+                                        intakewheel.wheelFoward()
 
+                                )
                             )
                         )
                 )

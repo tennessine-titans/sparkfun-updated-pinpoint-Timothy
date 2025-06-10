@@ -1,4 +1,6 @@
 package org.firstinspires.ftc.teamcode;
+import android.graphics.Color;
+
 import androidx.annotation.NonNull;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
@@ -11,6 +13,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
@@ -21,14 +24,14 @@ public abstract class Timothy extends LinearOpMode {
     //Set default values;
     protected double intakeDown = .58;// to pick up sample
     protected double intakeUp = .26; // postiton when extendo is retracted
-    protected double intakeWheelforward = 1;
-    protected double intakeWheelbackward = -1;
-    protected double intakeWheeloff = 0;
+    protected double intakeWheelforward = 1.0;
+    protected double intakeWheelbackward = -1.0;
+    protected double intakeWheeloff = 0.0;
     protected double leftExtendoOut = 0.59;
     protected double rightExtendoOut = 0.59;
     // Define as servos
     protected double leftExtendoIn = 0.09;
-    protected double rightExtendoIn= .09;
+    protected double rightExtendoIn= 0.09;
     protected double rightShoulderintake = 0.46;
     protected double rightElbowintake = 0.31;
     protected double leftShoulderintake = 0.46;
@@ -61,6 +64,9 @@ public abstract class Timothy extends LinearOpMode {
     protected double d = 0.0004;
     protected double f = 0.06;
     public int target = 0;
+    public int h;
+    public int s;
+    public int v;
     //Define servos and motors
     public Servo Lextendo;
     public Servo Rextendo;
@@ -74,8 +80,8 @@ public abstract class Timothy extends LinearOpMode {
     public DcMotor lift1;
     public DcMotor lift2;
 
-    //public ColorSensor intakeSensor;
-    //public ColorSensor clawSensor;
+    public NormalizedColorSensor intake1;
+    public NormalizedColorSensor clawSensor;
     public void intLextendo(){
         Lextendo = hardwareMap.get(Servo.class, "Lextendo");
     }
@@ -118,12 +124,27 @@ public abstract class Timothy extends LinearOpMode {
         lift2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
-    //public void intintakeSensor() {
+    public void intintake1() {
+      intake1 = hardwareMap.get(NormalizedColorSensor.class, "intake1");
+    }
+        public void intclawSensor() {
+            clawSensor = hardwareMap.get(NormalizedColorSensor.class, "clawSensor");
+        }
+   /* public abstract class Colorsensor extends LinearOpMode{
+        NormalizedColorSensor intake1;
+        int scaleFactor = 1000;
+        public Colorsensor(NormalizedColorSensor intake1){this.intake1= intake1;}
+        public float[] ColorsensorCheck(){
+            int red = Math.round(intake1.getNormalizedColors().red*255*scaleFactor);
+            int green = Math.round(intake1.getNormalizedColors().green*255*scaleFactor);
+            int blue = Math.round(intake1.getNormalizedColors().blue*255*scaleFactor);
+            float[] hsv = new float[3];
+            Color.RGBToHSV(red, green, blue, hsv);
+            return hsv;
+        }
+    }
 
-    //    intakeSensor = hardwareMap.get(ColorSensor.class, "intakeSensor");
-    //}
-        //public void intclawSensor() {
-           // clawSensor = hardwareMap.get(ColorSensor.class, "clawSensor");
+    */
     //PIDF Controller Class for the lifts only need to change target value for controller to drive lift motors.
     public class Lift {
         private DcMotorEx lift1;
@@ -569,10 +590,10 @@ public abstract class Timothy extends LinearOpMode {
             return new ElbowHang();
         }
     }
-    public class Wheel {
-        private CRServo wheel;
-        public Wheel() {
-            wheel = hardwareMap.get(CRServo.class, "intakeWheel");
+    public class IntakeWheel {
+        public CRServo intakewheel;
+        public IntakeWheel() {
+            intakewheel = hardwareMap.get(CRServo.class, "intakeWheel");
         }
         public class WheelFoward implements Action {
             @Override
