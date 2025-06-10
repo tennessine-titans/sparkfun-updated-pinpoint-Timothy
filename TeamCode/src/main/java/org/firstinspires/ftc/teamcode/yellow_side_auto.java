@@ -30,6 +30,7 @@ public class yellow_side_auto extends Timothy {
         Claw claw = new Claw();
         Intake intake = new Intake();
         BatteryVoltage batteryVoltage= new BatteryVoltage(hardwareMap);
+        Active_Intake active_intake= new Active_Intake();
 
         Action TrajectoryAction11 = drive.actionBuilder(drive.pose)
                 // go to basket
@@ -207,28 +208,29 @@ public class yellow_side_auto extends Timothy {
         Actions.runBlocking(
                 new ParallelAction(
                         lift.pidf_Lift_Controller(),
+                        active_intake.active_IntakeOn()
                         //batteryVoltage.batteryMonitor(),
+                        /*
                         new SequentialAction(
                             //Drive to Submersible and hang first sample
                             new ParallelAction(
-                                    TrajectoryAction11,
-                                    lift.liftUp_PIDF(),
-                                    new SequentialAction(
-                                            shoulder.shoulderbasket(),
-                                            elbow.elbowBasket()
-                                    )
+                                TrajectoryAction11,
+                                lift.liftUp_PIDF(),
+                                new SequentialAction(
+                                    shoulder.shoulderbasket(),
+                                    elbow.elbowBasket()
+                                )
                             ),
-                        claw.openClaw(),
+                            claw.openClaw(),
                             new ParallelAction(
                                 TrajectoryAction12,
                                 new SequentialAction(
                                     extendo.extendoOut(),
                                     intake.intakedown(),
-                                        intakewheel.wheelFoward()
-
+                                    intakewheel.wheelFoward()
                                 )
                             )
-                        )
+                        )*/
                 )
         );
     }

@@ -24,14 +24,14 @@ public abstract class Timothy extends LinearOpMode {
     //Set default values;
     protected double intakeDown = .58;// to pick up sample
     protected double intakeUp = .26; // postiton when extendo is retracted
-    protected double intakeWheelforward = 1.0;
+    protected double intakeWheelforward = 0.75;
     protected double intakeWheelbackward = -1.0;
     protected double intakeWheeloff = 0.0;
     protected double leftExtendoOut = 0.59;
     protected double rightExtendoOut = 0.59;
     // Define as servos
-    protected double leftExtendoIn = 0.09;
-    protected double rightExtendoIn= 0.09;
+    protected double leftExtendoIn = 0.11;
+    protected double rightExtendoIn= 0.11;
     protected double rightShoulderintake = 0.46;
     protected double rightElbowintake = 0.31;
     protected double leftShoulderintake = 0.46;
@@ -64,9 +64,17 @@ public abstract class Timothy extends LinearOpMode {
     protected double d = 0.0004;
     protected double f = 0.06;
     public int target = 0;
-    public int h;
-    public int s;
-    public int v;
+    String intakecolorDetected;
+    public int intakecolorDetectedvalue;
+    String clawcolorDetected;
+    public int clawcolorDetectedvalue;
+    public float[] hsv = new float[3];
+    public int red;
+    public int blue;
+    public int green=0;
+    public float hue;
+    public float saturation;
+    public float value;
     //Define servos and motors
     public Servo Lextendo;
     public Servo Rextendo;
@@ -80,8 +88,9 @@ public abstract class Timothy extends LinearOpMode {
     public DcMotor lift1;
     public DcMotor lift2;
 
-    public NormalizedColorSensor intake1;
-    public NormalizedColorSensor clawSensor;
+    public ColorSensor intake1;
+
+    public ColorSensor clawSensor;
     public void intLextendo(){
         Lextendo = hardwareMap.get(Servo.class, "Lextendo");
     }
@@ -123,14 +132,16 @@ public abstract class Timothy extends LinearOpMode {
         lift2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         lift2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
-
+/*
     public void intintake1() {
-      intake1 = hardwareMap.get(NormalizedColorSensor.class, "intake1");
+        intake1 = hardwareMap.get(NormalizedColorSensor.class, "intake1");
+
     }
-        public void intclawSensor() {
-            clawSensor = hardwareMap.get(NormalizedColorSensor.class, "clawSensor");
-        }
-   /* public abstract class Colorsensor extends LinearOpMode{
+    public void intclawSensor() {
+        clawSensor = hardwareMap.get(NormalizedColorSensor.class, "clawSensor");
+    }
+
+    public abstract class Colorsensor extends LinearOpMode{
         NormalizedColorSensor intake1;
         int scaleFactor = 1000;
         public Colorsensor(NormalizedColorSensor intake1){this.intake1= intake1;}
@@ -143,8 +154,8 @@ public abstract class Timothy extends LinearOpMode {
             return hsv;
         }
     }
-
     */
+
     //PIDF Controller Class for the lifts only need to change target value for controller to drive lift motors.
     public class Lift {
         private DcMotorEx lift1;
@@ -694,18 +705,25 @@ public abstract class Timothy extends LinearOpMode {
      */
 
 
-    /*//    Active intake function?
+    //    Active intake function?
     public class Active_Intake {
         private Servo Lextendo;
         private Servo Rextendo;
-        private CRServo Wheel;
+        private CRServo intakewheel;
         private Servo intakePosition;
+        private Servo rightShoulder;
+        private Servo leftShoulder;
+
 
         public Active_Intake() {
             Lextendo = hardwareMap.get(Servo.class, "Lextendo");
             Rextendo = hardwareMap.get(Servo.class, "Rextendo");
-            Wheel = hardwareMap.get(CRServo.class, "wheel");
+            intakewheel = hardwareMap.get(CRServo.class, "intakeWheel");
             intakePosition = hardwareMap.get(Servo.class, "intakePosition");
+            intake1 = hardwareMap.get(ColorSensor.class, "intake1");
+            leftShoulder = hardwareMap.get(Servo.class,"leftShoulder");
+            rightShoulder = hardwareMap.get(Servo.class, "rightShoulder");
+
         }
 
         public class Active_IntakeOn implements Action {
@@ -718,44 +736,81 @@ public abstract class Timothy extends LinearOpMode {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
                 if (!initialized) {
-                    Lextendo.setPosition(leftExtendoOut);
-                    Rextendo.setPosition(rightExtendoOut);
+                    initialized = true;
+                }
+                rightShoulder.setPosition(rightShoulderspecimenTransition);
+                leftShoulder.setPosition(leftShoulderspecimenTransition);
+                Lextendo.setPosition(newLExtendoPosition);
+                Rextendo.setPosition(newRExtendoPosition);
+                red = intake1.red();
+                blue = intake1.blue();
+                green = intake1.green();
+                Color.RGBToHSV(255 * red, 255 * green, 255 * blue, hsv);
+                hue = hsv[0];
+                saturation = hsv[1];
+                value = hsv[2];
+                if (hue >= 0 && hue < 30 && value > 200 || hue >= 330 && hue <= 360 && value > 200) {
+                        intakecolorDetected = "Red";
+                        intakecolorDetectedvalue = 1;
+                }
+                else if (hue > 30 && hue < 90 && value > 200) {
+                        intakecolorDetected = "Yellow";
+                        intakecolorDetectedvalue = 2;
+                }
+                else if (hue >= 210 && hue < 270 && value > 200) {
+                    intakecolorDetected = "Blue";
+                    intakecolorDetectedvalue = 3;
+                }
+                else {
+                    intakecolorDetected = "None";
+                    intakecolorDetectedvalue = 0;
+                }
+                telemetry.addData("Color Detected",intakecolorDetected);
+                telemetry.update();
 
-                    if {//color sensor sees no color
+                if (intakecolorDetectedvalue == 0||intakecolorDetectedvalue == 3) {//color sensor sees no color or wrong color
+                    if(intakecolorDetectedvalue == 0) { // no color
                         intakePosition.setPosition(intakeDown);
-                        Wheel.setPower(intakeWheelforward);
+                        intakewheel.setPower(intakeWheelforward);
                         newLExtendoPosition = newLExtendoPosition + 0.01;
                         newRExtendoPosition = newRExtendoPosition + 0.01;
+                    }
+                    else {   // wrong color
+                        intakewheel.setPower(intakeWheelbackward);
+                    }
+                    return true;
+                }
 
-                        return true;
-                    }
-                        else if {// sees wrong color
-                        Wheel.setPower(intakeWheelbackward);
-                        // need to add a wait to allow sample to get out of the chute
-                        return true;
-                    }
-                        else if {// sees correct color
+                else {
+                    if (intakecolorDetectedvalue == 1 || intakecolorDetectedvalue == 2) {// sees correct color
                         intakePosition.setPosition(intakeUp);
-                        Wheel.setPower(intakeWheeloff);
+                        intakewheel.setPower(intakeWheeloff);
                         Lextendo.setPosition(leftExtendoIn);
                         Rextendo.setPosition(rightExtendoIn);
-                        return false;
+
                     }
-                        else if newLExtendoPosition = leftExtendoOut {
+                    else if (newLExtendoPosition == leftExtendoOut) {
                         intakePosition.setPosition(intakeUp);
-                        Wheel.setPower(intakeWheeloff);
+                        intakewheel.setPower(intakeWheeloff);
                         Lextendo.setPosition(leftExtendoIn);
                         Rextendo.setPosition(rightExtendoIn);
+
+
+                    }
                     return false;
                 }
 
 
-                }
-                return false;
+
+
+
 
             }
         }
-    }
 
-     */
+        public Action active_IntakeOn() {
+            return new Active_IntakeOn();
+        }
+
+    }
 }

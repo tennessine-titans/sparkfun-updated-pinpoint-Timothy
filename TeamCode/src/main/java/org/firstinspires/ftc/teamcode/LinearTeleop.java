@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 
 import android.graphics.Color;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -15,6 +15,7 @@ public class LinearTeleop extends Timothy{
     @Override
     public void runOpMode() {
        // waitForStart();
+        intake1 = hardwareMap.get(ColorSensor.class, "intake1");
         intLextendo();
         intRextendo();
         intintakePosition();
@@ -26,8 +27,8 @@ public class LinearTeleop extends Timothy{
         intlift1();
         intlift2();
         intclaw();
-        intintake1();
-        intclawSensor();
+        //intintake1();
+        //intclawSensor();
         //int red = intake1.red();
         //int blue = intake1.blue();
         //int green = intake1.green();
@@ -48,7 +49,7 @@ public class LinearTeleop extends Timothy{
 
 
         waitForStart();
-         abstract class Colorsensor extends LinearOpMode{
+         /*abstract class Colorsensor extends LinearOpMode{
             NormalizedColorSensor intake1;
             int scaleFactor = 1000;
             public Colorsensor(NormalizedColorSensor intake1){this.intake1= intake1;}
@@ -60,13 +61,33 @@ public class LinearTeleop extends Timothy{
                 Color.RGBToHSV(red, green, blue, hsv);
                 return hsv;
             }
-        }
+        }*/
 
         while(opModeIsActive()){
             lift1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             lift2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             lift1.setPower(.5);
             lift2.setPower(.5);
+            red=intake1.red();
+            blue = intake1.blue();
+            green=intake1.green();
+            Color.RGBToHSV(255*red, 255*green, 255*blue, hsv);
+            hue=hsv[0];
+            saturation=hsv[1];
+            value=hsv[2];
+            if (hue>=0&&hue<30&&value>200 || hue>=330&&hue<=360&&value>200){
+                 intakecolorDetected = "Red";
+            }
+            else if(hue>30&&hue<90&&value>200){
+                intakecolorDetected = "Yellow";
+            }
+            else if (hue>=210&&hue<270&&value>200){
+                intakecolorDetected = "Blue";
+            }
+            else {
+                intakecolorDetected = "None";
+            }
+
             // D-pad left -  extendo out
             if (gamepad2.dpad_left){
                 claw.setPosition(clawOpen);
@@ -205,11 +226,15 @@ public class LinearTeleop extends Timothy{
              }
             telemetry.addData("lift1",lift1.getCurrentPosition());
             telemetry.addData("lift2",lift2.getCurrentPosition());
-            telemetry.addData("h", h);
-            telemetry.addData("s", s);
-            telemetry.addData("v", v);
-            Lextendo.setPosition(leftExtendoOut);
-            Rextendo.setPosition(rightExtendoOut);
+            telemetry.addData("hue", hue);
+            telemetry.addData("saturation", saturation);
+            telemetry.addData("value", value);
+            telemetry.addData("red", red);
+            telemetry.addData("blue", blue);
+            telemetry.addData("green", green);
+            telemetry.addData("color detected",intakecolorDetected);
+            //Lextendo.setPosition(leftExtendoOut);
+            //Rextendo.setPosition(rightExtendoOut);
             double le = Lextendo.getPosition();
             double re = Rextendo.getPosition();
             telemetry.addData("lExtendo",le);
