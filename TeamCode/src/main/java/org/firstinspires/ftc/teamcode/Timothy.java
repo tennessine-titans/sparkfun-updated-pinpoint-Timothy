@@ -87,6 +87,10 @@ public abstract class Timothy extends LinearOpMode {
     public Servo claw;
     public DcMotor lift1;
     public DcMotor lift2;
+    public DcMotor leftFront;
+    public DcMotor rightFront;
+    public DcMotor leftBack;
+    public DcMotor rightBack;
 
     public ColorSensor intake1;
 
@@ -131,6 +135,29 @@ public abstract class Timothy extends LinearOpMode {
         lift2.setDirection(DcMotorSimple.Direction.FORWARD);
         lift2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         lift2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
+    public void definedrivemotors() {
+        // Initialize the hardware variables. Note that the strings used here must correspond
+        // to the names assigned during the robot configuration step on the DS or RC devices.
+        leftFront = hardwareMap.get(DcMotor.class, "leftFront");
+        leftBack = hardwareMap.get(DcMotor.class, "leftBack");
+        rightFront = hardwareMap.get(DcMotor.class, "rightFront");
+        rightBack = hardwareMap.get(DcMotor.class, "rightBack");
+
+        // ########################################################################################
+        // !!!            IMPORTANT Drive Information. Test your motor directions.            !!!!!
+        // ########################################################################################
+        // Most robots need the motors on one side to be reversed to drive forward.
+        // The motor reversals shown here are for a "direct drive" robot (the wheels turn the same direction as the motor shaft)
+        // If your robot has additional gear reductions or uses a right-angled drive, it's important to ensure
+        // that your motors are turning in the correct direction.  So, start out with the reversals here, BUT
+        // when you first test your robot, push the left joystick forward and observe the direction the wheels turn.
+        // Reverse the direction (flip FORWARD <-> REVERSE ) of any wheel that runs backward
+        // Keep testing until ALL the wheels move the robot forward when you push the left joystick forward.
+        leftFront.setDirection(DcMotor.Direction.REVERSE);
+        leftBack.setDirection(DcMotor.Direction.REVERSE);
+        rightFront.setDirection(DcMotor.Direction.FORWARD);
+        rightBack.setDirection(DcMotor.Direction.FORWARD);
     }
 /*
     public void intintake1() {
