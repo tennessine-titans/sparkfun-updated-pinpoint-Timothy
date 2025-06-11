@@ -212,24 +212,51 @@ public class LinearTeleop extends Timothy {
                 claw.setPosition(clawClosed);
             }
             // Right bumper - Intake down
-            if (gamepad1.right_bumper) {
+            /*if (gamepad1.right_bumper) {
                 intakePosition.setPosition(intakeDown);
                 intakeWheel.setPower(1);
+                if (intakecolorDetectedvalue == 1) {
+                    intakeWheel.setPower(0); // Stop
+                } else if (intakecolorDetectedvalue == 2) {
+                    intakeWheel.setPower(0); // stop
+                } else if (intakecolorDetectedvalue == 3) {
+                    intakeWheel.setPower(-1); // Reverse
+                }
 
 
-            } else if (gamepad1.left_bumper) {
+             */
+            if (gamepad1.right_bumper) {
+                // Set the intake position immediately upon bumper press.
+                intakePosition.setPosition(intakeDown);
+
+                // Check if the intake wheel is currently reversing.
+                // If it is, pressing the bumper again will force it to spin forward.
+                if (intakeWheel.getPower() < 0) {
+                    intakeWheel.setPower(1); // Force forward
+                } else {
+                    // If the wheel was not reversing (i.e., stopped or already forward),
+                    // then apply the color detection logic as before.
+                    if (intakecolorDetectedvalue == 1) {
+                        intakeWheel.setPower(0); // Stop
+                    } else if (intakecolorDetectedvalue == 2) {
+                        intakeWheel.setPower(0); // Stop
+                    } else if (intakecolorDetectedvalue == 3) {
+                        intakeWheel.setPower(-1); // Reverse
+                    } else {
+                        // Optional: If no color is detected or an unknown value,
+                        // you might want a default behavior, e.g., spin forward.
+                        // intakeWheel.setPower(1);
+                    }
+                }
+            }
+
+            }  if (gamepad1.left_bumper) {
                 intakePosition.setPosition(intakeUp);
                 intakeWheel.setPower(intakeWheeloff);
 
 
             }
-            if (intakecolorDetectedvalue == 1) {
-                intakeWheel.setPower(0); // Stop
-            } else if (intakecolorDetectedvalue == 2) {
-                intakeWheel.setPower(0); // stop
-            } else if (intakecolorDetectedvalue == 3) {
-                intakeWheel.setPower(-1); // Reverse
-            }
+
 
 
                 DcMotor leftFrontdrive  = hardwareMap.get(DcMotor.class, "leftFront");
@@ -273,7 +300,7 @@ public class LinearTeleop extends Timothy {
                     telemetry.addData("Back left/right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
 
                 }
-            }
+
 
 
 

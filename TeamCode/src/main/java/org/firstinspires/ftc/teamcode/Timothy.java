@@ -22,7 +22,7 @@ import com.qualcomm.robotcore.hardware.VoltageSensor;
 public abstract class Timothy extends LinearOpMode {
     // Variables and actions used to set and run Timothys servo positions and motor positions.
     //Set default values;
-    protected double intakeDown = .58;// to pick up sample
+    protected double intakeDown = .6;// to pick up sample
     protected double intakeUp = .28; // postiton when extendo is retracted
     protected double intakeWheelforward = 1.0;
     protected double intakeWheelbackward = -1.0;
