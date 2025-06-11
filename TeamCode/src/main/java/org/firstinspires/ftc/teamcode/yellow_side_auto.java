@@ -13,6 +13,12 @@ import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+
+
+
+
+import javax.annotation.Nullable;
+
 @Config
 @Autonomous(name = "yellow_side_auto", group = "Autonomous")
 public class yellow_side_auto extends Timothy {
@@ -70,6 +76,10 @@ public class yellow_side_auto extends Timothy {
         Action TrajectoryAction20 = drive.actionBuilder(new Pose2d(-36,31,3*Math.PI/2))
                 //hang fifth specimen
                 .strafeToLinearHeading(new Vector2d(-2,29),3*Math.PI/2)
+                .build();
+
+        Action TestTraj = drive.actionBuilder(drive.pose)
+                .splineToConstantHeading(new Vector2d(30,30),3*Math.PI/2)
                 .build();
         Action WaitAction10A = drive.actionBuilder(drive.pose)
                 .waitSeconds(.1)

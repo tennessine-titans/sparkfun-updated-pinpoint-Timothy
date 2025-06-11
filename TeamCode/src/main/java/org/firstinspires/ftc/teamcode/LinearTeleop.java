@@ -79,10 +79,13 @@ public class LinearTeleop extends Timothy {
             value = hsv[2];
             if (hue >= 0 && hue < 30 && value > 200 || hue >= 330 && hue <= 360 && value > 200) {
                 intakecolorDetected =  "Red";
+                intakecolorDetectedvalue = 1;
             } else if (hue > 30 && hue < 90 && value > 200) {
                 intakecolorDetected = "Yellow";
+                intakecolorDetectedvalue = 2;
             } else if (hue >= 210 && hue < 270 && value > 200) {
                 intakecolorDetected = "Blue";
+                intakecolorDetectedvalue = 3;
             } else {
                 intakecolorDetected = "None";
             }
