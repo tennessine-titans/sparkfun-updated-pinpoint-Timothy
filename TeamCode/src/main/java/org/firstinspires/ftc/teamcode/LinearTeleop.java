@@ -78,7 +78,7 @@ public class LinearTeleop extends Timothy {
             saturation = hsv[1];
             value = hsv[2];
             if (hue >= 0 && hue < 30 && value > 200 || hue >= 330 && hue <= 360 && value > 200) {
-                intakecolorDetected =  "Red";
+                intakecolorDetected = "Red";
                 intakecolorDetectedvalue = 1;
             } else if (hue > 30 && hue < 90 && value > 200) {
                 intakecolorDetected = "Yellow";
@@ -243,14 +243,13 @@ public class LinearTeleop extends Timothy {
                     } else if (intakecolorDetectedvalue == 3) {
                         intakeWheel.setPower(-1); // Reverse
                     } else {
-                        // Optional: If no color is detected or an unknown value,
-                        // you might want a default behavior, e.g., spin forward.
-                        // intakeWheel.setPower(1);
+                        intakeWheel.setPower(1);
                     }
                 }
             }
 
-            }  if (gamepad1.left_bumper) {
+
+            if (gamepad1.left_bumper) {
                 intakePosition.setPosition(intakeUp);
                 intakeWheel.setPower(intakeWheeloff);
 
@@ -258,55 +257,55 @@ public class LinearTeleop extends Timothy {
             }
 
 
+            DcMotor leftFrontdrive = hardwareMap.get(DcMotor.class, "leftFront");
+            DcMotor leftBackdrive = hardwareMap.get(DcMotor.class, "leftBack");
+            DcMotor rightFrontdrive = hardwareMap.get(DcMotor.class, "rightFront");
+            DcMotor rightBackdrive = hardwareMap.get(DcMotor.class, "rightBack");
+            leftFrontdrive.setDirection(DcMotorSimple.Direction.REVERSE);
+            leftBackdrive.setDirection(DcMotorSimple.Direction.REVERSE);
 
-                DcMotor leftFrontdrive  = hardwareMap.get(DcMotor.class, "leftFront");
-                DcMotor leftBackdrive   = hardwareMap.get(DcMotor.class, "leftBack");
-                DcMotor rightFrontdrive = hardwareMap.get(DcMotor.class, "rightFront");
-                DcMotor rightBackdrive  = hardwareMap.get(DcMotor.class, "rightBack");
-                leftFrontdrive.setDirection(DcMotorSimple.Direction.REVERSE);
-                leftBackdrive.setDirection(DcMotorSimple.Direction.REVERSE);
 
+            waitForStart();
 
-                waitForStart();
+            {
+                double axial = -gamepad1.left_stick_y;
+                double lateral = gamepad1.left_stick_x;
+                double yaw = gamepad1.right_stick_x;
 
-                 {
-                    double axial   = -gamepad1.left_stick_y;
-                    double lateral =  gamepad1.left_stick_x;
-                    double yaw     =  gamepad1.right_stick_x;
+                double leftFrontPower = axial + lateral + yaw;
+                double rightFrontPower = axial - lateral - yaw;
+                double leftBackPower = axial - lateral + yaw;
+                double rightBackPower = axial + lateral - yaw;
 
-                    double leftFrontPower  = axial + lateral + yaw;
-                    double rightFrontPower = axial - lateral - yaw;
-                    double leftBackPower   = axial - lateral + yaw;
-                    double rightBackPower  = axial + lateral - yaw;
+                double max = Math.max(
+                        Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower)),
+                        Math.max(Math.abs(leftBackPower), Math.abs(rightBackPower))
+                );
 
-                    double max = Math.max(
-                            Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower)),
-                            Math.max(Math.abs(leftBackPower), Math.abs(rightBackPower))
-                    );
-
-                    if (max > 1.0) {
-                        leftFrontPower  /= max;
-                        rightFrontPower /= max;
-                        leftBackPower   /= max;
-                        rightBackPower  /= max;
-                    }
-
-                    leftFrontdrive.setPower(leftFrontPower);
-                    rightFrontdrive.setPower(rightFrontPower);
-                    leftBackdrive.setPower(leftBackPower);
-                    rightBackdrive.setPower(rightBackPower);
-
-                    telemetry.addData("Front left/right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
-                    telemetry.addData("Back left/right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
-
+                if (max > 1.0) {
+                    leftFrontPower /= max;
+                    rightFrontPower /= max;
+                    leftBackPower /= max;
+                    rightBackPower /= max;
                 }
 
+                leftFrontdrive.setPower(leftFrontPower);
+                rightFrontdrive.setPower(rightFrontPower);
+                leftBackdrive.setPower(leftBackPower);
+                rightBackdrive.setPower(rightBackPower);
+
+                telemetry.addData("Front left/right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
+                telemetry.addData("Back left/right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
+
+            }
 
 
 
-/*
 
- */
+
+            /*
+
+             */
 
             telemetry.addData("lift1", lift1.getCurrentPosition());
             telemetry.addData("lift2", lift2.getCurrentPosition());
@@ -328,6 +327,7 @@ public class LinearTeleop extends Timothy {
 
         }
     }
+}
 
 
 
