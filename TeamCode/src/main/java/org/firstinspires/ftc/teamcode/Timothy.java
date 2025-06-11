@@ -23,8 +23,8 @@ public abstract class Timothy extends LinearOpMode {
     // Variables and actions used to set and run Timothys servo positions and motor positions.
     //Set default values;
     protected double intakeDown = .58;// to pick up sample
-    protected double intakeUp = .26; // postiton when extendo is retracted
-    protected double intakeWheelforward = 0.75;
+    protected double intakeUp = .28; // postiton when extendo is retracted
+    protected double intakeWheelforward = 1.0;
     protected double intakeWheelbackward = -1.0;
     protected double intakeWheeloff = 0.0;
     protected double leftExtendoOut = 0.59;
@@ -758,7 +758,7 @@ public abstract class Timothy extends LinearOpMode {
             private boolean initialized = false;
             private double newLExtendoPosition = leftExtendohalf;
             private double newRExtendoPosition = rightExtendohalf;
-
+            private boolean firstScan = true;
 
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
@@ -795,12 +795,17 @@ public abstract class Timothy extends LinearOpMode {
                 telemetry.addData("Color Detected",intakecolorDetected);
                 telemetry.update();
 
-                if (intakecolorDetectedvalue == 0||intakecolorDetectedvalue == 3) {//color sensor sees no color or wrong color
-                    if(intakecolorDetectedvalue == 0) { // no color
-                        intakePosition.setPosition(intakeDown);
+                if (intakecolorDetectedvalue == 0&&newLExtendoPosition!=leftExtendoOut||intakecolorDetectedvalue == 3) {//color sensor sees no color or wrong color
+                    if(intakecolorDetectedvalue == 0&&newLExtendoPosition!=leftExtendoOut) { // no color and not extended
+
                         intakewheel.setPower(intakeWheelforward);
-                        newLExtendoPosition = newLExtendoPosition + 0.01;
-                        newRExtendoPosition = newRExtendoPosition + 0.01;
+                        newLExtendoPosition = newLExtendoPosition + 0.005;
+                        newRExtendoPosition = newRExtendoPosition + 0.005;
+                        if (firstScan){
+                            sleep(100);
+                            intakePosition.setPosition(intakeDown);
+                            firstScan=false;
+                        }
                     }
                     else {   // wrong color
                         intakewheel.setPower(intakeWheelbackward);
@@ -817,9 +822,10 @@ public abstract class Timothy extends LinearOpMode {
 
                     }
                     else if (newLExtendoPosition == leftExtendoOut) {
-                        intakePosition.setPosition(intakeUp);
                         intakewheel.setPower(intakeWheeloff);
+                        intakePosition.setPosition(intakeUp);
                         Lextendo.setPosition(leftExtendoIn);
+                        sleep(100);
                         Rextendo.setPosition(rightExtendoIn);
 
 
