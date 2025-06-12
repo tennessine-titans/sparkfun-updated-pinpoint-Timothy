@@ -42,7 +42,7 @@ public abstract class Timothy extends LinearOpMode {
     protected double leftElbowbasket = .89;
     protected double clawClosed = .528;
     protected double clawRelease = .438;
-    protected double clawOpen = .348;
+    protected double clawOpen = .38;
     protected double leftShoulderspecimenTransition = .5;
     protected double rightShoulderspecimenTransition = .5;
     protected float leftElbowWall = 0;
@@ -64,6 +64,7 @@ public abstract class Timothy extends LinearOpMode {
     protected double d = 0;
     protected double f = 0.001;
     public int target = 0;
+    public int liftHangspecimen = 350;
     String intakecolorDetected;
     public int intakecolorDetectedvalue;
     String clawcolorDetected;
@@ -77,6 +78,8 @@ public abstract class Timothy extends LinearOpMode {
     public float value;
     public int machineState = 0;
     public double startTime;
+    public int step = 0;
+    public boolean scan = true;
     //Define servos and motors
     public Servo Lextendo;
     public Servo Rextendo;
@@ -291,7 +294,7 @@ public abstract class Timothy extends LinearOpMode {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
                 if (!initialized) {
-                    target=350;
+                    target=liftHangspecimen;
                     initialized = true;
                 }
 

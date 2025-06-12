@@ -15,9 +15,13 @@ public class Red_tele_op_Machine_states extends Timothy {
     private ElapsedTime runtime = new ElapsedTime();
 
     private void outExtendo() {
+        lift1.setTargetPosition(10);
+        lift2.setTargetPosition(10);
         claw.setPosition(clawOpen);
         leftShoulder.setPosition(leftShoulderoutOftheWay);
         rightShoulder.setPosition(rightShoulderoutOftheWay);
+        leftElbow.setPosition(leftElbowintake);
+        rightElbow.setPosition(rightElbowintake);
         if (runtime.milliseconds() > startTime + 100) {
             Lextendo.setPosition(leftExtendoOut);
             Rextendo.setPosition(rightExtendoOut);
@@ -42,28 +46,170 @@ public class Red_tele_op_Machine_states extends Timothy {
             rightShoulder.setPosition(rightShoulderoutOftheWay);
             leftShoulder.setPosition(leftShoulderoutOftheWay);
             claw.setPosition(clawOpen);
+            step =1;
         }
-        if (runtime.milliseconds() > startTime + 100) {
+         else if (runtime.milliseconds() > startTime + 100 && step==1) {
             Lextendo.setPosition(leftExtendoIn);
             Rextendo.setPosition(rightExtendoIn);
+            step =2;
         }
-        if (runtime.milliseconds()> startTime + 300){
+        else if (runtime.milliseconds()> startTime + 550 && step ==2){
             rightShoulder.setPosition(rightShoulderintake);
             leftShoulder.setPosition(leftShoulderintake);
-            claw.setPosition(clawClosed);
+            step =3;
         }
-        if (runtime.milliseconds()> startTime + 3000){
+        else if (runtime.milliseconds() > startTime + 850 && step== 3){
+            claw.setPosition(clawClosed);
+            step =4;
+        }
+        else if (runtime.milliseconds()> startTime + 1100 && step == 4){
             rightShoulder.setPosition(rightShoulderspecimenTransition);
             leftShoulder.setPosition(leftShoulderspecimenTransition);
+            step = 5;
         }
-        if (runtime.milliseconds()> startTime + 4000){
+        else if (runtime.milliseconds()> startTime + 1400 && step ==5){
             rightElbow.setPosition(rightElbowWall);
             leftElbow.setPosition(leftElbowWall);
+            step = 6;
         }
-        if (runtime.milliseconds()> startTime + 5000){
+        else if (runtime.milliseconds()> startTime + 1700 && step == 6){
             rightShoulder.setPosition(rightShoulderWall);
             leftShoulder.setPosition(leftShoulderWall);
         }
+    }
+    private void armsOutofTheway(){
+        lift1.setTargetPosition(10);
+        lift2.setTargetPosition(10);
+        claw.setPosition(clawClosed);
+        rightShoulder.setPosition(rightShoulderoutOftheWay);
+        leftShoulder.setPosition(leftShoulderoutOftheWay);
+        if(runtime.milliseconds()> startTime +200) {
+            rightElbow.setPosition(rightElbowintake);
+            leftElbow.setPosition(leftElbowintake);
+        }
+    }
+    private void specimenHang() {
+        claw.setPosition(clawClosed);
+        lift1.setTargetPosition(liftHangspecimen);
+        lift2.setTargetPosition(liftHangspecimen);
+        if (lift1.getCurrentPosition() > 200&&lift1.getCurrentPosition()<300) {
+            rightShoulder.setPosition(rightShoulderspecimenTransition);
+            leftShoulder.setPosition(leftShoulderspecimenTransition);
+            startTime=runtime.milliseconds();
+            step = 1;
+        }
+        if (runtime.milliseconds() > startTime + 200 && step == 1) {
+            rightElbow.setPosition(rightElbowhangSpecimen);
+            leftElbow.setPosition(leftElbowhangSpecimen);
+            step = 2;
+        }
+        if (runtime.milliseconds() > startTime + 300 && step == 2){
+            rightShoulder.setPosition(rightShoulderhangSpecimen);
+            leftShoulder.setPosition(leftShoulderhangSpecimen);
+    }
+    }
+    private void specimenExtrabump() {
+        claw.setPosition(clawClosed);
+        lift1.setTargetPosition(950);
+        lift2.setTargetPosition(950);
+        if (lift1.getCurrentPosition()>925){
+            claw.setPosition(clawOpen);
+        }
+    }
+    private void basket() {
+        if (runtime.milliseconds() < startTime + 100) {
+            lift1.setTargetPosition(10);
+            lift2.setTargetPosition(10);
+            intakePosition.setPosition(intakeUp);
+            rightShoulder.setPosition(rightShoulderoutOftheWay);
+            leftShoulder.setPosition(leftShoulderoutOftheWay);
+            claw.setPosition(clawOpen);
+            step = 1;
+        }
+        if (runtime.milliseconds() > startTime + 100 && step == 1) {
+            Lextendo.setPosition(leftExtendoIn);
+            Rextendo.setPosition(rightExtendoIn);
+            step = 2;
+        }
+        if (runtime.milliseconds() > startTime + 550 && step == 2) {
+            rightShoulder.setPosition(rightShoulderintake);
+            leftShoulder.setPosition(leftShoulderintake);
+            step = 3;
+        }
+        if (runtime.milliseconds() > startTime + 850 && step == 3) {
+            claw.setPosition(clawClosed);
+            step = 4;
+        }
+        if (runtime.milliseconds() > startTime + 1000 && step == 4) {
+            lift1.setTargetPosition(1500);
+            lift2.setTargetPosition(1500);
+            step = 5;
+        }
+        if (lift1.getCurrentPosition()>800&& step ==5) {
+            leftShoulder.setPosition(leftShoulderbasket);
+            rightShoulder.setPosition(rightShoulderbasket);
+            step =6;
+        }
+        if(lift1.getCurrentPosition()>1200&& step ==6){
+            leftElbow.setPosition(leftElbowbasket);
+            rightElbow.setPosition(rightElbowbasket);
+        }
+    }
+    private void grabFromwall() {
+        lift1.setTargetPosition(10);
+        lift2.setTargetPosition(10);
+        if (runtime.milliseconds()<startTime +100){
+            rightShoulder.setPosition(rightShoulderspecimenTransition);
+            leftShoulder.setPosition(leftShoulderspecimenTransition);
+            step = 1;
+        }
+        if (runtime.milliseconds()> startTime + 300 && step ==1){
+            rightElbow.setPosition(rightElbowWall);
+            leftElbow.setPosition(leftElbowWall);
+            step = 2;
+        }
+        if (runtime.milliseconds()> startTime + 600 && step == 2){
+            rightShoulder.setPosition(rightShoulderWall);
+            leftShoulder.setPosition(leftShoulderWall);
+        }
+    }
+    private void claw_Open(){
+        claw.setPosition(clawOpen);
+    }
+    private void claw_Close(){
+        claw.setPosition(clawClosed);
+    }
+    private void intake_Down(){
+        // Set the intake position immediately upon bumper press.
+        intakePosition.setPosition(intakeDown);
+
+        // Check if the intake wheel is currently reversing.
+        // If it is, pressing the bumper again will force it to spin forward.
+
+            // If the wheel was not reversing (i.e., stopped or already forward),
+            // then apply the color detection logic as before.
+            if (intakecolorDetectedvalue == 1) {
+                intakeWheel.setPower(0); // Stop
+            } else if (intakecolorDetectedvalue == 2) {
+                intakeWheel.setPower(0); // Stop
+            } else if (intakecolorDetectedvalue == 3) {
+                intakeWheel.setPower(-1); // Reverse
+                if(scan){
+                    intakePosition.setPosition(intakeUp);
+                    sleep(50);
+                    scan = false;
+                }
+                else if (!scan){
+                    intakePosition.setPosition(intakeDown);
+                    sleep(50);
+                }
+            } else if(intakecolorDetectedvalue == 0) {
+                intakeWheel.setPower(1);
+        }
+    }
+    private void intake_Up(){
+        intakePosition.setPosition(intakeUp);
+        intakeWheel.setPower(intakeWheeloff);
     }
 
     @Override
@@ -141,6 +287,7 @@ public class Red_tele_op_Machine_states extends Timothy {
                 intakecolorDetectedvalue = 3;
             } else {
                 intakecolorDetected = "None";
+                intakecolorDetectedvalue =0;
             }
 
             // D-pad left -  extendo out
@@ -160,82 +307,38 @@ public class Red_tele_op_Machine_states extends Timothy {
             }
             // Arms down to pick up out intake
             else if (gamepad2.dpad_down) {
-                claw.setPosition(clawOpen);
-                rightShoulder.setPosition(rightShoulderintake);
-                leftShoulder.setPosition(leftShoulderintake);
-                rightElbow.setPosition(rightElbowintake);
-                leftElbow.setPosition(leftElbowintake);
-                lift1.setTargetPosition(10);
-                lift2.setTargetPosition(10);
-                claw.setPosition(clawClosed);
+                machineState =4;
+                startTime = runtime.milliseconds();
             }
             // Get in position to hang specimen
             else if (gamepad2.cross) {
-                lift1.setTargetPosition(650);
-                lift2.setTargetPosition(650);
-                claw.setPosition(clawClosed);
-                rightShoulder.setPosition(rightShoulderspecimenTransition);
-                leftShoulder.setPosition(leftShoulderspecimenTransition);
-                sleep(100);
-                rightElbow.setPosition(rightElbowhangSpecimen);
-                leftElbow.setPosition(leftElbowhangSpecimen);
-                sleep(100);
-                rightShoulder.setPosition(rightShoulderhangSpecimen);
-                leftShoulder.setPosition(leftShoulderhangSpecimen);
+                machineState = 5;
+                startTime = runtime.milliseconds();
+
 
             } else if (gamepad2.square) {
-                claw.setPosition(clawClosed);
-                lift1.setTargetPosition(950);
-                lift2.setTargetPosition(950);
+                machineState =6;
+                startTime = runtime.milliseconds();
             }
             // Tansfer sample from intake to claw and go up to put in bucket
             else if (gamepad2.triangle) {
-                rightShoulder.setPosition(rightShoulderoutOftheWay);
-                leftShoulder.setPosition(leftShoulderoutOftheWay);
-                claw.setPosition(clawOpen);
-                intakePosition.setPosition(intakeUp);
-                sleep(100);
-                Lextendo.setPosition(leftExtendoIn);
-                Rextendo.setPosition(rightExtendoIn);
-                sleep(1);
-                leftElbow.setPosition(leftElbowintake);
-                rightElbow.setPosition(rightElbowintake);
-                sleep(1000);
-                leftShoulder.setPosition(leftShoulderintake);
-                rightShoulder.setPosition(rightShoulderintake);
-                lift1.setTargetPosition(10);
-                lift2.setTargetPosition(10);
-                sleep(2000);
-                claw.setPosition(clawClosed);
-                sleep(200);
-                lift1.setTargetPosition(1500);
-                lift2.setTargetPosition(1500);
-                leftShoulder.setPosition(leftShoulderbasket);
-                rightShoulder.setPosition(rightShoulderbasket);
-                sleep(100);
-                leftElbow.setPosition(leftElbowbasket);
-                rightElbow.setPosition(rightElbowbasket);
+                machineState = 7;
+                startTime = runtime.milliseconds();
             }
             // Go to position to pick up specimen off wall
             else if (gamepad2.circle) {
-                leftShoulder.setPosition(leftShoulderspecimenTransition);
-                rightShoulder.setPosition(rightShoulderspecimenTransition);
-                sleep(100);
-                leftElbow.setPosition(leftElbowWall);
-                rightElbow.setPosition(rightElbowWall);
-                sleep(100);
-                rightShoulder.setPosition(rightShoulderWall);
-                leftShoulder.setPosition(leftShoulderWall);
-                lift1.setTargetPosition(10);
-                lift2.setTargetPosition(10);
+                machineState = 8;
+                startTime = runtime.milliseconds();
             }
             //open claw
             else if (gamepad2.right_bumper) {
-                claw.setPosition(clawOpen);
+                machineState =9;
+                startTime = runtime.milliseconds();
             }
             //closed claw
             else if (gamepad2.left_bumper) {
-                claw.setPosition(clawClosed);
+                machineState =10;
+                startTime = runtime.milliseconds();
             }
             // Right bumper - Intake down
             /*if (gamepad1.right_bumper) {
@@ -252,33 +355,15 @@ public class Red_tele_op_Machine_states extends Timothy {
 
              */
             if (gamepad1.right_bumper) {
-                // Set the intake position immediately upon bumper press.
-                intakePosition.setPosition(intakeDown);
+                machineState =11;
+                startTime = runtime.milliseconds();
 
-                // Check if the intake wheel is currently reversing.
-                // If it is, pressing the bumper again will force it to spin forward.
-                if (intakeWheel.getPower() < 0) {
-                    intakeWheel.setPower(1); // Force forward
-                } else {
-                    // If the wheel was not reversing (i.e., stopped or already forward),
-                    // then apply the color detection logic as before.
-                    if (intakecolorDetectedvalue == 1) {
-                        intakeWheel.setPower(0); // Stop
-                    } else if (intakecolorDetectedvalue == 2) {
-                        intakeWheel.setPower(0); // Stop
-                    } else if (intakecolorDetectedvalue == 3) {
-                        intakeWheel.setPower(-1); // Reverse
-                    } else {
-                        intakeWheel.setPower(1);
-                    }
-                }
             }
 
 
             if (gamepad1.left_bumper) {
-                intakePosition.setPosition(intakeUp);
-                intakeWheel.setPower(intakeWheeloff);
-
+                machineState=12;
+                startTime = runtime.milliseconds();
 
             }
 
@@ -330,12 +415,33 @@ public class Red_tele_op_Machine_states extends Timothy {
             else if (machineState == 3){
                 humanPlayertransfer();
             }
-
-
-
-
-
-
+            else if (machineState == 4){
+                armsOutofTheway();
+            }
+            else if (machineState == 5){
+                specimenHang();
+            }
+            else if (machineState == 6){
+                specimenExtrabump();
+            }
+            else if (machineState == 7){
+                basket();
+            }
+            else if (machineState == 8){
+                grabFromwall();
+            }
+            else if (machineState == 9){
+                claw_Open();
+            }
+            else if (machineState == 10){
+                claw_Close();
+            }
+            else if (machineState == 11){
+                intake_Down();
+            }
+            else if (machineState == 12){
+                intake_Up();
+            }
             /*
 
              */
@@ -356,6 +462,7 @@ public class Red_tele_op_Machine_states extends Timothy {
             telemetry.addData("lExtendo", le);
             telemetry.addData("rExtendo", re);
             telemetry.addData("time", runtime);
+            telemetry.addData("step", step);
             telemetry.update();
 
 
