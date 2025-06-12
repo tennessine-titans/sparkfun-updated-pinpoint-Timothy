@@ -75,6 +75,8 @@ public abstract class Timothy extends LinearOpMode {
     public float hue;
     public float saturation;
     public float value;
+    public int machineState = 0;
+    public double startTime;
     //Define servos and motors
     public Servo Lextendo;
     public Servo Rextendo;
