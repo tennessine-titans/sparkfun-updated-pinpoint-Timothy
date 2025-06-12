@@ -24,7 +24,8 @@ import needed libraries
     //EP = .5
     // Lifts up 1st
 // Lift PID parameters p = 0.01 d = 0.0004 f =0.06 i =0.013
-// lift max position 1600
+// Lift PID parameters after tightening p = 0.015 i =0.00001 d = 0.0002 f =0.001
+// lift max position 1510
 
 //Start code for Tele-op:
     //Gamepad1 (driver)

@@ -60,9 +60,9 @@ public abstract class Timothy extends LinearOpMode {
     protected double rightShoulderoutOftheWay =.55;
     protected double leftShoulderoutOftheWay =.55;
     protected double p = 0.01;
-    protected double i = 0.013;
-    protected double d = 0.0004;
-    protected double f = 0.06;
+    protected double i = 0;
+    protected double d = 0;
+    protected double f = 0.001;
     public int target = 0;
     String intakecolorDetected;
     public int intakecolorDetectedvalue;
@@ -127,14 +127,14 @@ public abstract class Timothy extends LinearOpMode {
         lift1.setDirection(DcMotorSimple.Direction.REVERSE);
         lift1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        lift1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //lift1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
     public void intlift2(){
         lift2 = hardwareMap.get(DcMotor.class, "lift2");
         lift2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift2.setDirection(DcMotorSimple.Direction.FORWARD);
         lift2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        lift2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //lift2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
     public void definedrivemotors() {
         // Initialize the hardware variables. Note that the strings used here must correspond
@@ -203,7 +203,7 @@ public abstract class Timothy extends LinearOpMode {
         }
         public class PIDF_Lift_Controller implements Action {
             private boolean initialized = false;
-            public double p = 0.01, i = 0.013, d = 0.0005, f = 0.06;
+            public double p = 0.01, i = 0.0001, d = 0.0003, f = 0.02;
             //public int target = 0;
 
             private PIDController controller;
