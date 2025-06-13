@@ -12,9 +12,7 @@ import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-
-
-
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 import javax.annotation.Nullable;
@@ -22,7 +20,7 @@ import javax.annotation.Nullable;
 @Config
 @Autonomous(name = "yellow_side_auto", group = "Autonomous")
 public class yellow_side_auto extends Timothy {
-    public int target=0;
+    private ElapsedTime runtime = new ElapsedTime();
 
     @Override
     public void runOpMode() {
@@ -44,29 +42,28 @@ public class yellow_side_auto extends Timothy {
                 .build();
 
         Action TrajectoryAction12 = drive.actionBuilder(new Pose2d(55,58,5*Math.PI/4))
-                .turnTo(3*Math.PI/2)
+                // pick second first sample
+                .strafeToLinearHeading(new Vector2d(58,52),11*Math.PI/8)
                 .build();
-        Action TrajectoryAction14 = drive.actionBuilder(new Pose2d(-36,63,3*Math.PI/2))
-                //Hang second specimen
-                .strafeToLinearHeading(new Vector2d(4,29),3*Math.PI/2)
+        Action TrajectoryAction14 = drive.actionBuilder(new Pose2d(58,52,11*Math.PI/8))
+                //put second sample in basket
+                .strafeToLinearHeading(new Vector2d(55,58),5*Math.PI/4)
                 .build();
-        Action TrajectoryAction15 = drive.actionBuilder(new Pose2d(-2,31,3*Math.PI/2))
-                // Get third specimen off the wall
-                .setTangent(Math.PI / 2)
-                .splineToConstantHeading(new Vector2d(-36, 62.5),Math.PI/2)
+        Action TrajectoryAction15 = drive.actionBuilder(new Pose2d(55,58,5*Math.PI/4))
+                // pick up third sample
+                .strafeToLinearHeading(new Vector2d(42,53),5*Math.PI/3)
                 .build();
-        Action TrajectoryAction16 = drive.actionBuilder(new Pose2d(-36,64,3*Math.PI/2))
-                //hang third specimen
-                .strafeToLinearHeading(new Vector2d(2,29),3*Math.PI/2)
+        Action TrajectoryAction16 = drive.actionBuilder(new Pose2d(55,52,3*Math.PI/2))
+                //place third sample
+                .strafeToLinearHeading(new Vector2d(55,58),5*Math.PI/4)
                 .build();
-        Action TrajectoryAction17 = drive.actionBuilder(new Pose2d(-5,30,3*Math.PI/2))
-                // Get fourth specimen off the wall
-                .setTangent( Math.PI / 2)
-                .splineToConstantHeading(new Vector2d(-36, 62.5),Math.PI/2)
+        Action TrajectoryAction17 = drive.actionBuilder(new Pose2d(55,58,3*Math.PI/2))
+                // Get fourth sample
+                .strafeToLinearHeading(new Vector2d(46, 48),7*Math.PI/4)
                 .build();
-        Action TrajectoryAction18 = drive.actionBuilder(new Pose2d(-36,64,3*Math.PI/2))
-                //hang fourth specimen
-                .strafeToLinearHeading(new Vector2d(0,29),3*Math.PI/2)
+        Action TrajectoryAction18 = drive.actionBuilder(new Pose2d(50,53,11*Math.PI/6))
+                //place fourth sample
+                .strafeToLinearHeading(new Vector2d(55,58),5*Math.PI/4)
                 .build();
         Action TrajectoryAction19 = drive.actionBuilder(new Pose2d(-6,31,3*Math.PI/2))
                 // Get fifth specimen off the wall
@@ -213,14 +210,12 @@ public class yellow_side_auto extends Timothy {
 
 
         waitForStart();
-
+        runtime.reset();
         if (isStopRequested()) return;
         Actions.runBlocking(
                 new ParallelAction(
                         lift.pidf_Lift_Controller(),
-                        active_intake.active_IntakeOn()
                         //batteryVoltage.batteryMonitor(),
-                        /*
                         new SequentialAction(
                             //Drive to Submersible and hang first sample
                             new ParallelAction(
@@ -231,16 +226,69 @@ public class yellow_side_auto extends Timothy {
                                     elbow.elbowBasket()
                                 )
                             ),
-                            claw.openClaw(),
-                            new ParallelAction(
-                                TrajectoryAction12,
+                        WaitAction25A,
+                        claw.openClaw(),
+                        WaitAction25L,
+                        TrajectoryAction12,
+                        active_intake.active_IntakeOn(),
+                        new ParallelAction(
+                                TrajectoryAction14,
                                 new SequentialAction(
-                                    extendo.extendoOut(),
-                                    intake.intakedown(),
-                                    intakewheel.wheelFoward()
+                                    elbow.elbowIntake(),
+                                    WaitAction25B,
+                                    shoulder.shoulderintake(),
+                                    lift.liftDown_PIDF(),
+                                    claw.closeClaw(),
+                                    WaitAction5A,
+                                    lift.liftUp_PIDF(),
+                                    shoulder.shoulderbasket(),
+                                    WaitAction25C,
+                                    elbow.elbowBasket()
                                 )
+                        ),
+                        WaitAction25D,
+                        claw.openClaw(),
+                        WaitAction25J,
+                        TrajectoryAction15,
+                        active_intake.active_IntakeOn(),
+                        WaitAction5D,
+                        new ParallelAction(
+                            TrajectoryAction16,
+                            new SequentialAction(
+                                elbow.elbowIntake(),
+                                WaitAction25E,
+                                shoulder.shoulderintake(),
+                                lift.liftDown_PIDF(),
+                                claw.closeClaw(),
+                                WaitAction5B,
+                                lift.liftUp_PIDF(),
+                                shoulder.shoulderbasket(),
+                                WaitAction25F,
+                                elbow.elbowBasket()
                             )
-                        )*/
+                        ),
+                        WaitAction25G,
+                        claw.openClaw(),
+                        WaitAction25K,
+                        TrajectoryAction17,
+                        active_intake.active_IntakeOn(),
+                        new ParallelAction(
+                            TrajectoryAction18,
+                            new SequentialAction(
+                                elbow.elbowIntake(),
+                                WaitAction25H,
+                                shoulder.shoulderintake(),
+                                lift.liftDown_PIDF(),
+                                claw.closeClaw(),
+                                WaitAction5C,
+                                lift.liftUp_PIDF(),
+                                shoulder.shoulderbasket(),
+                                WaitAction25I,
+                                elbow.elbowBasket()
+                            )
+                        ),
+                claw.openClaw()
+                )
                 )
         );
     }

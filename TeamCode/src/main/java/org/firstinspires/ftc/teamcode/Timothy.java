@@ -16,6 +16,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 @Config
@@ -745,6 +746,7 @@ public abstract class Timothy extends LinearOpMode {
         private Servo intakePosition;
         private Servo rightShoulder;
         private Servo leftShoulder;
+        private ElapsedTime runtime = new ElapsedTime();
 
 
         public Active_Intake() {
@@ -798,6 +800,7 @@ public abstract class Timothy extends LinearOpMode {
                     intakecolorDetectedvalue = 0;
                 }
                 telemetry.addData("Color Detected",intakecolorDetected);
+                telemetry.addData("runtime",runtime.milliseconds());
                 telemetry.update();
 
                 if (intakecolorDetectedvalue == 0&&newLExtendoPosition!=leftExtendoOut||intakecolorDetectedvalue == 3) {//color sensor sees no color or wrong color
@@ -807,6 +810,7 @@ public abstract class Timothy extends LinearOpMode {
                         newLExtendoPosition = newLExtendoPosition + 0.005;
                         newRExtendoPosition = newRExtendoPosition + 0.005;
                         if (firstScan){
+                            startTime = runtime.milliseconds();
                             sleep(100);
                             intakePosition.setPosition(intakeDown);
                             firstScan=false;
@@ -819,7 +823,7 @@ public abstract class Timothy extends LinearOpMode {
                 }
 
                 else {
-                    if (intakecolorDetectedvalue == 1 || intakecolorDetectedvalue == 2) {// sees correct color
+                    if (intakecolorDetectedvalue == 1 || intakecolorDetectedvalue == 2 || runtime.milliseconds()>startTime + 2000) {// sees correct color
                         intakePosition.setPosition(intakeUp);
                         intakewheel.setPower(intakeWheeloff);
                         Lextendo.setPosition(leftExtendoIn);
@@ -829,11 +833,16 @@ public abstract class Timothy extends LinearOpMode {
                     else if (newLExtendoPosition == leftExtendoOut) {
                         intakewheel.setPower(intakeWheeloff);
                         intakePosition.setPosition(intakeUp);
-                        Lextendo.setPosition(leftExtendoIn);
                         sleep(100);
+                        Lextendo.setPosition(leftExtendoIn);
                         Rextendo.setPosition(rightExtendoIn);
-
-
+                    }
+                    else if(runtime.milliseconds()>startTime +2000){
+                        intakewheel.setPower(intakeWheeloff);
+                        intakePosition.setPosition(intakeUp);
+                        sleep(100);
+                        Lextendo.setPosition(leftExtendoIn);
+                        Rextendo.setPosition(rightExtendoIn);
                     }
                     return false;
                 }
