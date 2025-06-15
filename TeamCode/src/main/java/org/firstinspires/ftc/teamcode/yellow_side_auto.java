@@ -43,7 +43,7 @@ public class yellow_side_auto extends Timothy {
 
         Action TrajectoryAction12 = drive.actionBuilder(new Pose2d(55,58,5*Math.PI/4))
                 // pick second first sample
-                .strafeToLinearHeading(new Vector2d(58,52),11*Math.PI/8)
+                .strafeToLinearHeading(new Vector2d(58,51),11*Math.PI/8)
                 .build();
         Action TrajectoryAction14 = drive.actionBuilder(new Pose2d(58,52,11*Math.PI/8))
                 //put second sample in basket
@@ -51,30 +51,20 @@ public class yellow_side_auto extends Timothy {
                 .build();
         Action TrajectoryAction15 = drive.actionBuilder(new Pose2d(55,58,5*Math.PI/4))
                 // pick up third sample
-                .strafeToLinearHeading(new Vector2d(42,53),5*Math.PI/3)
+                .strafeToLinearHeading(new Vector2d(43,50),5*Math.PI/3)
                 .build();
         Action TrajectoryAction16 = drive.actionBuilder(new Pose2d(55,52,3*Math.PI/2))
                 //place third sample
-                .strafeToLinearHeading(new Vector2d(55,58),5*Math.PI/4)
+                .strafeToLinearHeading(new Vector2d(55,57),5*Math.PI/4)
                 .build();
         Action TrajectoryAction17 = drive.actionBuilder(new Pose2d(55,58,3*Math.PI/2))
                 // Get fourth sample
-                .strafeToLinearHeading(new Vector2d(46, 48),7*Math.PI/4)
+                .strafeToLinearHeading(new Vector2d(50.5, 45),7*Math.PI/4)
                 .build();
         Action TrajectoryAction18 = drive.actionBuilder(new Pose2d(50,53,11*Math.PI/6))
                 //place fourth sample
-                .strafeToLinearHeading(new Vector2d(55,58),5*Math.PI/4)
+                .strafeToLinearHeading(new Vector2d(55,57),5*Math.PI/4)
                 .build();
-        Action TrajectoryAction19 = drive.actionBuilder(new Pose2d(-6,31,3*Math.PI/2))
-                // Get fifth specimen off the wall
-                .setTangent(3*Math.PI / 8)
-                .splineToConstantHeading(new Vector2d(-36, 62.5),Math.PI/2)
-                .build();
-        Action TrajectoryAction20 = drive.actionBuilder(new Pose2d(-36,31,3*Math.PI/2))
-                //hang fifth specimen
-                .strafeToLinearHeading(new Vector2d(-2,29),3*Math.PI/2)
-                .build();
-
         Action TestTraj = drive.actionBuilder(drive.pose)
                 .splineToConstantHeading(new Vector2d(30,30),3*Math.PI/2)
                 .build();
@@ -248,7 +238,7 @@ public class yellow_side_auto extends Timothy {
                         ),
                         WaitAction25D,
                         claw.openClaw(),
-                        WaitAction25J,
+                        WaitAction25E,
                         TrajectoryAction15,
                         active_intake.active_IntakeOn(),
                         WaitAction5D,
@@ -256,38 +246,39 @@ public class yellow_side_auto extends Timothy {
                             TrajectoryAction16,
                             new SequentialAction(
                                 elbow.elbowIntake(),
-                                WaitAction25E,
+                                WaitAction25F,
                                 shoulder.shoulderintake(),
                                 lift.liftDown_PIDF(),
                                 claw.closeClaw(),
                                 WaitAction5B,
                                 lift.liftUp_PIDF(),
                                 shoulder.shoulderbasket(),
-                                WaitAction25F,
+                                WaitAction25G,
                                 elbow.elbowBasket()
                             )
                         ),
-                        WaitAction25G,
+                        WaitAction25H,
                         claw.openClaw(),
-                        WaitAction25K,
+                        WaitAction25I,
                         TrajectoryAction17,
                         active_intake.active_IntakeOn(),
                         new ParallelAction(
                             TrajectoryAction18,
                             new SequentialAction(
                                 elbow.elbowIntake(),
-                                WaitAction25H,
+                                WaitAction25J,
                                 shoulder.shoulderintake(),
                                 lift.liftDown_PIDF(),
                                 claw.closeClaw(),
                                 WaitAction5C,
                                 lift.liftUp_PIDF(),
                                 shoulder.shoulderbasket(),
-                                WaitAction25I,
+                                WaitAction25K,
                                 elbow.elbowBasket()
                             )
                         ),
-                claw.openClaw()
+                        WaitAction25M,
+                        claw.openClaw()
                 )
                 )
         );

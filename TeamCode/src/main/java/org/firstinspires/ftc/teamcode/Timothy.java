@@ -23,7 +23,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public abstract class Timothy extends LinearOpMode {
     // Variables and actions used to set and run Timothys servo positions and motor positions.
     //Set default values;
-    protected double intakeDown = .6;// to pick up sample
+    //protected double intakeDown = .6;// to pick up sample when servo bloxk was on top of extendo
+    protected double intakeDown = .49;// to pick up sample
     protected double intakeUp = .28; // postiton when extendo is retracted
     protected double intakeWheelforward = 1.0;
     protected double intakeWheelbackward = -1.0;
@@ -81,6 +82,8 @@ public abstract class Timothy extends LinearOpMode {
     public double startTime;
     public int step = 0;
     public boolean scan = true;
+    public boolean intakeDirectionForward =false;
+    public boolean status =true;
     //Define servos and motors
     public Servo Lextendo;
     public Servo Rextendo;
@@ -801,50 +804,72 @@ public abstract class Timothy extends LinearOpMode {
                 }
                 telemetry.addData("Color Detected",intakecolorDetected);
                 telemetry.addData("runtime",runtime.milliseconds());
-                telemetry.update();
-
-                if (intakecolorDetectedvalue == 0&&newLExtendoPosition!=leftExtendoOut||intakecolorDetectedvalue == 3) {//color sensor sees no color or wrong color
-                    if(intakecolorDetectedvalue == 0&&newLExtendoPosition!=leftExtendoOut) { // no color and not extended
-
+                if (firstScan==true){
+                    runtime.reset();
+                    startTime = runtime.milliseconds();
+                }
+                //if (intakecolorDetectedvalue == 0&&newLExtendoPosition!=leftExtendoOut||intakecolorDetectedvalue == 3||intakecolorDetectedvalue==2&& newLExtendoPosition !=leftExtendoIn) {//color sensor sees no color or wrong color
+                if(runtime.milliseconds()>startTime +3000){
+                    intakewheel.setPower(intakeWheeloff);
+                    intakePosition.setPosition(intakeUp);
+                    sleep(100);
+                    Lextendo.setPosition(leftExtendoIn);
+                    Rextendo.setPosition(rightExtendoIn);
+                    status=false;
+                }
+                else if(intakecolorDetectedvalue == 0&&newLExtendoPosition<=leftExtendoOut) { // no color and not extended
+                        status=true;
                         intakewheel.setPower(intakeWheelforward);
                         newLExtendoPosition = newLExtendoPosition + 0.005;
                         newRExtendoPosition = newRExtendoPosition + 0.005;
                         if (firstScan){
-                            startTime = runtime.milliseconds();
                             sleep(100);
                             intakePosition.setPosition(intakeDown);
                             firstScan=false;
                         }
                     }
-                    else {   // wrong color
+                    else if(intakecolorDetectedvalue==2&& newLExtendoPosition>=leftExtendoIn){
+                        status =true;
+                        intakewheel.setPower(intakeWheeloff);
+                        intakePosition.setPosition(intakeUp);
+                        newLExtendoPosition = newLExtendoPosition - 0.02;
+                        newRExtendoPosition = newRExtendoPosition - 0.02;
+                    }
+                    else if (intakecolorDetectedvalue==3){   // wrong color
+                        status=false;
                         intakewheel.setPower(intakeWheelbackward);
                     }
-                    return true;
-                }
-
-                else {
-                    if (intakecolorDetectedvalue == 1 || intakecolorDetectedvalue == 2 || runtime.milliseconds()>startTime + 2000) {// sees correct color
-                        intakePosition.setPosition(intakeUp);
-                        intakewheel.setPower(intakeWheeloff);
-                        Lextendo.setPosition(leftExtendoIn);
-                        Rextendo.setPosition(rightExtendoIn);
-
+                    else if (intakecolorDetectedvalue==1&& newLExtendoPosition<=leftExtendoIn||intakecolorDetectedvalue==2 && newLExtendoPosition<=leftExtendoIn) {
+                        status = false;
                     }
-                    else if (newLExtendoPosition == leftExtendoOut) {
+
+                    if(status==true){
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
+
+
+
+                    //if (intakecolorDetectedvalue == 1 || intakecolorDetectedvalue == 2 && newLExtendoPosition==leftExtendoIn || runtime.milliseconds()>startTime + 2000) {// sees correct color
+                      //  intakePosition.setPosition(intakeUp);
+                        //intakewheel.setPower(intakeWheeloff);
+                        //Lextendo.setPosition(newLExtendoPosition);
+                        //Rextendo.setPosition(newRExtendoPosition);
+
+                    //}
+                   /* else if (newLExtendoPosition == leftExtendoOut) {
                         intakewheel.setPower(intakeWheeloff);
                         intakePosition.setPosition(intakeUp);
                         sleep(100);
                         Lextendo.setPosition(leftExtendoIn);
                         Rextendo.setPosition(rightExtendoIn);
                     }
-                    else if(runtime.milliseconds()>startTime +2000){
-                        intakewheel.setPower(intakeWheeloff);
-                        intakePosition.setPosition(intakeUp);
-                        sleep(100);
-                        Lextendo.setPosition(leftExtendoIn);
-                        Rextendo.setPosition(rightExtendoIn);
-                    }
-                    return false;
+
+                    */
+
+
                 }
 
 
@@ -853,7 +878,7 @@ public abstract class Timothy extends LinearOpMode {
 
 
             }
-        }
+
 
         public Action active_IntakeOn() {
             return new Active_IntakeOn();

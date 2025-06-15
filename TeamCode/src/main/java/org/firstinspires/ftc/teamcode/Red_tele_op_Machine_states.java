@@ -5,6 +5,7 @@ import android.graphics.Color;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -15,8 +16,6 @@ public class Red_tele_op_Machine_states extends Timothy {
     private ElapsedTime runtime = new ElapsedTime();
 
     private void outExtendo() {
-        lift1.setTargetPosition(10);
-        lift2.setTargetPosition(10);
         claw.setPosition(clawOpen);
         leftShoulder.setPosition(leftShoulderoutOftheWay);
         rightShoulder.setPosition(rightShoulderoutOftheWay);
@@ -25,6 +24,10 @@ public class Red_tele_op_Machine_states extends Timothy {
         if (runtime.milliseconds() > startTime + 100) {
             Lextendo.setPosition(leftExtendoOut);
             Rextendo.setPosition(rightExtendoOut);
+        }
+        if(runtime.milliseconds()> startTime + 200) {
+            lift1.setTargetPosition(0);
+            lift2.setTargetPosition(0);
         }
     }
 
@@ -40,8 +43,8 @@ public class Red_tele_op_Machine_states extends Timothy {
     }
     private void humanPlayertransfer(){
         if (runtime.milliseconds()< startTime + 100) {
-            lift1.setTargetPosition(10);
-            lift2.setTargetPosition(10);
+            lift1.setTargetPosition(0);
+            lift2.setTargetPosition(0);
             intakePosition.setPosition(intakeUp);
             rightShoulder.setPosition(rightShoulderoutOftheWay);
             leftShoulder.setPosition(leftShoulderoutOftheWay);
@@ -60,19 +63,30 @@ public class Red_tele_op_Machine_states extends Timothy {
         }
         else if (runtime.milliseconds() > startTime + 850 && step== 3){
             claw.setPosition(clawClosed);
+            if (lift1.getCurrentPosition()<10||lift2.getCurrentPosition()<10) {
+                lift1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                lift2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                lift1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                lift2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            }
             step =4;
         }
-        else if (runtime.milliseconds()> startTime + 1100 && step == 4){
+        else if (runtime.milliseconds()>startTime +950 && step ==4){
+            lift1.setTargetPosition(100);
+            lift2.setTargetPosition(100);
+            step =5;
+        }
+        else if (runtime.milliseconds()> startTime + 1100 && step == 5){
             rightShoulder.setPosition(rightShoulderspecimenTransition);
             leftShoulder.setPosition(leftShoulderspecimenTransition);
-            step = 5;
-        }
-        else if (runtime.milliseconds()> startTime + 1400 && step ==5){
-            rightElbow.setPosition(rightElbowWall);
-            leftElbow.setPosition(leftElbowWall);
             step = 6;
         }
-        else if (runtime.milliseconds()> startTime + 1700 && step == 6){
+        else if (runtime.milliseconds()> startTime + 1400 && step ==6){
+            rightElbow.setPosition(rightElbowWall);
+            leftElbow.setPosition(leftElbowWall);
+            step = 7;
+        }
+        else if (runtime.milliseconds()> startTime + 1700 && step == 7){
             rightShoulder.setPosition(rightShoulderWall);
             leftShoulder.setPosition(leftShoulderWall);
         }
@@ -211,7 +225,11 @@ public class Red_tele_op_Machine_states extends Timothy {
         intakePosition.setPosition(intakeUp);
         intakeWheel.setPower(intakeWheeloff);
     }
-
+    private void intake_Down_Reverse() {
+        // Set the intake position immediately upon bumper press.
+        intakePosition.setPosition(intakeDown);
+        intakeWheel.setPower(-1);
+    }
     @Override
     public void runOpMode() {
         runtime.reset();
@@ -354,13 +372,20 @@ public class Red_tele_op_Machine_states extends Timothy {
 
 
              */
+            // intake down and collecting
             if (gamepad1.right_bumper) {
-                machineState =11;
-                startTime = runtime.milliseconds();
-
+                if (intakeDirectionForward == false) {
+                    machineState = 11;
+                    startTime = runtime.milliseconds();
+                    intakeDirectionForward=true;
+                }
+                else if(intakeDirectionForward==true) {
+                    machineState=13;
+                    intakeDirectionForward=false;
+                }
             }
 
-
+            // intake up
             if (gamepad1.left_bumper) {
                 machineState=12;
                 startTime = runtime.milliseconds();
@@ -441,6 +466,9 @@ public class Red_tele_op_Machine_states extends Timothy {
             }
             else if (machineState == 12){
                 intake_Up();
+            }
+            else if (machineState == 13){
+                intake_Down_Reverse();
             }
             /*
 
