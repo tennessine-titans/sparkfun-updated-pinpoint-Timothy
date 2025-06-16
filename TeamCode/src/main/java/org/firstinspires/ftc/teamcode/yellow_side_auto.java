@@ -45,7 +45,7 @@ public class yellow_side_auto extends Timothy {
                 // pick second first sample
                 .strafeToLinearHeading(new Vector2d(58,51),11*Math.PI/8)
                 .build();
-        Action TrajectoryAction14 = drive.actionBuilder(new Pose2d(58,52,11*Math.PI/8))
+        Action TrajectoryAction14 = drive.actionBuilder(new Pose2d(58,51,11*Math.PI/8))
                 //put second sample in basket
                 .strafeToLinearHeading(new Vector2d(55,58),5*Math.PI/4)
                 .build();
@@ -53,17 +53,22 @@ public class yellow_side_auto extends Timothy {
                 // pick up third sample
                 .strafeToLinearHeading(new Vector2d(43,50),5*Math.PI/3)
                 .build();
-        Action TrajectoryAction16 = drive.actionBuilder(new Pose2d(55,52,3*Math.PI/2))
+        Action TrajectoryAction16 = drive.actionBuilder(new Pose2d(43,50,5*Math.PI/3))
                 //place third sample
                 .strafeToLinearHeading(new Vector2d(55,57),5*Math.PI/4)
                 .build();
-        Action TrajectoryAction17 = drive.actionBuilder(new Pose2d(55,58,3*Math.PI/2))
+        Action TrajectoryAction17 = drive.actionBuilder(new Pose2d(55,57,5*Math.PI/4))
                 // Get fourth sample
                 .strafeToLinearHeading(new Vector2d(50.5, 45),7*Math.PI/4)
                 .build();
-        Action TrajectoryAction18 = drive.actionBuilder(new Pose2d(50,53,11*Math.PI/6))
+        Action TrajectoryAction18 = drive.actionBuilder(new Pose2d(50.5,45,7*Math.PI/4))
                 //place fourth sample
                 .strafeToLinearHeading(new Vector2d(55,57),5*Math.PI/4)
+                .build();
+        Action TrajectoryAction19 = drive.actionBuilder(new Pose2d(55,57,5*Math.PI/4))
+                //park
+                .splineToLinearHeading(new Pose2d(45,12,Math.PI),Math.PI)
+                .splineToLinearHeading(new Pose2d(20,12,Math.PI),Math.PI)
                 .build();
         Action TestTraj = drive.actionBuilder(drive.pose)
                 .splineToConstantHeading(new Vector2d(30,30),3*Math.PI/2)
@@ -278,7 +283,14 @@ public class yellow_side_auto extends Timothy {
                             )
                         ),
                         WaitAction25M,
-                        claw.openClaw()
+                        claw.openClaw(),
+                        new ParallelAction(
+                        TrajectoryAction19,
+                                WaitAction25N,
+                                lift.liftDown_PIDF(),
+                                shoulder.shoulderpark(),
+                                elbow.elbowpark()
+                        )
                 )
                 )
         );

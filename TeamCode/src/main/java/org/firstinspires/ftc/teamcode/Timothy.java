@@ -61,6 +61,10 @@ public abstract class Timothy extends LinearOpMode {
     protected double rightElbowextraBump =.183;
     protected double rightShoulderoutOftheWay =.55;
     protected double leftShoulderoutOftheWay =.55;
+    protected double leftShoulderpark = .63;
+    protected double rightShoulderpark = .63;
+    protected double leftElbowpark = .5;
+    protected double rightElbowpark = .5;
     protected double p = 0.01;
     protected double i = 0;
     protected double d = 0;
@@ -577,6 +581,18 @@ public abstract class Timothy extends LinearOpMode {
         public Action shoulderHangSpecimen() {
             return new ShoulderHangSpecimen();
         }
+        public class ShoulderPark implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                leftShoulder.setPosition(leftShoulderpark);
+                rightShoulder.setPosition(rightShoulderpark);
+                return false;
+            }
+        }
+
+        public Action shoulderpark() {
+            return new ShoulderPark();
+        }
     }
     public class Elbow {
         private Servo leftElbow;
@@ -635,6 +651,18 @@ public abstract class Timothy extends LinearOpMode {
 
         public Action elbowHang() {
             return new ElbowHang();
+        }
+        public class ElbowPark implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                leftElbow.setPosition(leftElbowpark);
+                rightElbow.setPosition(rightElbowpark);
+                return false;
+            }
+        }
+
+        public Action elbowpark() {
+            return new ElbowPark();
         }
     }
     public class IntakeWheel {

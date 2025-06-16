@@ -126,9 +126,6 @@ public class Red_tele_op_Machine_states extends Timothy {
         claw.setPosition(clawClosed);
         lift1.setTargetPosition(950);
         lift2.setTargetPosition(950);
-        if (lift1.getCurrentPosition()>925){
-            claw.setPosition(clawOpen);
-        }
     }
     private void basket() {
         if (runtime.milliseconds() < startTime + 100) {
