@@ -181,6 +181,9 @@ public class yellow_side_auto extends Timothy {
         Action WaitAction25N = drive.actionBuilder(drive.pose)
                 .waitSeconds(.25)
                 .build();
+        Action WaitAction25O = drive.actionBuilder(drive.pose)
+                .waitSeconds(.25)
+                .build();
 
         Action WaitAction75A= drive.actionBuilder(drive.pose)
                 .waitSeconds(.75)
@@ -284,10 +287,12 @@ public class yellow_side_auto extends Timothy {
                         ),
                         WaitAction25M,
                         claw.openClaw(),
+                        WaitAction25O,
                         new ParallelAction(
                         TrajectoryAction19,
                                 WaitAction25N,
                                 lift.liftDown_PIDF(),
+                                claw.closeClaw(),
                                 shoulder.shoulderpark(),
                                 elbow.elbowpark()
                         )

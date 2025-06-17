@@ -53,8 +53,9 @@ public class Test_Auto_2 extends Timothy {
                 //Go away from submersable
                 .splineToConstantHeading(new Vector2d(-34, 40),Math.PI)
                 //.splineToConstantHeading(new Vector2d(-36, 40),Math.PI)
-                //To get beind sample
-                .splineToConstantHeading(new Vector2d(-33, 14),Math.PI)
+                //To get behind first sample
+                .splineToConstantHeading(new Vector2d(-31, 14),Math.PI)
+                .splineToConstantHeading(new Vector2d(-40, 14),Math.PI)
                 //push sample to wall
                 .splineToConstantHeading(new Vector2d(-45, 48),Math.PI)
                 // go behind second sample
@@ -67,7 +68,8 @@ public class Test_Auto_2 extends Timothy {
                 .splineToConstantHeading(new Vector2d(-66, 48),Math.PI/2)
                 .splineToConstantHeading(new Vector2d(-36, 48),Math.PI/2)
                 //pick up off wall
-                .splineToConstantHeading(new Vector2d(-36, 62.5),Math.PI/2)
+                .splineToConstantHeading(new Vector2d(-36, 57),Math.PI/2)
+                .splineToConstantHeading(new Vector2d(-36, 63),Math.PI/2)
                 .build();
         Action TrajectoryAction14 = drive.actionBuilder(new Pose2d(-36,63,3*Math.PI/2))
                 //Hang second specimen
@@ -76,7 +78,8 @@ public class Test_Auto_2 extends Timothy {
         Action TrajectoryAction15 = drive.actionBuilder(new Pose2d(-2,31,3*Math.PI/2))
                 // Get third specimen off the wall
                 .setTangent(Math.PI / 2)
-                .splineToConstantHeading(new Vector2d(-36, 62.5),Math.PI/2)
+                .splineToConstantHeading(new Vector2d(-36, 57),Math.PI/2)
+                .splineToConstantHeading(new Vector2d(-36, 63),Math.PI/2)
                 .build();
         Action TrajectoryAction16 = drive.actionBuilder(new Pose2d(-36,64,3*Math.PI/2))
                 //hang third specimen
@@ -85,7 +88,8 @@ public class Test_Auto_2 extends Timothy {
         Action TrajectoryAction17 = drive.actionBuilder(new Pose2d(-5,30,3*Math.PI/2))
                 // Get fourth specimen off the wall
                 .setTangent( Math.PI / 2)
-                .splineToConstantHeading(new Vector2d(-36, 62.5),Math.PI/2)
+                .splineToConstantHeading(new Vector2d(-36, 57),Math.PI/2)
+                .splineToConstantHeading(new Vector2d(-36, 63),Math.PI/2)
                 .build();
         Action TrajectoryAction18 = drive.actionBuilder(new Pose2d(-36,64,3*Math.PI/2))
                 //hang fourth specimen
@@ -208,6 +212,9 @@ public class Test_Auto_2 extends Timothy {
         Action WaitAction25N = drive.actionBuilder(drive.pose)
                 .waitSeconds(.25)
                 .build();
+        Action WaitAction25O = drive.actionBuilder(drive.pose)
+                .waitSeconds(.25)
+                .build();
 
         Action WaitAction75A= drive.actionBuilder(drive.pose)
                 .waitSeconds(.75)
@@ -265,8 +272,8 @@ public class Test_Auto_2 extends Timothy {
                                       WaitAction25C,  // 0.25
                                       shoulder.shoulderWall(),
                                       WaitAction25D,  //0.25
-                                      lift.liftWall_PIDF(),
-                                      claw.openClaw()
+                                      lift.liftDown_PIDF(),
+                                      claw.clawWall()
                                  )
                             ),
                                 //grab 2nd sample off the wall and drive to the submersible
@@ -298,8 +305,8 @@ public class Test_Auto_2 extends Timothy {
                                     WaitAction10D,
                                     shoulder.shoulderWall(),
                                     WaitAction25G,
-                                    lift.liftWall_PIDF(),
-                                    claw.openClaw()
+                                    lift.liftDown_PIDF(),
+                                    claw.clawWall()
                                 )
                             ),
                                 //Grab 3rd sample from the wall
@@ -329,9 +336,10 @@ public class Test_Auto_2 extends Timothy {
                                     elbow.elbowWall(),
                                     WaitAction25J,
                                     shoulder.shoulderWall(),
+                                    WaitAction25O,
+                                    claw.clawWall(),
                                     WaitAction10K,  //.25
-                                    lift.liftWall_PIDF(),
-                                    claw.openClaw()
+                                    lift.liftDown_PIDF()
                                 )
                             ),
                                 //grab 4th
@@ -361,8 +369,8 @@ public class Test_Auto_2 extends Timothy {
                                     WaitAction10I,  //0.1
                                     shoulder.shoulderWall(),
                                     WaitAction25L,  //0.25
-                                    lift.liftWall_PIDF(),
-                                    claw.openClaw()
+                                    lift.liftDown_PIDF(),
+                                    claw.clawWall()
                                 )
                             ),
                             claw.closeClaw(),

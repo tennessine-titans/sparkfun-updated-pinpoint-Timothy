@@ -65,12 +65,15 @@ public abstract class Timothy extends LinearOpMode {
     protected double rightShoulderpark = .63;
     protected double leftElbowpark = .5;
     protected double rightElbowpark = .5;
+    protected double clawWall = 0.308;
     protected double p = 0.01;
     protected double i = 0;
     protected double d = 0;
     protected double f = 0.001;
     public int target = 0;
     public int liftHangspecimen = 350;
+    public int liftExtrabump = 950;
+    public int liftDown =50;
     String intakecolorDetected;
     public int intakecolorDetectedvalue;
     String clawcolorDetected;
@@ -227,14 +230,14 @@ public abstract class Timothy extends LinearOpMode {
                     controller = new PIDController(p, i, d);
                     controller.setPID(p, i, d);
                     int lift1_pos = lift1.getCurrentPosition();
-                    int lift2_pos = lift2.getCurrentPosition();
-                    int lift_avg = (lift1_pos + lift2_pos) / 2;
-                    double pid = controller.calculate(lift_avg, target);
+                    //int lift2_pos = lift2.getCurrentPosition();
+                    //int lift_avg = (lift1_pos + lift2_pos) / 2;
+                    double pid = controller.calculate(lift1_pos, target);
                     double power = pid + f;
                     lift1.setPower(power);
                     lift2.setPower(power);
-                    telemetry.addData("lift_avg", lift_avg);
-                    telemetry.addData("target", target);
+                    //telemetry.addData("lift_avg", lift_avg);
+                    //telemetry.addData("target", target);
                     telemetry.update();
                 }
                 return true;
@@ -275,7 +278,7 @@ public abstract class Timothy extends LinearOpMode {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
                 if (!initialized) {
-                    target=10;
+                    target=liftDown;
                     initialized = true;
                 }
 
@@ -329,7 +332,7 @@ public abstract class Timothy extends LinearOpMode {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
                 if (!initialized) {
-                    target=1000;
+                    target=liftExtrabump;
                     initialized = true;
                 }
 
@@ -418,6 +421,17 @@ public abstract class Timothy extends LinearOpMode {
 
         public Action releaseClaw() {
             return new ReleaseClaw();
+        }
+        public class ClawWall implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                claw.setPosition(clawWall);
+                return false;
+            }
+        }
+
+        public Action clawWall() {
+            return new ClawWall();
         }
 
 
