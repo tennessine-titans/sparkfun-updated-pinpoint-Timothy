@@ -74,6 +74,37 @@ public abstract class Timothy extends LinearOpMode {
     public int liftHangspecimen = 350;
     public int liftExtrabump = 950;
     public int liftDown =50;
+    public double rightElbowRedAutoint = .12;
+    public double leftElbowRedAutoint = .12;
+    public double leftShoulderRedAutoint = .47;
+    public double rightShoulderRedAutoint = .47;
+    public double rightElbowYellowAutoint = .27;
+    public double leftElbowYellowAutoint = .27;
+    public double leftShoulderYellowAutoint = .49;
+    public double rightShoulderYellowAutoint = .49;
+    public double rightShoulderpreHang = .91;
+    public double leftShoulderpreHang = .91;
+    public double rightElbowpreHang = .05;
+    public double leftElbowpreHang = .05;
+    public double rightShoulderHang = .79;
+    public double leftShoulderHang = .79;
+    protected int liftpreHang = 1520;
+    protected int liftHang = 1040;
+    protected double rightShoulderpark2 = .6;
+    protected double leftShoulderpark2 = .6;
+
+
+   // TODO public double rightElbowPark2 = .0;
+   //TODO public double leftElbowPark2 = .0;
+    // TODO public double rightElbowyellowTeleopInt = .0;
+    // TODO public double leftElbowyellowTeleopInt = .0;
+    // TODO public double rightShoulderyellowTeleopInt = .0;
+    // TODO public double leftShoulderyellowTeleopInt = .0;
+    // TODO public double rightElbowredTeleopInt = .0;
+    // TODO public double leftElbowredTeleopInt = .0;
+    // TODO public double rightShoulderredTeleopInt = .0;
+    // TODO public double leftShoulderredTeleopInt = .0;
+
     String intakecolorDetected;
     public int intakecolorDetectedvalue;
     String clawcolorDetected;
@@ -95,6 +126,8 @@ public abstract class Timothy extends LinearOpMode {
     public Servo Lextendo;
     public Servo Rextendo;
     public Servo intakePosition;
+    public Servo leftLight;
+
     public CRServo intakeWheel;
     public Servo leftShoulder;
     public Servo rightShoulder;
@@ -137,6 +170,9 @@ public abstract class Timothy extends LinearOpMode {
     }
     public void intclaw(){
         claw = hardwareMap.get(Servo.class, "claw");
+    }
+    public void intleftLight(){
+        leftLight = hardwareMap.get(Servo.class, "leftLight");
     }
     public void intlift1(){
         lift1 = hardwareMap.get(DcMotor.class, "lift1");
@@ -603,10 +639,46 @@ public abstract class Timothy extends LinearOpMode {
                 return false;
             }
         }
-
         public Action shoulderpark() {
             return new ShoulderPark();
         }
+        public class ShoulderredAutoInt implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                leftShoulder.setPosition(leftShoulderRedAutoint);
+                rightShoulder.setPosition(rightShoulderRedAutoint);
+                return false;
+            }
+        }
+
+        public Action shoulderRedAutoInt() {
+            return new ShoulderredAutoInt();
+        }
+        public class ShoulderyellowAutoInt implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                leftShoulder.setPosition(leftShoulderYellowAutoint);
+                rightShoulder.setPosition(rightShoulderYellowAutoint);
+                return false;
+            }
+        }
+
+        public Action shoulderyellowAutoInt() {
+            return new ShoulderyellowAutoInt();
+        }
+        public class Shoulderpark2 implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                leftShoulder.setPosition(leftShoulderYellowAutoint);
+                rightShoulder.setPosition(rightShoulderYellowAutoint);
+                return false;
+            }
+        }
+
+        public Action shoulderpark2() {
+            return new Shoulderpark2();
+        }
+
     }
     public class Elbow {
         private Servo leftElbow;
@@ -677,6 +749,30 @@ public abstract class Timothy extends LinearOpMode {
 
         public Action elbowpark() {
             return new ElbowPark();
+        }
+        public class ElbowredAutoInt implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                leftElbow.setPosition(leftElbowRedAutoint);
+                rightElbow.setPosition(rightElbowRedAutoint);
+                return false;
+            }
+        }
+
+        public Action elbowredAutoInt() {
+            return new ElbowredAutoInt();
+        }
+        public class ElbowyellowAutoInt implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                leftElbow.setPosition(leftElbowYellowAutoint);
+                rightElbow.setPosition(rightElbowYellowAutoint);
+                return false;
+            }
+        }
+
+        public Action elbowyellowAutoInt() {
+            return new ElbowyellowAutoInt();
         }
     }
     public class IntakeWheel {

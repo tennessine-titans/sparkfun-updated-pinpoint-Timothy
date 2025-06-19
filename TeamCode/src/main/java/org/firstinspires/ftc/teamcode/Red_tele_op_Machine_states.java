@@ -16,6 +16,7 @@ public class Red_tele_op_Machine_states extends Timothy {
     private ElapsedTime runtime = new ElapsedTime();
 
     private void outExtendo() {
+        intakeDirectionForward = false;
         claw.setPosition(clawOpen);
         leftShoulder.setPosition(leftShoulderoutOftheWay);
         rightShoulder.setPosition(rightShoulderoutOftheWay);
@@ -193,18 +194,16 @@ public class Red_tele_op_Machine_states extends Timothy {
     private void intake_Down(){
         // Set the intake position immediately upon bumper press.
         intakePosition.setPosition(intakeDown);
-
-        // Check if the intake wheel is currently reversing.
-        // If it is, pressing the bumper again will force it to spin forward.
-
-            // If the wheel was not reversing (i.e., stopped or already forward),
-            // then apply the color detection logic as before.
             if (intakecolorDetectedvalue == 1) {
-                intakeWheel.setPower(0); // Stop
+                intakeWheel.setPower(0);// Stop
+                intakePosition.setPosition(intakeUp);
+                machineState =0;
             } else if (intakecolorDetectedvalue == 2) {
                 intakeWheel.setPower(0); // Stop
+                intakePosition.setPosition(intakeUp);
             } else if (intakecolorDetectedvalue == 3) {
-                intakeWheel.setPower(-1); // Reverse
+                machineState=13;
+                /*intakeWheel.setPower(-1); // Reverse
                 if(scan){
                     intakePosition.setPosition(intakeUp);
                     sleep(50);
@@ -213,8 +212,11 @@ public class Red_tele_op_Machine_states extends Timothy {
                 else if (!scan){
                     intakePosition.setPosition(intakeDown);
                     sleep(50);
-                }
-            } else if(intakecolorDetectedvalue == 0) {
+                                }
+
+                 */
+            }
+            else if(intakecolorDetectedvalue == 0) {
                 intakeWheel.setPower(1);
         }
     }
@@ -226,6 +228,29 @@ public class Red_tele_op_Machine_states extends Timothy {
         // Set the intake position immediately upon bumper press.
         intakePosition.setPosition(intakeDown);
         intakeWheel.setPower(-1);
+    }
+    private void Stopped() {
+    }
+    private void liftReset() {
+        lift1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lift2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
+    private void preHang() {
+        lift1.setTargetPosition(liftpreHang);
+        lift2.setTargetPosition(liftpreHang);
+        sleep(500);
+        leftShoulder.setPosition(leftShoulderpreHang);
+        rightShoulder.setPosition(rightShoulderpreHang);
+        sleep(100);
+        leftElbow.setPosition(leftElbowpreHang);
+        rightElbow.setPosition(rightElbowpreHang);
+    }
+    private void Hang() {
+        lift1.setTargetPosition(liftHang);
+        lift2.setTargetPosition(liftHang);
+        sleep(100);
+        leftShoulder.setPosition(leftShoulderHang);
+        rightShoulder.setPosition(rightShoulderHang);
     }
     @Override
     public void runOpMode() {
@@ -242,6 +267,7 @@ public class Red_tele_op_Machine_states extends Timothy {
         intlift1();
         intlift2();
         intclaw();
+        intleftLight();
         //intintake1();
         //intclawSensor();
         //int red = intake1.red();
@@ -304,7 +330,15 @@ public class Red_tele_op_Machine_states extends Timothy {
                 intakecolorDetected = "None";
                 intakecolorDetectedvalue =0;
             }
-
+            if(intakeWheel.getPower()>0){
+                leftLight.setPosition(0.5);
+            }
+            else if (intakeWheel.getPower()<0){
+                leftLight.setPosition(0.333);
+            }
+            else if(intakeWheel.getPower()==0){
+                leftLight.setPosition(0.0);
+            }
             // D-pad left -  extendo out
             if (gamepad2.dpad_left) {
                 machineState = 1;
@@ -388,6 +422,16 @@ public class Red_tele_op_Machine_states extends Timothy {
                 startTime = runtime.milliseconds();
 
             }
+            if (gamepad1.dpad_left) {
+                machineState=14;
+            }
+            if (gamepad1.cross) {
+                machineState=15;
+            }
+            if (gamepad1.triangle) {
+                machineState=16;
+            }
+
 
 
             DcMotor leftFrontdrive = hardwareMap.get(DcMotor.class, "leftFront");
@@ -428,6 +472,9 @@ public class Red_tele_op_Machine_states extends Timothy {
                 rightBackdrive.setPower(rightBackPower);
 
             }
+            if (machineState == 0) {
+                Stopped();
+            }
             if (machineState == 1){
                 outExtendo();
             }
@@ -466,6 +513,15 @@ public class Red_tele_op_Machine_states extends Timothy {
             }
             else if (machineState == 13){
                 intake_Down_Reverse();
+            }
+            else if (machineState == 14){
+                liftReset();
+            }
+            else if (machineState == 15){
+                preHang();
+            }
+            else if (machineState == 16){
+                Hang();
             }
             /*
 

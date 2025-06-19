@@ -66,10 +66,10 @@ public class Test_Auto_2 extends Timothy {
                 .splineToConstantHeading(new Vector2d(-60, 14),Math.PI)
                 .splineToConstantHeading(new Vector2d(-66, 14),Math.PI/2)
                 .splineToConstantHeading(new Vector2d(-66, 48),Math.PI/2)
-                .splineToConstantHeading(new Vector2d(-36, 48),Math.PI/2)
+                .splineToConstantHeading(new Vector2d(-40, 48),Math.PI/2)
                 //pick up off wall
-                .splineToConstantHeading(new Vector2d(-36, 57),Math.PI/2)
-                .splineToConstantHeading(new Vector2d(-36, 63),Math.PI/2)
+                .splineToConstantHeading(new Vector2d(-38, 57),Math.PI/2)
+                .splineToConstantHeading(new Vector2d(-36, 64),Math.PI/2)
                 .build();
         Action TrajectoryAction14 = drive.actionBuilder(new Pose2d(-36,63,3*Math.PI/2))
                 //Hang second specimen
@@ -79,7 +79,7 @@ public class Test_Auto_2 extends Timothy {
                 // Get third specimen off the wall
                 .setTangent(Math.PI / 2)
                 .splineToConstantHeading(new Vector2d(-36, 57),Math.PI/2)
-                .splineToConstantHeading(new Vector2d(-36, 63),Math.PI/2)
+                .splineToConstantHeading(new Vector2d(-36, 64),Math.PI/2)
                 .build();
         Action TrajectoryAction16 = drive.actionBuilder(new Pose2d(-36,64,3*Math.PI/2))
                 //hang third specimen
@@ -88,8 +88,8 @@ public class Test_Auto_2 extends Timothy {
         Action TrajectoryAction17 = drive.actionBuilder(new Pose2d(-5,30,3*Math.PI/2))
                 // Get fourth specimen off the wall
                 .setTangent( Math.PI / 2)
-                .splineToConstantHeading(new Vector2d(-36, 57),Math.PI/2)
-                .splineToConstantHeading(new Vector2d(-36, 63),Math.PI/2)
+                .splineToConstantHeading(new Vector2d(-32, 50),2*Math.PI/3)
+                .splineToConstantHeading(new Vector2d(-36, 64),Math.PI/2)
                 .build();
         Action TrajectoryAction18 = drive.actionBuilder(new Pose2d(-36,64,3*Math.PI/2))
                 //hang fourth specimen
@@ -215,6 +215,16 @@ public class Test_Auto_2 extends Timothy {
         Action WaitAction25O = drive.actionBuilder(drive.pose)
                 .waitSeconds(.25)
                 .build();
+        Action WaitAction25P = drive.actionBuilder(drive.pose)
+                .waitSeconds(.25)
+                .build();
+        Action WaitAction25Q = drive.actionBuilder(drive.pose)
+                .waitSeconds(.25)
+                .build();
+        Action WaitAction25R = drive.actionBuilder(drive.pose)
+                .waitSeconds(.25)
+                .build();
+
 
         Action WaitAction75A= drive.actionBuilder(drive.pose)
                 .waitSeconds(.75)
@@ -234,8 +244,8 @@ public class Test_Auto_2 extends Timothy {
         Actions.runBlocking(claw.closeClaw());
         Actions.runBlocking(intake.intakeup());
         Actions.runBlocking(extendo.extednoIn());
-        Actions.runBlocking(shoulder.shoulderoutOftheWay());
-        Actions.runBlocking(elbow.elbowIntake());
+        Actions.runBlocking(elbow.elbowredAutoInt());
+        Actions.runBlocking(shoulder.shoulderRedAutoInt());
 
 
         waitForStart();
@@ -294,6 +304,7 @@ public class Test_Auto_2 extends Timothy {
                             //WaitAction75A,  // might be able to be removed  0.75
                             claw.releaseClaw(), //changed from claw.openClaw(),
                                 //Drive to wall to pick sample 3
+                                WaitAction25R,
                             new ParallelAction(
                                 TrajectoryAction15,
                                 new SequentialAction(
@@ -358,39 +369,18 @@ public class Test_Auto_2 extends Timothy {
                             lift.liftExtraBump_PIDF(),
                             //WaitAction75C,  // may be able to be removed  0.75
                             claw.releaseClaw(),  // was claw.openClaw(),
+                            WaitAction25P,
                             new ParallelAction(
-                                TrajectoryAction19,
+                            TrajectoryAction19,
                                 new SequentialAction(
-                                    WaitAction25K,  // may be able to move to line 350
-                                    shoulder.shouldertransition(),
-                                    claw.closeClaw(),
-                                    WaitAction10H,  //0.1
-                                    elbow.elbowWall(),
-                                    WaitAction10I,  //0.1
-                                    shoulder.shoulderWall(),
-                                    WaitAction25L,  //0.25
-                                    lift.liftDown_PIDF(),
-                                    claw.clawWall()
-                                )
-                            ),
-                            claw.closeClaw(),
-                            WaitAction25M,  // 0.25
-                            lift.liftHangSample_PIDF(),
-                            new ParallelAction(
-                                TrajectoryAction20,
-                                new SequentialAction(
-                                    shoulder.shoulderHangSpecimen(),
-                                    WaitAction10J,
-                                    elbow.elbowHang()
-                                )
-                            ),
-                            lift.liftExtraBump_PIDF(),
-                            claw.releaseClaw(),// was .openClaw(),
-                            WaitAction25N, //0.25
-                            new ParallelAction(
-                                TrajectoryAction20,
+                                WaitAction5D,
+                                elbow.elbowIntake(),
+                                WaitAction25Q,
+                                shoulder.shoulderintake(),
                                 lift.liftDown_PIDF()
+                                )
                             )
+
                         )
                 )
         );

@@ -75,10 +75,6 @@ public class LinearTeleopPIDF extends Timothy {
             double power = pid + f;
             lift1.setPower(power);
             lift2.setPower(power);
-            //lift1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            //lift2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            //lift1.setPower(.5);
-            //lift2.setPower(.5);
             red = intake1.red();
             blue = intake1.blue();
             green = intake1.green();
@@ -98,6 +94,7 @@ public class LinearTeleopPIDF extends Timothy {
             } else {
                 intakecolorDetected = "None";
             }
+
 
             // D-pad left -  extendo out
             if (gamepad2.dpad_left) {

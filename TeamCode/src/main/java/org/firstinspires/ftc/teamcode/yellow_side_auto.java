@@ -51,7 +51,7 @@ public class yellow_side_auto extends Timothy {
                 .build();
         Action TrajectoryAction15 = drive.actionBuilder(new Pose2d(55,58,5*Math.PI/4))
                 // pick up third sample
-                .strafeToLinearHeading(new Vector2d(43,50),5*Math.PI/3)
+                .strafeToLinearHeading(new Vector2d(43,48),5*Math.PI/3)
                 .build();
         Action TrajectoryAction16 = drive.actionBuilder(new Pose2d(43,50,5*Math.PI/3))
                 //place third sample
@@ -59,7 +59,7 @@ public class yellow_side_auto extends Timothy {
                 .build();
         Action TrajectoryAction17 = drive.actionBuilder(new Pose2d(55,57,5*Math.PI/4))
                 // Get fourth sample
-                .strafeToLinearHeading(new Vector2d(50.5, 45),7*Math.PI/4)
+                .strafeToLinearHeading(new Vector2d(50.5, 43),7*Math.PI/4)
                 .build();
         Action TrajectoryAction18 = drive.actionBuilder(new Pose2d(50.5,45,7*Math.PI/4))
                 //place fourth sample
@@ -203,8 +203,8 @@ public class yellow_side_auto extends Timothy {
         Actions.runBlocking(claw.closeClaw());
         Actions.runBlocking(intake.intakeup());
         Actions.runBlocking(extendo.extednoIn());
-        Actions.runBlocking(shoulder.shoulderoutOftheWay());
-        Actions.runBlocking(elbow.elbowIntake());
+        Actions.runBlocking(shoulder.shoulderyellowAutoInt());
+        Actions.runBlocking(elbow.elbowyellowAutoInt());
 
 
         waitForStart();
@@ -237,7 +237,7 @@ public class yellow_side_auto extends Timothy {
                                     shoulder.shoulderintake(),
                                     lift.liftDown_PIDF(),
                                     claw.closeClaw(),
-                                    WaitAction5A,
+                                    WaitAction75A,
                                     lift.liftUp_PIDF(),
                                     shoulder.shoulderbasket(),
                                     WaitAction25C,
@@ -258,7 +258,7 @@ public class yellow_side_auto extends Timothy {
                                 shoulder.shoulderintake(),
                                 lift.liftDown_PIDF(),
                                 claw.closeClaw(),
-                                WaitAction5B,
+                                WaitAction75B,
                                 lift.liftUp_PIDF(),
                                 shoulder.shoulderbasket(),
                                 WaitAction25G,
@@ -278,7 +278,7 @@ public class yellow_side_auto extends Timothy {
                                 shoulder.shoulderintake(),
                                 lift.liftDown_PIDF(),
                                 claw.closeClaw(),
-                                WaitAction5C,
+                                WaitAction75C,
                                 lift.liftUp_PIDF(),
                                 shoulder.shoulderbasket(),
                                 WaitAction25K,
@@ -295,7 +295,8 @@ public class yellow_side_auto extends Timothy {
                                 claw.closeClaw(),
                                 shoulder.shoulderpark(),
                                 elbow.elbowpark()
-                        )
+                        ),
+                         shoulder.shoulderpark2()
                 )
                 )
         );
