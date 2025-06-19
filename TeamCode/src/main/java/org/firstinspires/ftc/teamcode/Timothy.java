@@ -45,6 +45,7 @@ public abstract class Timothy extends LinearOpMode {
     protected double clawClosed = .528;
     protected double clawRelease = .438;
     protected double clawOpen = .38;
+    protected double clawWall = 0.308;
     protected double leftShoulderspecimenTransition = .5;
     protected double rightShoulderspecimenTransition = .5;
     protected float leftElbowWall = 0;
@@ -65,7 +66,7 @@ public abstract class Timothy extends LinearOpMode {
     protected double rightShoulderpark = .63;
     protected double leftElbowpark = .5;
     protected double rightElbowpark = .5;
-    protected double clawWall = 0.308;
+
     protected double p = 0.01;
     protected double i = 0;
     protected double d = 0;
@@ -73,7 +74,7 @@ public abstract class Timothy extends LinearOpMode {
     public int target = 0;
     public int liftHangspecimen = 350;
     public int liftExtrabump = 950;
-    public int liftDown =50;
+    public int liftDown =10;
     public double rightElbowRedAutoint = .12;
     public double leftElbowRedAutoint = .12;
     public double leftShoulderRedAutoint = .47;
@@ -416,6 +417,33 @@ public abstract class Timothy extends LinearOpMode {
         }
         public Action liftWall_PIDF() {
             return new LiftWall_PIDF();
+        }
+        public class LiftWait_PIDF implements Action {
+            private boolean initialized = false;
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                if (!initialized) {
+                    target=300;
+                    initialized = true;
+                }
+
+                double pos = lift1.getCurrentPosition();
+                packet.put("liftpos",pos);
+                telemetry.addData("Position ",pos);
+                telemetry.update();
+                // ToDo determine how many ticks represents lift up (left + right)
+                if (pos> (target+10) || pos < (target -10)) {
+
+                    return true;
+                } else {
+
+                    return false;
+                }
+            }
+
+        }
+        public Action liftWait_PIDF() {
+            return new LiftWait_PIDF();
         }
     }
     public class Claw {
@@ -953,6 +981,7 @@ public abstract class Timothy extends LinearOpMode {
                     sleep(100);
                     Lextendo.setPosition(leftExtendoIn);
                     Rextendo.setPosition(rightExtendoIn);
+                    sleep(500);
                     status=false;
                 }
                 else if(intakecolorDetectedvalue == 0&&newLExtendoPosition<=leftExtendoOut) { // no color and not extended

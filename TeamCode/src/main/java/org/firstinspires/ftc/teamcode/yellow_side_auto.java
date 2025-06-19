@@ -194,6 +194,15 @@ public class yellow_side_auto extends Timothy {
         Action WaitAction75C= drive.actionBuilder(drive.pose)
                 .waitSeconds(.75)
                 .build();
+        Action WaitAction75D= drive.actionBuilder(drive.pose)
+                .waitSeconds(.75)
+                .build();
+        Action WaitAction75E= drive.actionBuilder(drive.pose)
+                .waitSeconds(.75)
+                .build();
+        Action WaitAction75F= drive.actionBuilder(drive.pose)
+                .waitSeconds(.75)
+                .build();
 
         int startPosition = 1;
         telemetry.addData("Starting Position", startPosition);
@@ -228,16 +237,26 @@ public class yellow_side_auto extends Timothy {
                         claw.openClaw(),
                         WaitAction25L,
                         TrajectoryAction12,
-                        active_intake.active_IntakeOn(),
                         new ParallelAction(
-                                TrajectoryAction14,
+                                active_intake.active_IntakeOn(),
                                 new SequentialAction(
                                     elbow.elbowIntake(),
                                     WaitAction25B,
                                     shoulder.shoulderintake(),
-                                    lift.liftDown_PIDF(),
                                     claw.closeClaw(),
-                                    WaitAction75A,
+                                    lift.liftWait_PIDF(),
+                                    claw.openClaw()
+                                )
+                        ),
+                        new ParallelAction(
+                                TrajectoryAction14,
+                                new SequentialAction(
+                                    elbow.elbowIntake(),
+                                    shoulder.shoulderintake(),
+                                    lift.liftDown_PIDF(),
+                                    WaitAction75F,
+                                    claw.closeClaw(),
+                                    WaitAction5G,
                                     lift.liftUp_PIDF(),
                                     shoulder.shoulderbasket(),
                                     WaitAction25C,
@@ -248,17 +267,26 @@ public class yellow_side_auto extends Timothy {
                         claw.openClaw(),
                         WaitAction25E,
                         TrajectoryAction15,
-                        active_intake.active_IntakeOn(),
-                        WaitAction5D,
+                        new ParallelAction(
+                            active_intake.active_IntakeOn(),
+                            new SequentialAction(
+                                 elbow.elbowIntake(),
+                                 WaitAction25J,
+                                 shoulder.shoulderintake(),
+                                 claw.closeClaw(),
+                                 lift.liftWait_PIDF(),
+                                 claw.openClaw()
+                            )
+                        ),
                         new ParallelAction(
                             TrajectoryAction16,
                             new SequentialAction(
                                 elbow.elbowIntake(),
-                                WaitAction25F,
                                 shoulder.shoulderintake(),
                                 lift.liftDown_PIDF(),
+                                WaitAction75A,
                                 claw.closeClaw(),
-                                WaitAction75B,
+                                WaitAction5B,
                                 lift.liftUp_PIDF(),
                                 shoulder.shoulderbasket(),
                                 WaitAction25G,
@@ -269,16 +297,26 @@ public class yellow_side_auto extends Timothy {
                         claw.openClaw(),
                         WaitAction25I,
                         TrajectoryAction17,
+                        new ParallelAction(
                         active_intake.active_IntakeOn(),
+                            new SequentialAction(
+                                    elbow.elbowIntake(),
+                                    WaitAction25F,
+                                    shoulder.shoulderintake(),
+                                    claw.closeClaw(),
+                                    lift.liftWait_PIDF(),
+                                    claw.openClaw()
+                            )
+                        ),
                         new ParallelAction(
                             TrajectoryAction18,
                             new SequentialAction(
                                 elbow.elbowIntake(),
-                                WaitAction25J,
                                 shoulder.shoulderintake(),
                                 lift.liftDown_PIDF(),
-                                claw.closeClaw(),
                                 WaitAction75C,
+                                claw.closeClaw(),
+                                WaitAction5E,
                                 lift.liftUp_PIDF(),
                                 shoulder.shoulderbasket(),
                                 WaitAction25K,

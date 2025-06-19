@@ -218,16 +218,18 @@ public class Red_tele_op_Machine_states extends Timothy {
             }
             else if(intakecolorDetectedvalue == 0) {
                 intakeWheel.setPower(1);
+                sleep(100);
         }
     }
     private void intake_Up(){
         intakePosition.setPosition(intakeUp);
         intakeWheel.setPower(intakeWheeloff);
-    }
+            }
     private void intake_Down_Reverse() {
         // Set the intake position immediately upon bumper press.
         intakePosition.setPosition(intakeDown);
         intakeWheel.setPower(-1);
+        sleep(100);
     }
     private void Stopped() {
     }
