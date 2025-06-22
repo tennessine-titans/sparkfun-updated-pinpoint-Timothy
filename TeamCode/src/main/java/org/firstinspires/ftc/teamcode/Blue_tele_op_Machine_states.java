@@ -5,14 +5,12 @@ import android.graphics.Color;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-
-@TeleOp(name = "Red_tele_op_Machine_states")
-public class Red_tele_op_Machine_states extends Timothy {
+@TeleOp(name = "Blue_tele_op_Machine_states")
+public class Blue_tele_op_Machine_states extends Timothy {
     private ElapsedTime runtime = new ElapsedTime();
 
     private void outExtendo() {
@@ -107,7 +105,7 @@ public class Red_tele_op_Machine_states extends Timothy {
         claw.setPosition(clawClosed);
         lift1.setTargetPosition(liftHangspecimen);
         lift2.setTargetPosition(liftHangspecimen);
-        if (lift1.getCurrentPosition() > 150&&step==0) {
+        if (lift1.getCurrentPosition() > 200&&lift1.getCurrentPosition()<300) {
             rightShoulder.setPosition(rightShoulderspecimenTransition);
             leftShoulder.setPosition(leftShoulderspecimenTransition);
             startTime=runtime.milliseconds();
@@ -194,14 +192,14 @@ public class Red_tele_op_Machine_states extends Timothy {
     private void intake_Down(){
         // Set the intake position immediately upon bumper press.
         intakePosition.setPosition(intakeDown);
-            if (intakecolorDetectedvalue == 1) {
+            if (intakecolorDetectedvalue == 3) {
                 intakeWheel.setPower(0);// Stop
                 intakePosition.setPosition(intakeUp);
                 machineState =0;
             } else if (intakecolorDetectedvalue == 2) {
                 intakeWheel.setPower(0); // Stop
                 intakePosition.setPosition(intakeUp);
-            } else if (intakecolorDetectedvalue == 3) {
+            } else if (intakecolorDetectedvalue == 1) {
                 machineState=13;
                 /*intakeWheel.setPower(-1); // Reverse
                 if(scan){
@@ -239,7 +237,6 @@ public class Red_tele_op_Machine_states extends Timothy {
         sleep(250);
         lift1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        machineState=0;
     }
     private void preHang() {
         lift1.setTargetPosition(liftpreHang);
@@ -252,8 +249,6 @@ public class Red_tele_op_Machine_states extends Timothy {
         rightElbow.setPosition(rightElbowpreHang);
     }
     private void Hang() {
-        lift1.setPower(1);
-        lift1.setPower(1);
         lift1.setTargetPosition(liftHang);
         lift2.setTargetPosition(liftHang);
         sleep(100);
@@ -313,11 +308,6 @@ public class Red_tele_op_Machine_states extends Timothy {
                 return hsv;
             }
         }*/
-        //lift1.setPower(-0.5);
-        //lift2.setPower(-0.5);
-        //sleep(250);
-        //lift1.setPower(0);
-        //lift2.setPower(0);
 
         while (opModeIsActive()) {
             lift1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -359,61 +349,51 @@ public class Red_tele_op_Machine_states extends Timothy {
             }
             // D-pad left -  extendo out
             if (gamepad2.dpad_left) {
-                step = 0;
                 machineState = 1;
                 startTime = runtime.milliseconds();
             }
             // D-pad right -  extendo in
             else if (gamepad2.dpad_right) {
-                step = 0;
                 machineState =2;
                 startTime = runtime.milliseconds();
             }
             // Transfer to human player
             else if (gamepad2.dpad_up) {
-                step = 0;
                 machineState=3;
                 startTime = runtime.milliseconds();
             }
             // Arms down to pick up out intake
             else if (gamepad2.dpad_down) {
-                step = 0;
                 machineState =4;
                 startTime = runtime.milliseconds();
             }
             // Get in position to hang specimen
             else if (gamepad2.cross) {
-                step = 0;
                 machineState = 5;
                 startTime = runtime.milliseconds();
 
 
             } else if (gamepad2.square) {
-                step = 0;
                 machineState =6;
                 startTime = runtime.milliseconds();
             }
             // Tansfer sample from intake to claw and go up to put in bucket
             else if (gamepad2.triangle) {
-                step = 0;
                 machineState = 7;
                 startTime = runtime.milliseconds();
             }
             // Go to position to pick up specimen off wall
             else if (gamepad2.circle) {
-                step = 0;
                 machineState = 8;
                 startTime = runtime.milliseconds();
             }
             //open claw
             else if (gamepad2.right_bumper) {
-                step = 0;
                 machineState =9;
                 startTime = runtime.milliseconds();
             }
             //closed claw
             else if (gamepad2.left_bumper) {
-                step = 0;
                 machineState =10;
                 startTime = runtime.milliseconds();
             }
@@ -433,34 +413,30 @@ public class Red_tele_op_Machine_states extends Timothy {
              */
             // intake down and collecting
             if (gamepad1.right_bumper) {
-                step = 0;
-                if(intakeDirectionForward){ //intake direction forward = TRUE
-                    machineState = 13;
-                    intakeDirectionForward=false;
-                } else {       //intake direction forward = FALSE (reversed direction)
+                if (intakeDirectionForward == false) {
                     machineState = 11;
                     startTime = runtime.milliseconds();
                     intakeDirectionForward=true;
+                }
+                else if(intakeDirectionForward==true) {
+                    machineState=13;
+                    intakeDirectionForward=false;
                 }
             }
 
             // intake up
             else if (gamepad1.left_bumper) {
-                step = 0;
                 machineState=12;
                 startTime = runtime.milliseconds();
 
             }
             else if (gamepad1.dpad_left) {
-                step = 0;
                 machineState=14;
             }
              else if (gamepad1.cross) {
-                step = 0;
                 machineState=15;
             }
             else if (gamepad1.triangle) {
-                step = 0;
                 machineState=16;
             }
 

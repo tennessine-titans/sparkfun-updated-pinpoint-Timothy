@@ -72,7 +72,7 @@ public abstract class Timothy extends LinearOpMode {
     protected double d = 0;
     protected double f = 0.001;
     public int target = 0;
-    public int liftHangspecimen = 350;
+    public int liftHangspecimen = 250;
     public int liftExtrabump = 950;
     public int liftDown =10;
     public double rightElbowRedAutoint = .12;
@@ -90,7 +90,7 @@ public abstract class Timothy extends LinearOpMode {
     public double rightShoulderHang = .79;
     public double leftShoulderHang = .79;
     protected int liftpreHang = 1520;
-    protected int liftHang = 1040;
+    protected int liftHang = 950;
     protected double rightShoulderpark2 = .6;
     protected double leftShoulderpark2 = .6;
 
@@ -400,7 +400,7 @@ public abstract class Timothy extends LinearOpMode {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
                 if (!initialized) {
-                    target=10;
+                    target=50;
                     initialized = true;
                 }
 

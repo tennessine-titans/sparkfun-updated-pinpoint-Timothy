@@ -271,18 +271,18 @@ public class Test_Auto_2 extends Timothy {
                             claw.releaseClaw(),  // changed from claw.openClaw();
                             WaitAction25A,    // might be able to remove  0.25
                             new ParallelAction(
-                                        //Push all the samples to the human player area and set the arms to pick off the wall
+                                    //Push all the samples to the human player area and set the arms to pick off the wall
                                  TrajectoryAction12,
                                  new SequentialAction(
-                                      WaitAction5B,  //0.5
                                       claw.closeClaw(),
+                                      WaitAction5B,  //0.5
                                       shoulder.shouldertransition(),
                                       WaitAction25B,  // 0.25
                                       elbow.elbowWall(),
                                       WaitAction25C,  // 0.25
                                       shoulder.shoulderWall(),
                                       WaitAction25D,  //0.25
-                                      lift.liftDown_PIDF(),
+                                      lift.liftWall_PIDF(),
                                       claw.clawWall()
                                  )
                             ),
@@ -316,7 +316,7 @@ public class Test_Auto_2 extends Timothy {
                                     WaitAction10D,
                                     shoulder.shoulderWall(),
                                     WaitAction25G,
-                                    lift.liftDown_PIDF(),
+                                    lift.liftWall_PIDF(),
                                     claw.clawWall()
                                 )
                             ),
@@ -350,7 +350,7 @@ public class Test_Auto_2 extends Timothy {
                                     WaitAction25O,
                                     claw.clawWall(),
                                     WaitAction10K,  //.25
-                                    lift.liftDown_PIDF()
+                                    lift.liftWall_PIDF()
                                 )
                             ),
                                 //grab 4th
@@ -377,7 +377,7 @@ public class Test_Auto_2 extends Timothy {
                                 elbow.elbowIntake(),
                                 WaitAction25Q,
                                 shoulder.shoulderintake(),
-                                lift.liftDown_PIDF()
+                                lift.liftWall_PIDF()
                                 )
                             )
 
