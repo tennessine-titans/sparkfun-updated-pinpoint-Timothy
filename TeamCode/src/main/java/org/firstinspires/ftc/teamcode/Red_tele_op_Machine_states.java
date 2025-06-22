@@ -17,7 +17,7 @@ public class Red_tele_op_Machine_states extends Timothy {
 
     private void outExtendo() {
         intakeDirectionForward = false;
-        claw.setPosition(clawOpen);
+        claw.setPosition(clawClosed);
         leftShoulder.setPosition(leftShoulderoutOftheWay);
         rightShoulder.setPosition(rightShoulderoutOftheWay);
         leftElbow.setPosition(leftElbowintake);
@@ -33,7 +33,7 @@ public class Red_tele_op_Machine_states extends Timothy {
     }
 
     private void inExtendo() {
-        claw.setPosition(clawOpen);
+        claw.setPosition(clawClosed);
         leftShoulder.setPosition(leftShoulderoutOftheWay);
         rightShoulder.setPosition(rightShoulderoutOftheWay);
         intakePosition.setPosition(intakeUp);
@@ -424,18 +424,18 @@ public class Red_tele_op_Machine_states extends Timothy {
             }
 
             // intake up
-            if (gamepad1.left_bumper) {
+            else if (gamepad1.left_bumper) {
                 machineState=12;
                 startTime = runtime.milliseconds();
 
             }
-            if (gamepad1.dpad_left) {
+            else if (gamepad1.dpad_left) {
                 machineState=14;
             }
-            if (gamepad1.cross) {
+             else if (gamepad1.cross) {
                 machineState=15;
             }
-            if (gamepad1.triangle) {
+            else if (gamepad1.triangle) {
                 machineState=16;
             }
 
@@ -482,7 +482,7 @@ public class Red_tele_op_Machine_states extends Timothy {
             if (machineState == 0) {
                 Stopped();
             }
-            if (machineState == 1){
+            else if (machineState == 1){
                 outExtendo();
             }
             else if (machineState == 2){
