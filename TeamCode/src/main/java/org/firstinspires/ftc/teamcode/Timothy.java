@@ -128,6 +128,7 @@ public abstract class Timothy extends LinearOpMode {
     public Servo Rextendo;
     public Servo intakePosition;
     public Servo leftLight;
+    public Servo rightLight;
 
     public CRServo intakeWheel;
     public Servo leftShoulder;
@@ -174,6 +175,9 @@ public abstract class Timothy extends LinearOpMode {
     }
     public void intleftLight(){
         leftLight = hardwareMap.get(Servo.class, "leftLight");
+    }
+    public void intrightLight(){
+        rightLight = hardwareMap.get(Servo.class, "rightLight");
     }
     public void intlift1(){
         lift1 = hardwareMap.get(DcMotor.class, "lift1");

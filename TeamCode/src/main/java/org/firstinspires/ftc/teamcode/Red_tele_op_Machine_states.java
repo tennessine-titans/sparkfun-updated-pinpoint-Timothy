@@ -175,12 +175,12 @@ public class Red_tele_op_Machine_states extends Timothy {
             leftShoulder.setPosition(leftShoulderspecimenTransition);
             step = 1;
         }
-        if (runtime.milliseconds()> startTime + 300 && step ==1){
+        else if (runtime.milliseconds()> startTime + 300 && step ==1){
             rightElbow.setPosition(rightElbowWall);
             leftElbow.setPosition(leftElbowWall);
             step = 2;
         }
-        if (runtime.milliseconds()> startTime + 600 && step == 2){
+        else if (runtime.milliseconds()> startTime + 600 && step == 2){
             rightShoulder.setPosition(rightShoulderWall);
             leftShoulder.setPosition(leftShoulderWall);
         }
@@ -218,7 +218,7 @@ public class Red_tele_op_Machine_states extends Timothy {
             }
             else if(intakecolorDetectedvalue == 0) {
                 intakeWheel.setPower(1);
-                sleep(100);
+                sleep(250);
         }
     }
     private void intake_Up(){
@@ -229,7 +229,7 @@ public class Red_tele_op_Machine_states extends Timothy {
         // Set the intake position immediately upon bumper press.
         intakePosition.setPosition(intakeDown);
         intakeWheel.setPower(-1);
-        sleep(100);
+        sleep(250);
     }
     private void Stopped() {
     }
@@ -270,17 +270,18 @@ public class Red_tele_op_Machine_states extends Timothy {
         intlift2();
         intclaw();
         intleftLight();
+        intrightLight();
         //intintake1();
         //intclawSensor();
         //int red = intake1.red();
         //int blue = intake1.blue();
         //int green = intake1.green();
-        Lextendo.setPosition(leftExtendoIn);
-        Rextendo.setPosition(rightExtendoIn);
-        rightShoulder.setPosition(rightShoulderintake);
-        leftShoulder.setPosition(leftShoulderintake);
-        leftElbow.setPosition(leftElbowintake);
-        rightElbow.setPosition(rightElbowintake);
+        //Lextendo.setPosition(leftExtendoIn);
+        //Rextendo.setPosition(rightExtendoIn);
+        //rightShoulder.setPosition(rightShoulderintake);
+        //leftShoulder.setPosition(leftShoulderintake);
+        //leftElbow.setPosition(leftElbowintake);
+        //rightElbow.setPosition(rightElbowintake);
         claw.setPosition(clawClosed);
         intakePosition.setPosition(intakeUp);
         lift1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -322,15 +323,19 @@ public class Red_tele_op_Machine_states extends Timothy {
             if (hue >= 0 && hue < 30 && value > 200 || hue >= 330 && hue <= 360 && value > 200) {
                 intakecolorDetected = "Red";
                 intakecolorDetectedvalue = 1;
+                rightLight.setPosition(.279);
             } else if (hue > 30 && hue < 90 && value > 200) {
                 intakecolorDetected = "Yellow";
                 intakecolorDetectedvalue = 2;
+                rightLight.setPosition(.388);
             } else if (hue >= 210 && hue < 270 && value > 200) {
                 intakecolorDetected = "Blue";
                 intakecolorDetectedvalue = 3;
+                rightLight.setPosition(.611);
             } else {
                 intakecolorDetected = "None";
                 intakecolorDetectedvalue =0;
+                rightLight.setPosition(0.0);
             }
             if(intakeWheel.getPower()>0){
                 leftLight.setPosition(0.5);
