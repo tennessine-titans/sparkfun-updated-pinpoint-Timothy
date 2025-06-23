@@ -74,7 +74,7 @@ public abstract class Timothy extends LinearOpMode {
     public int target = 0;
     public int liftHangspecimen = 250;
     public int liftExtrabump = 950;
-    public int liftDown =10;
+    public int liftDown =0;
     public double rightElbowRedAutoint = .12;
     public double leftElbowRedAutoint = .12;
     public double leftShoulderRedAutoint = .47;
@@ -90,7 +90,7 @@ public abstract class Timothy extends LinearOpMode {
     public double rightShoulderHang = .79;
     public double leftShoulderHang = .79;
     protected int liftpreHang = 1520;
-    protected int liftHang = 950;
+    protected int liftHang = 1040;
     protected double rightShoulderpark2 = .6;
     protected double leftShoulderpark2 = .6;
 

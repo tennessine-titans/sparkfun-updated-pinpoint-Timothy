@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.PwmControl;
 
 
 
@@ -252,13 +253,30 @@ public class Red_tele_op_Machine_states extends Timothy {
         rightElbow.setPosition(rightElbowpreHang);
     }
     private void Hang() {
-        lift1.setPower(1);
-        lift1.setPower(1);
+        lift1.setPower(0.9);
+        lift1.setPower(0.9);
+        PwmControl myPwmControlrightShoulderServo = (PwmControl) rightShoulder;
+        myPwmControlrightShoulderServo.setPwmDisable();
+        PwmControl myPwmControlleftShoulderServo = (PwmControl) leftShoulder;
+        myPwmControlleftShoulderServo.setPwmDisable();
+        PwmControl myPwmControlrightElbowServo = (PwmControl) rightElbow;
+        myPwmControlrightElbowServo.setPwmDisable();
+        PwmControl myPwmControlleftElbowServo = (PwmControl) leftElbow;
+        myPwmControlleftElbowServo.setPwmDisable();
+        PwmControl myPwmControlrightExtendoServo = (PwmControl) Rextendo;
+        myPwmControlrightExtendoServo.setPwmDisable();
+        PwmControl myPwmControlleftExtendoServo = (PwmControl) Lextendo;
+        myPwmControlleftExtendoServo.setPwmDisable();
+        PwmControl myPwmControlintakeServo = (PwmControl) intakePosition;
+        myPwmControlintakeServo.setPwmDisable();
+        PwmControl myPwmControlwheelServo = (PwmControl) intakeWheel;
+        myPwmControlwheelServo.setPwmDisable();
+        //((servoImplEx)rightShoulder).setPwmDiable();
         lift1.setTargetPosition(liftHang);
         lift2.setTargetPosition(liftHang);
-        sleep(100);
-        leftShoulder.setPosition(leftShoulderHang);
-        rightShoulder.setPosition(rightShoulderHang);
+        //sleep(100);
+        //leftShoulder.setPosition(leftShoulderHang);
+        //rightShoulder.setPosition(rightShoulderHang);
     }
     @Override
     public void runOpMode() {
@@ -288,8 +306,8 @@ public class Red_tele_op_Machine_states extends Timothy {
         //leftShoulder.setPosition(leftShoulderintake);
         //leftElbow.setPosition(leftElbowintake);
         //rightElbow.setPosition(rightElbowintake);
-        claw.setPosition(clawClosed);
-        intakePosition.setPosition(intakeUp);
+        //claw.setPosition(clawClosed);
+        //intakePosition.setPosition(intakeUp);
         lift1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift1.setTargetPosition(0);
@@ -300,6 +318,7 @@ public class Red_tele_op_Machine_states extends Timothy {
 
 
         waitForStart();
+        intakePosition.setPosition(intakeUp);
          /*abstract class Colorsensor extends LinearOpMode{
             NormalizedColorSensor intake1;
             int scaleFactor = 1000;

@@ -78,7 +78,7 @@ public class Test_Auto_2 extends Timothy {
         Action TrajectoryAction15 = drive.actionBuilder(new Pose2d(-2,31,3*Math.PI/2))
                 // Get third specimen off the wall
                 .setTangent(Math.PI / 2)
-                .splineToConstantHeading(new Vector2d(-36, 57),Math.PI/2)
+                .splineToConstantHeading(new Vector2d(-32, 50),2*Math.PI/3)
                 .splineToConstantHeading(new Vector2d(-36, 64),Math.PI/2)
                 .build();
         Action TrajectoryAction16 = drive.actionBuilder(new Pose2d(-36,64,3*Math.PI/2))
@@ -242,7 +242,7 @@ public class Test_Auto_2 extends Timothy {
         telemetry.addData("Position Y", drive.pose.position.y);
         telemetry.update();
         Actions.runBlocking(claw.closeClaw());
-        Actions.runBlocking(intake.intakeup());
+        //Actions.runBlocking(intake.intakeup());
         Actions.runBlocking(extendo.extednoIn());
         Actions.runBlocking(elbow.elbowredAutoInt());
         Actions.runBlocking(shoulder.shoulderRedAutoInt());
@@ -268,14 +268,14 @@ public class Test_Auto_2 extends Timothy {
                             ),
                             lift.liftExtraBump_PIDF(),
                             //WaitAction5A,  //Might be able to remove  0.5
-                            claw.releaseClaw(),  // changed from claw.openClaw();
+                            claw.openClaw(),  // changed from claw.openClaw();
                             WaitAction25A,    // might be able to remove  0.25
                             new ParallelAction(
                                     //Push all the samples to the human player area and set the arms to pick off the wall
                                  TrajectoryAction12,
                                  new SequentialAction(
-                                      claw.closeClaw(),
                                       WaitAction5B,  //0.5
+                                      claw.closeClaw(),
                                       shoulder.shouldertransition(),
                                       WaitAction25B,  // 0.25
                                       elbow.elbowWall(),
@@ -302,7 +302,7 @@ public class Test_Auto_2 extends Timothy {
                                 //Hang Sample 2
                             lift.liftExtraBump_PIDF(),
                             //WaitAction75A,  // might be able to be removed  0.75
-                            claw.releaseClaw(), //changed from claw.openClaw(),
+                            claw.openClaw(), //changed from claw.openClaw(),
                                 //Drive to wall to pick sample 3
                                 WaitAction25R,
                             new ParallelAction(
@@ -336,7 +336,7 @@ public class Test_Auto_2 extends Timothy {
                             //Hang 3rd
                             lift.liftExtraBump_PIDF(),
                             //WaitAction75B, // may be able to be removed 0.75
-                            claw.releaseClaw(),//was claw.openClaw(),
+                            claw.openClaw(),//was claw.openClaw(),
                             new ParallelAction(
                                 TrajectoryAction17,
                                 new SequentialAction(
@@ -368,7 +368,7 @@ public class Test_Auto_2 extends Timothy {
                             ),
                             lift.liftExtraBump_PIDF(),
                             //WaitAction75C,  // may be able to be removed  0.75
-                            claw.releaseClaw(),  // was claw.openClaw(),
+                            claw.openClaw(),  // was claw.openClaw(),
                             WaitAction25P,
                             new ParallelAction(
                             TrajectoryAction19,
