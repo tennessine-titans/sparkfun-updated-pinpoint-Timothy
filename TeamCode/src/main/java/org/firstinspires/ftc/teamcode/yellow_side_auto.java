@@ -51,7 +51,7 @@ public class yellow_side_auto extends Timothy {
                 .build();
         Action TrajectoryAction15 = drive.actionBuilder(new Pose2d(55,58,5*Math.PI/4))
                 // pick up third sample
-                .strafeToLinearHeading(new Vector2d(40,48),7*Math.PI/4)
+                .strafeToLinearHeading(new Vector2d(40,44),7*Math.PI/4)
                 .build();
         Action TrajectoryAction16 = drive.actionBuilder(new Pose2d(43,50,5*Math.PI/3))
                 //place third sample

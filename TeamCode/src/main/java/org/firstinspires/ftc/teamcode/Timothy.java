@@ -29,8 +29,8 @@ public abstract class Timothy extends LinearOpMode {
     protected double intakeWheelforward = 1.0;
     protected double intakeWheelbackward = -1.0;
     protected double intakeWheeloff = 0.0;
-    protected double leftExtendoOut = 0.59;
-    protected double rightExtendoOut = 0.59;
+    protected double leftExtendoOut = 0.58;
+    protected double rightExtendoOut = 0.58;
     // Define as servos
     protected double leftExtendoIn = 0.11;
     protected double rightExtendoIn= 0.11;
@@ -90,7 +90,7 @@ public abstract class Timothy extends LinearOpMode {
     public double rightShoulderHang = .79;
     public double leftShoulderHang = .79;
     protected int liftpreHang = 1520;
-    protected int liftHang = 1040;
+    protected int liftHang = 800;
     protected double rightShoulderpark2 = .6;
     protected double leftShoulderpark2 = .6;
 

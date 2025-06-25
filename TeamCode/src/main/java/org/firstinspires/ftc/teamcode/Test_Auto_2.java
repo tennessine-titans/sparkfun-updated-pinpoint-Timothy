@@ -316,8 +316,8 @@ public class Test_Auto_2 extends Timothy {
                                     WaitAction10D,
                                     shoulder.shoulderWall(),
                                     WaitAction25G,
-                                    lift.liftWall_PIDF(),
-                                    claw.clawWall()
+                                    claw.clawWall(),
+                                    lift.liftWall_PIDF()
                                 )
                             ),
                                 //Grab 3rd sample from the wall
