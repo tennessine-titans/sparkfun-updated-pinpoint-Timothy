@@ -17,7 +17,7 @@ public class Red_tele_op_Machine_states extends Timothy {
     private ElapsedTime runtime = new ElapsedTime();
 
     private void outExtendo() {
-        intakeDirectionForward = false;
+        intakeDirectionForward = true;
         claw.setPosition(clawClosed);
         leftShoulder.setPosition(leftShoulderoutOftheWay);
         rightShoulder.setPosition(rightShoulderoutOftheWay);
@@ -42,6 +42,7 @@ public class Red_tele_op_Machine_states extends Timothy {
             Lextendo.setPosition(leftExtendoIn);
             Rextendo.setPosition(rightExtendoIn);
         }
+        intakeWheel.setPower(intakeWheeloff);
     }
     private void humanPlayertransfer(){
         if (runtime.milliseconds()< startTime + 100) {
